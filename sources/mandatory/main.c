@@ -1,41 +1,20 @@
-// #include "../../includes/minirt.h"
+#include "../../includes/minirt.h"
 
-#include "./MLX42/include/MLX42/MLX42.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-void esc_command(void* param)
+int main(int ac, char **av)
 {
-	mlx_t* mlx = (mlx_t*)param;
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-}
-
-int32_t main(void)
-{
-	mlx_t *mlx = mlx_init(500, 500,"MiniRT", false);
-	if(!mlx)
-		return EXIT_FAILURE;
-
-	mlx_image_t* img = mlx_new_image(mlx, 50, 50);
-	if(!img)
-		return (mlx_terminate(mlx), EXIT_FAILURE);
-
-	uint32_t color = 0xFF0000FF;
-	uint32_t x = 10;
-	uint32_t y = 10;
-	size_t index = (y * img->width + x) * 4;
-
-	img->pixels[index + 0] = (color >> 24) & 0xFF;
-	img->pixels[index + 1] = (color >> 16) & 0xFF;
-	img->pixels[index + 2] = (color >> 8)  & 0xFF;
-	img->pixels[index + 3] = (color >> 0)  & 0xFF;
-
-	if (mlx_image_to_window(mlx, img, 0, 0) == -1)
-		return (mlx_terminate(mlx), EXIT_FAILURE);
-	mlx_loop_hook(mlx, esc_command, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return EXIT_SUCCESS;
+	if (ac != 2)
+	{
+		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);
+		return (EXIT_FAILURE);
+	}
+	
+	// read_file(av[1]);
+	
+	// if (init() == EXIT_FAILURE)
+	// {
+	// 	ft_putstr_fd("Failed to initialize the window.\n", 2);
+	// 	return (EXIT_FAILURE);
+	// }
+	
+	// return (EXIT_SUCCESS);
 }

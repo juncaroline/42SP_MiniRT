@@ -1,5 +1,10 @@
 #include "../../includes/minirt.h"
 
+// #include "../../library/libft/libft.h"
+// #include <stdio.h>
+// #include <fcntl.h>
+// #include <stdlib.h>
+
 // void	error_msg(int status)
 // {
 // 	if (status == 1)

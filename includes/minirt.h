@@ -29,4 +29,11 @@ typedef struct s_sphere
 	double		radius;
 }	t_sphere;
 
+void	error_msg(int status);
+int		skip_spaces(char *line);
+void	read_file(char *scene);
+void	esc_command(void* param);
+int32_t	init(void);
+
+
 #endif
