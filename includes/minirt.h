@@ -1,11 +1,13 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../libft/includes/libft.h"
-# include "../mlx/mlx.h"
+# include "../library/libft/libft.h"
+# include "../library/MLX42/include/MLX42/MLX42.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
 
 # define WINDOW_WIDTH 1600
 # define WINDOW_HEIGHT 900
@@ -34,6 +36,7 @@ int		skip_spaces(char *line);
 void	read_file(char *scene);
 void	esc_command(void* param);
 int32_t	init(void);
-
+bool	validate_elements(char **tokens);
+void	free_split(char **tokens);
 
 #endif

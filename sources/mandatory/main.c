@@ -2,13 +2,15 @@
 
 int main(int ac, char **av)
 {
-	if (ac != 5)
+	if (ac != 2)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);
 		return (EXIT_FAILURE);
 	}
-	
-	// read_file(av[1]);
+	read_file(av[1]);
+	return (EXIT_SUCCESS);
+
+	// validate_elements(tokens);
 	
 	// if (init() == EXIT_FAILURE)
 	// {

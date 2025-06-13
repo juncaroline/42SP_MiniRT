@@ -25,10 +25,10 @@
 void	error_msg(int status)
 {
 	if (status == 1)
-		ft_putstr_fd("Invalid file extension.\n", 1);
+		printf("Invalid file extension.\n");
 	else if (status == 2)
-		ft_putstr_fd("Error opening file.\n", 1);
+		printf("Error opening file.\n");
 	else if (status == 3)
-		ft_putstr_fd("Empty file!\n", 1);
+		printf("Empty file!\n");
 	exit(status);
 }
