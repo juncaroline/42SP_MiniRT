@@ -2,7 +2,7 @@
 
 int main(int ac, char **av)
 {
-	if (ac != 2)
+	if (ac != 5)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);
 		return (EXIT_FAILURE);
