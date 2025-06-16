@@ -8,6 +8,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stddef.h>
 
 # define WINDOW_WIDTH 1600
 # define WINDOW_HEIGHT 900
@@ -31,12 +32,25 @@ typedef struct s_sphere
 	double		radius;
 }	t_sphere;
 
+// error.c
 void	error_msg(int status);
-int		skip_spaces(char *line);
-void	read_file(char *scene);
+
+// init.c
 void	esc_command(void* param);
 int32_t	init(void);
-bool	validate_elements(char **tokens);
+
+// parse.c
+void	check_file_extension(char *extension);
+void	read_file(char *scene);
+
+// free.c
 void	free_split(char **tokens);
+
+// utils.c
+int		skip_spaces(char *line);
+void    replace_with_spaces(char *line);
+char    **split_line(char *line);
+void    verify_elements(char *content, int i);
+bool	validate_elements(char **tokens);
 
 #endif

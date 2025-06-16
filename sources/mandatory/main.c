@@ -20,3 +20,6 @@ int main(int ac, char **av)
 	
 	// return (EXIT_SUCCESS);
 }
+
+
+// gcc main.c error.c parse.c utils.c free.c ../../library/libft/libft.a -I../../includes -I../../library/libft -o scenetest
