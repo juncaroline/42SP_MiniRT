@@ -32,6 +32,16 @@ typedef struct s_sphere
 	double		radius;
 }	t_sphere;
 
+// check_elements.c
+bool	validate_ambient(char **tokens, int count);
+bool	validate_camera(char **tokens, int count);
+bool	validate_light(char **tokens, int count);
+
+// check_objects.c
+bool	validate_sphere(char **tokens, int count);
+bool	validate_plane(char **tokens, int count);
+bool	validate_cylinder(char **tokens, int count);
+
 // error.c
 void	error_msg(int status);
 
@@ -48,9 +58,26 @@ void	free_split(char **tokens);
 
 // utils.c
 int		skip_spaces(char *line);
-void    replace_with_spaces(char *line);
-char    **split_line(char *line);
-void    verify_elements(char *content, int i);
+void	replace_with_spaces(char *line);
+char	**split_line(char *line);
+
+// utils2.c
+bool	ft_isnumber(char *str);
+bool	ft_isfloat(const char *str);
+float	string_to_float(char *str);
+
+// validate_param.c
+bool	validate_rgb(char *str);
+bool	validate_normalize_vector(char *str);
+bool	validate_coordinates(char *str);
+
+// validate_param2.c
+bool	validate_fov(char *str);
+bool	validate_ratio(char *str);
+bool	validate_measurements(char *str);
+
+// validate_elements.c
+void	verify_elements(char *content, int i);
 bool	validate_elements(char **tokens);
 
 #endif

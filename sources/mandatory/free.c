@@ -2,9 +2,11 @@
 
 void	free_split(char **tokens)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	if (!tokens)
-		return;
+		return ;
 	while (tokens[i])
 		free(tokens[i++]);
 	free(tokens);

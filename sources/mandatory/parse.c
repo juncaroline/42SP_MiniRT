@@ -57,7 +57,7 @@ void	read_file(char *scene)
 		{
 			free(content);
 			content = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		tokens = split_line(content);
 		if (!tokens || !tokens[0])
@@ -65,17 +65,15 @@ void	read_file(char *scene)
 			printf("Erro ao dividir linha em tokens\n");
 			free(content);
 			content = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		if (!validate_elements(tokens))
 		{
 			free_split(tokens);
 			free(content);
 			content = get_next_line(fd);
-			continue;
+			continue ;
 		}
-
-		
 		verify_elements(content, i);
 		free_split(tokens);
 		free(content);
