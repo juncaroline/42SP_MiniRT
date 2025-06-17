@@ -37,9 +37,10 @@ bool	validate_elements(char **tokens)
 		return (validate_plane(tokens, count));
 	else if (ft_strcmp(tokens[0], "cy") == 0)
 		return (validate_cylinder(tokens, count));
-	else if (!(ft_strcmp(tokens[0], "A") == 0 || ft_strcmp(tokens[0], "C") == 0 ||
-			ft_strcmp(tokens[0], "L") == 0 || ft_strcmp(tokens[0], "sp") == 0 ||
-			ft_strcmp(tokens[0], "pl") == 0 || ft_strcmp(tokens[0], "cy") == 0))
+	else if (!(ft_strcmp(tokens[0], "A") == 0 || ft_strcmp(tokens[0], "C") == 0
+			|| ft_strcmp(tokens[0], "L") == 0 || ft_strcmp(tokens[0], "sp") == 0
+			|| ft_strcmp(tokens[0], "pl") == 0
+			|| ft_strcmp(tokens[0], "cy") == 0))
 	{
 		printf("Erro: Elemento desconhecido '%s'\n", tokens[0]);
 		return (false);

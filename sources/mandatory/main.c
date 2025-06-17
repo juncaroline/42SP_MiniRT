@@ -9,7 +9,6 @@ int	main(int ac, char **av)
 	}
 	read_file(av[1]);
 	return (EXIT_SUCCESS);
-
 	// validate_elements(tokens);
 	// if (init() == EXIT_FAILURE)
 	// {
@@ -19,5 +18,5 @@ int	main(int ac, char **av)
 	// return (EXIT_SUCCESS);
 }
 
-
-// gcc main.c error.c parse.c utils.c free.c val_param.c check_elements.c check_objects.c ../../library/libft/libft.a -I../../includes -I../../library/libft -o scenetest
+// ./minirt ./sources/mandatory/scene.rt
+// gcc check_elements.c check_objects.c error.c free.c main.c parse.c utils.c utils2.c validate_elements.c validate_param.c validate_param2.c ../../library/libft/libft.a -I../../includes -I../../library/libft -o scenetest

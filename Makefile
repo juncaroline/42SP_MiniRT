@@ -7,11 +7,11 @@ LIBFT	:= ./library/libft
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -lreadline -ldl -lglfw -pthread -lm
-SRCS_DIR := src/mandatory/
+SRCS_DIR := sources/mandatory/
 SRCS	:= $(addprefix $(SRCS_DIR), check_elements.c check_objects.c error.c \
 				free.c parse.c main.c utils.c utils2.c validate_elements.c \
 				validate_param.c validate_param2.c )
-SRCS_BONUS := src/bonus/
+SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), )
 DIR_OBJ	:= .objs
 DIR_OBJ_BONUS := .objs_bonus
@@ -28,11 +28,11 @@ libft:
 
 $(DIR_OBJ)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
 $(DIR_OBJ_BONUS)/%.o: $(SRCS_BONUS)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) -o $(NAME)

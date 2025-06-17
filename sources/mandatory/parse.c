@@ -41,7 +41,6 @@ void	read_file(char *scene)
 	char	*content;
 	int		i;
 	char	**tokens;
-	int		j;
 
 	check_file_extension(scene);
 	fd = open(scene, O_RDONLY);
