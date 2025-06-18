@@ -33,17 +33,17 @@ typedef struct s_ray
 	t_coordinates	direction;
 }	t_ray;
 
-typedef struct s_rgb_color
+typedef struct s_color
 {
 	int	red;
 	int	green;
 	int	blue;
-}	t_rgb_color;
+}	t_color;
 
 typedef struct s_ambient
 {
-	float		ratio;
-	t_rgb_color	color;
+	float	ratio;
+	t_color	color;
 }	t_ambient;
 
 typedef struct s_camera
@@ -57,21 +57,21 @@ typedef struct s_light
 {
 	t_coordinates	light_point;
 	float			ratio;
-	t_rgb_color		color;
+	t_color			color;
 }	t_light;
 
 typedef struct s_sphere
 {
 	t_coordinates	sphere_center;
 	float			diameter;
-	t_rgb_color		color;
+	t_color			color;
 }	t_sphere;
 
 typedef struct s_plane
 {
 	t_coordinates		plane_point;
 	t_normalized_vector	vector;
-	t_rgb_color			color;
+	t_color				color;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -80,7 +80,7 @@ typedef struct s_cylinder
 	t_normalized_vector	vector;
 	float				diameter;
 	float				height;
-	t_rgb_color			color;
+	t_color				color;
 }	t_cylinder;
 
 // check_elements.c
