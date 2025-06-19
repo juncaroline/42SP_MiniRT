@@ -48,7 +48,7 @@ t_rgb_color	parse_rgb(char *str)
 // if (!is_rgb_color(color_value))
 // 	printf("Cor inválida\n");
 
-bool	normalized_vector(t_normalized_vector vector_value)
+bool	is_normalized_vector(t_normalized_vector vector_value)
 {
 	if (vector_value.x < -1.0 || vector_value.x > 1.0)
 		return (false);
@@ -59,7 +59,7 @@ bool	normalized_vector(t_normalized_vector vector_value)
 	return (true);
 }
 
-t_normalized_vector	parse_normalize_vector(char *str)
+t_normalized_vector	parse_normalized_vector(char *str)
 {
 	char				**vector;
 	int					i;

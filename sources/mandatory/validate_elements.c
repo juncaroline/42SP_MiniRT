@@ -18,7 +18,7 @@ void	verify_elements(char *content, int i)
 		printf("Unknown element: %s\n", content);
 }
 
-bool	validate_elements(char **tokens)
+bool	validate_elements(char **tokens, t_scene *scene)
 {
 	int	count;
 
@@ -26,17 +26,17 @@ bool	validate_elements(char **tokens)
 	while (tokens[count])
 		count++;
 	if (ft_strcmp(tokens[0], "A") == 0)
-		return (validate_ambient(tokens, count));
+		return (parse_ambient(tokens, count, &scene->ambient));
 	else if (ft_strcmp(tokens[0], "C") == 0)
-		return (validate_camera(tokens, count));
+		return (parse_camera(tokens, count, &scene->camera));
 	else if (ft_strcmp(tokens[0], "L") == 0)
-		return (validate_light(tokens, count));
+		return (parse_light(tokens, count, &scene->light));
 	else if (ft_strcmp(tokens[0], "sp") == 0)
-		return (validate_sphere(tokens, count));
+		return (parse_sphere(tokens, count, &scene->sphere));
 	else if (ft_strcmp(tokens[0], "pl") == 0)
-		return (validate_plane(tokens, count));
+		return (parse_plane(tokens, count, &scene->plane));
 	else if (ft_strcmp(tokens[0], "cy") == 0)
-		return (validate_cylinder(tokens, count));
+		return (parse_cylinder(tokens, count, &scene->cylinder));
 	else if (!(ft_strcmp(tokens[0], "A") == 0 || ft_strcmp(tokens[0], "C") == 0
 			|| ft_strcmp(tokens[0], "L") == 0 || ft_strcmp(tokens[0], "sp") == 0
 			|| ft_strcmp(tokens[0], "pl") == 0

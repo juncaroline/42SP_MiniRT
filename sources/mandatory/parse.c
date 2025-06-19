@@ -41,6 +41,7 @@ void	read_file(char *scene)
 	char	*content;
 	int		i;
 	char	**tokens;
+	t_scene	complete_scene;
 
 	check_file_extension(scene);
 	fd = open(scene, O_RDONLY);
@@ -66,7 +67,7 @@ void	read_file(char *scene)
 			content = get_next_line(fd);
 			continue ;
 		}
-		if (!validate_elements(tokens))
+		if (!validate_elements(tokens, &complete_scene))
 		{
 			free_split(tokens);
 			free(content);

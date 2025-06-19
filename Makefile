@@ -4,19 +4,26 @@ CC		:= cc
 CFLAGS	:= -g -Wextra -Wall -Werror
 LIBMLX	:= ./library/MLX42
 LIBFT	:= ./library/libft
+SUPPRESSION_FILE := suppress_mlx_error.sup
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -lreadline -ldl -lglfw -pthread -lm
 SRCS_DIR := sources/mandatory/
-SRCS	:= $(addprefix $(SRCS_DIR), check_elements.c check_objects.c error.c \
-				free.c init.c parse_token.c parse.c main.c utils.c utils2.c \
-				validate_elements.c validate_param.c validate_param2.c )
+SRCS	:= $(addprefix $(SRCS_DIR), check_elements_convert.c check_elements.c check_objects_convert.c check_objects.c error.c \
+				free.c init.c parse.c main.c utils.c utils2.c \
+				validate_elements.c validate_param_convert.c validate_param.c validate_param2_convert.c validate_param2.c )
 SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), )
 DIR_OBJ	:= .objs
 DIR_OBJ_BONUS := .objs_bonus
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 OBJS_BONUS	:= $(SRCS_BONUS:src/bonus/%.c=$(DIR_OBJ_BONUS)/%.o)
+
+valgrind:
+	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUPPRESSION_FILE) ./$(NAME)
+
+valgrind_bonus:
+	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUPPRESSION_FILE) ./$(NAME_BONUS)
 
 all: libmlx libft $(NAME)
 
