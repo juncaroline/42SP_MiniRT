@@ -4,7 +4,7 @@ CC		:= cc
 CFLAGS	:= -g -Wextra -Wall -Werror
 LIBMLX	:= ./library/MLX42
 LIBFT	:= ./library/libft
-SUPPRESSION_FILE := suppress_mlx_error.sup
+# SUPPRESSION_FILE := suppress_mlx_error.sup
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -lreadline -ldl -lglfw -pthread -lm
@@ -19,11 +19,11 @@ DIR_OBJ_BONUS := .objs_bonus
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 OBJS_BONUS	:= $(SRCS_BONUS:src/bonus/%.c=$(DIR_OBJ_BONUS)/%.o)
 
-valgrind:
-	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUPPRESSION_FILE) ./$(NAME)
+# valgrind:
+# 	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUPPRESSION_FILE) ./$(NAME)
 
-valgrind_bonus:
-	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUPPRESSION_FILE) ./$(NAME_BONUS)
+# valgrind_bonus:
+# 	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUPPRESSION_FILE) ./$(NAME_BONUS)
 
 all: libmlx libft $(NAME)
 
