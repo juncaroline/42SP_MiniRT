@@ -35,16 +35,15 @@ void	check_file_extension(char *extension)
 		error_msg(1);
 }
 
-void	read_file(char *scene)
+void	read_file(char *scene_file, t_scene *scene)
 {
 	int		fd;
 	char	*content;
 	int		i;
 	char	**tokens;
-	t_scene	complete_scene;
 
-	check_file_extension(scene);
-	fd = open(scene, O_RDONLY);
+	check_file_extension(scene_file);
+	fd = open(scene_file, O_RDONLY);
 	if (fd < 0)
 		error_msg(2);
 	content = get_next_line(fd);
@@ -67,7 +66,7 @@ void	read_file(char *scene)
 			content = get_next_line(fd);
 			continue ;
 		}
-		if (!validate_elements(tokens, &complete_scene))
+		if (!validate_elements(tokens, scene))
 		{
 			free_split(tokens);
 			free(content);

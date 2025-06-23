@@ -101,6 +101,11 @@ bool	parse_ambient(char **tokens, int count, t_ambient *ambient);
 bool	parse_camera(char **tokens, int count, t_camera *camera);
 bool	parse_light(char **tokens, int count, t_light *light);
 
+// check_elements.c
+bool	validate_ambient(char **tokens, int count);
+bool	validate_camera(char **tokens, int count);
+bool	validate_light(char **tokens, int count);
+
 // check_objects_convert.c
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere);
 bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
@@ -108,6 +113,11 @@ bool	parse_plane(char **tokens, int count, t_plane *plane);
 bool	add_plane(t_scene *scene, t_plane *new_plane, int count);
 bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder);
 bool	add_cylinder(t_scene *scene, t_cylinder *new_cylinder, int count);
+
+// check_objects.c
+bool	validate_sphere(char **tokens, int count);
+bool	validate_plane(char **tokens, int count);
+bool	validate_cylinder(char **tokens, int count);
 
 // error.c
 void	error_msg(int status);
@@ -144,9 +154,20 @@ bool	is_normalized_vector(t_normalized_vector vector_value);
 t_normalized_vector	parse_normalized_vector(char *str);
 t_coordinates	parse_coordinates(char *str);
 
+// validate_param.c
+bool	validate_rgb(char *str);
+bool	validate_normalize_vector(char *str);
+bool	validate_coordinates(char *str);
+
 // validate_param2_convert.c
 float	parse_fov(char *str);
 float	parse_ratio(char *str);
 float	parse_measurements(char *str);
+
+// validate_param2.c
+bool	validate_fov(char *str);
+bool	validate_ratio(char *str);
+bool	validate_measurements(char *str);
+
 
 #endif

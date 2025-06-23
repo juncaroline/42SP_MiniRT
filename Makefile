@@ -9,9 +9,9 @@ LIBFT	:= ./library/libft
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -lreadline -ldl -lglfw -pthread -lm
 SRCS_DIR := sources/mandatory/
-SRCS	:= $(addprefix $(SRCS_DIR), check_elements_convert.c check_elements.c check_objects_convert.c check_objects.c error.c \
+SRCS	:= $(addprefix $(SRCS_DIR), check_elements_convert.c check_objects_convert.c error.c \
 				free.c init.c parse.c main.c utils.c utils2.c \
-				validate_elements.c validate_param_convert.c validate_param.c validate_param2_convert.c validate_param2.c )
+				validate_elements.c validate_param_convert.c validate_param2_convert.c)
 SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), )
 DIR_OBJ	:= .objs

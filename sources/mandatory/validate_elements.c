@@ -20,7 +20,10 @@ void	verify_elements(char *content, int i)
 
 bool	validate_elements(char **tokens, t_scene *scene)
 {
-	int	count;
+	int			count;
+	t_sphere	new_sphere;
+	t_plane		new_plane;
+	t_cylinder	new_cylinder;
 
 	count = 0;
 	while (tokens[count])
@@ -32,11 +35,26 @@ bool	validate_elements(char **tokens, t_scene *scene)
 	else if (ft_strcmp(tokens[0], "L") == 0)
 		return (parse_light(tokens, count, &scene->light));
 	else if (ft_strcmp(tokens[0], "sp") == 0)
-		return (parse_sphere(tokens, count, &scene->sphere));
+	{
+		if (!parse_sphere(tokens, count, &new_sphere))
+			return (false);
+		if (!add_sphere(scene, &new_sphere, 1))
+			return (false);
+	}
 	else if (ft_strcmp(tokens[0], "pl") == 0)
-		return (parse_plane(tokens, count, &scene->plane));
+	{
+		if (!parse_plane(tokens, count, &new_plane))
+			return (false);
+		if (!add_plane(scene, &new_plane, 1))
+			return (false);
+	}
 	else if (ft_strcmp(tokens[0], "cy") == 0)
-		return (parse_cylinder(tokens, count, &scene->cylinder));
+	{
+		if (!parse_cylinder(tokens, count, &new_cylinder))
+			return (false);
+		if (!add_cylinder(scene, &new_cylinder, 1))
+			return (false);
+	}
 	else if (!(ft_strcmp(tokens[0], "A") == 0 || ft_strcmp(tokens[0], "C") == 0
 			|| ft_strcmp(tokens[0], "L") == 0 || ft_strcmp(tokens[0], "sp") == 0
 			|| ft_strcmp(tokens[0], "pl") == 0
