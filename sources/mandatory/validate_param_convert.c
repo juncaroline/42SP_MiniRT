@@ -48,7 +48,7 @@ t_rgb_color	parse_rgb(char *str)
 // if (!is_rgb_color(color_value))
 // 	printf("Cor inválida\n");
 
-bool	is_normalized_vector(t_normalized_vector vector_value)
+bool	is_normalized_vector(t_vector3d vector_value)
 {
 	if (vector_value.x < -1.0 || vector_value.x > 1.0)
 		return (false);
@@ -59,11 +59,11 @@ bool	is_normalized_vector(t_normalized_vector vector_value)
 	return (true);
 }
 
-t_normalized_vector	parse_normalized_vector(char *str)
+t_vector3d	parse_normalized_vector(char *str)
 {
 	char				**vector;
 	int					i;
-	t_normalized_vector	vector_value;
+	t_vector3d	vector_value;
 
 	vector_value.x = 0.0;
 	vector_value.y = 0.0;
@@ -94,11 +94,11 @@ t_normalized_vector	parse_normalized_vector(char *str)
 // 	printf("Direção inválida\n");
 // }
 
-t_coordinates	parse_coordinates(char *str)
+t_vector3d	parse_coordinates(char *str)
 {
 	char			**coords;
 	int				i;
-	t_coordinates	coords_value;
+	t_vector3d	coords_value;
 
 	coords_value.x = 0.0;
 	coords_value.y = 0.0;

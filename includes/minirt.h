@@ -13,24 +13,17 @@
 # define WINDOW_WIDTH 1600
 # define WINDOW_HEIGHT 900
 
-typedef struct s_coordinates
+typedef struct s_vector3d
 {
 	float	x;
 	float	y;
 	float	z;
-}	t_coordinates;
-
-typedef struct s_normalized_vector
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_normalized_vector;
+}	t_vector3d;
 
 typedef struct s_ray
 {
-	t_coordinates	origin;
-	t_coordinates	direction;
+	t_vector3d	origin;
+	t_vector3d	direction;
 }	t_ray;
 
 typedef struct s_rgb_color
@@ -48,52 +41,59 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	t_coordinates		camera_position;
-	t_normalized_vector	camera_direction;
-	float				fov;
+	t_vector3d	camera_position;
+	t_vector3d	camera_direction;
+	float		fov;
 }	t_camera;
+
+typedef struct s_cam_basis
+{
+	t_vector3d	u;
+	t_vector3d	v;
+	t_vector3d	w;
+}	t_cam_basis;
 
 typedef struct s_light
 {
-	t_coordinates	light_point;
-	float			ratio;
-	t_rgb_color		color;
+	t_vector3d	light_point;
+	float		ratio;
+	t_rgb_color	color;
 }	t_light;
 
 typedef struct s_sphere
 {
-	t_coordinates	sphere_center;
-	float			diameter;
-	t_rgb_color		color;
+	t_vector3d	sphere_center;
+	float		diameter;
+	t_rgb_color	color;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_coordinates		plane_point;
-	t_normalized_vector	vector;
-	t_rgb_color			color;
+	t_vector3d	plane_point;
+	t_vector3d	vector;
+	t_rgb_color	color;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_coordinates		cylinder_center;
-	t_normalized_vector	vector;
-	float				diameter;
-	float				height;
-	t_rgb_color			color;
+	t_vector3d	cylinder_center;
+	t_vector3d	vector;
+	float		diameter;
+	float		height;
+	t_rgb_color	color;
 }	t_cylinder;
 
 typedef struct s_scene
 {
-	t_ambient		ambient;
-	t_camera		camera;
-	t_light			light;
-	t_sphere		*sphere;
-	int				sphere_count;
-	t_plane			*plane;
-	int				plane_count;
-	t_cylinder		*cylinder;
-	int				cylinder_count;
+	t_ambient	ambient;
+	t_camera	camera;
+	t_light		light;
+	t_sphere	*sphere;
+	int			sphere_count;
+	t_plane		*plane;
+	int			plane_count;
+	t_cylinder	*cylinder;
+	int			cylinder_count;
 }	t_scene;
 
 // check_elements_convert.c
@@ -120,6 +120,18 @@ int32_t	init(void);
 void	check_file_extension(char *extension);
 void	read_file(char *scene_file, t_scene *scene);
 
+// pos_pixel_viewport.c
+t_vector3d	calculate_pixel_position(t_camera *cam, t_cam_basis camera_basis,
+	float viewport_width, float viewport_height);
+
+// ray_generator.c
+t_vector3d normalize(t_vector3d vector);
+t_vector3d	cross_product(t_vector3d a, t_vector3d b);
+t_vector3d	subtract_vectors(t_vector3d a, t_vector3d b);
+t_vector3d	scalar_multiplication(float k, t_vector3d vector);
+t_vector3d	negative_vector(t_vector3d vector);
+t_cam_basis	camera_basis(t_camera *cam);
+
 // free.c
 void	free_split(char **tokens);
 void	free_scene(t_scene *scene);
@@ -141,9 +153,9 @@ bool	validate_elements(char **tokens, t_scene *scene);
 // validate_param_convert.c
 bool	is_rgb_color(t_rgb_color color_value);
 t_rgb_color	parse_rgb(char *str);
-bool	is_normalized_vector(t_normalized_vector vector_value);
-t_normalized_vector	parse_normalized_vector(char *str);
-t_coordinates	parse_coordinates(char *str);
+bool	is_normalized_vector(t_vector3d vector_value);
+t_vector3d	parse_normalized_vector(char *str);
+t_vector3d	parse_coordinates(char *str);
 
 // validate_param2_convert.c
 float	parse_fov(char *str);
