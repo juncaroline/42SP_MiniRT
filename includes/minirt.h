@@ -122,6 +122,7 @@ void	read_file(char *scene_file, t_scene *scene);
 
 // free.c
 void	free_split(char **tokens);
+void	free_scene(t_scene *scene);
 
 // utils.c
 int		skip_spaces(char *line);

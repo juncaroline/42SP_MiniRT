@@ -16,11 +16,14 @@ int	main(int ac, char **av)
 	if (ac != 2)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);
+		free(scene);
 		return (EXIT_FAILURE);
 	}
 	read_file(av[1], scene);
 	init();
 	// validate_elements(tokens, scene);
+	free_scene(scene);
+	free(scene);
 	return (EXIT_SUCCESS);
 	// if (init() == EXIT_FAILURE)
 	// {
@@ -31,6 +34,8 @@ int	main(int ac, char **av)
 }
 
 // ./minirt ./sources/mandatory/scene.rt
+
+// valgrind --leak-check=full --suppressions=suppress_mlx_error.sup ./minirt ./sources/mandatory/scene.rt
 
 // gcc check_elements.c check_objects.c error.c free.c main.c parse.c utils.c
 // utils2.c validate_elements.c validate_param.c validate_param2.c
