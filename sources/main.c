@@ -1,47 +1,110 @@
 // #include <math.h>
 // #include <stdio.h>
-#include "../includes/minirt.h"
+// #include "../includes/minirt.h"
 
-t_normalized_vector normalize(t_coordinates vector)
+#include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
+
+typedef struct s_vector3d
 {
-	float				magnitude;
-	t_normalized_vector	result;
+	float x;
+	float y;
+	float z;
+} t_vector3d;
 
-	magnitude = sqrt(vector.x * vector.x + vector.y * vector.y
-		+ vector.z * vector.z);
-	if (magnitude == 0.0f)
-	{
-		result.x = 0.0f;
-		result.y = 0.0f;
-		result.z = 0.0f;
-		return (result);
-	}
-	else
-	{
-		result.x = vector.x / magnitude;
-		result.y = vector.y / magnitude;
-		result.z = vector.z / magnitude;
-	}
+typedef struct s_ray
+{
+	t_vector3d origin;
+	t_vector3d direction;
+} t_ray;
+
+typedef struct s_plane
+{
+	t_vector3d plane_point;
+	t_vector3d vector; // normal ao plano
+} t_plane;
+
+t_vector3d subtract_vectors(t_vector3d a, t_vector3d b)
+{
+	t_vector3d result;
+
+	result.x = a.x - b.x;
+	result.y = a.y - b.y;
+	result.z = a.z - b.z;
 	return (result);
 }
 
-void	test_normalize(void)
+float dot_product(t_vector3d a, t_vector3d b)
 {
-	t_coordinates input;
-	t_normalized_vector result;
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
 
-	input.x = 3.0f;
-	input.y = 0.0f;
-	input.z = 4.0f;
+bool intersect_plane(t_ray *ray, t_plane *plane, float *t)
+{
+	float		denom;
+	t_vector3d	diff;
+	float		numer;
 
-	result = normalize(input);
-
-	printf("Vetor original: (%.2f, %.2f, %.2f)\n", input.x, input.y, input.z);
-	printf("Vetor normalizado: (%.4f, %.4f, %.4f)\n", result.x, result.y, result.z);
+	denom = dot_product(ray->direction, plane->vector);
+	if (fabs(denom) < 1e-6)
+		return (false);
+	diff = subtract_vectors(plane->plane_point, ray->origin);
+	numer = dot_product(diff, plane->vector);
+	*t = numer / denom;
+	if (*t < 0.0f)
+		return (false);
+	return (true);
 }
 
 int main(void)
 {
-	test_normalize();
-	return (0);
+	// t_plane plane = {
+	// 	.plane_point = {0.0f, 0.0f, -5.0f},     // plano em z = -5
+	// 	.vector = {0.0f, 0.0f, 1.0f}            // normal apontando para +z
+	// };
+
+	// t_ray ray = {
+	// 	.origin = {0.0f, 0.0f, 0.0f},           // origem da câmera
+	// 	.direction = {0.0f, 0.0f, -1.0f}        // olhando para -z
+	// };
+
+	// t_plane plane = {
+	// .plane_point = {0.0f, 0.0f, 5.0f},      // plano atrás da câmera
+	// .vector = {0.0f, 0.0f, 1.0f}            // normal ainda aponta pra +z
+	// };
+
+	// t_ray ray = {
+	// 	.origin = {0.0f, 0.0f, 0.0f},
+	// 	.direction = {0.0f, 0.0f, -1.0f}
+	// };
+
+	// t_plane plane = {
+	// .plane_point = {0.0f, 0.0f, -5.0f},
+	// .vector = {0.0f, 0.0f, 1.0f}
+	// };
+
+	// t_ray ray = {
+	// 	.origin = {0.0f, 0.0f, 0.0f},
+	// 	.direction = {1.0f, 0.0f, 0.0f}     // raio andando no eixo X
+	// };
+
+	t_plane plane = {
+	.plane_point = {0.0f, 0.0f, -5.0f},
+	.vector = {0.0f, 0.707f, 0.707f}     // normal inclinada (normalizei para teste)
+	};
+
+	t_ray ray = {
+		.origin = {0.0f, 0.0f, 0.0f},
+		.direction = {0.0f, 0.0f, -1.0f}
+	};
+
+	float t;
+
+	if (intersect_plane(&ray, &plane, &t))
+		printf("Interseção com plano! t = %.2f\n", t);
+	else
+		printf("Nenhuma interseção com plano.\n");
+
+	return 0;
 }

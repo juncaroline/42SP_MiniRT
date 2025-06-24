@@ -17,9 +17,9 @@ bool	parse_ambient(char **tokens, int count, t_ambient *ambient)
 
 bool	parse_camera(char **tokens, int count, t_camera *camera)
 {
-	t_coordinates		position;
-	t_normalized_vector	dir;
-	float				fov;
+	t_vector3d	position;
+	t_vector3d	dir;
+	float		fov;
 
 	if (count != 4)
 	{
@@ -39,9 +39,9 @@ bool	parse_camera(char **tokens, int count, t_camera *camera)
 
 bool	parse_light(char **tokens, int count, t_light *light)
 {
-	t_coordinates	light_point;
-	float			ratio;
-	t_rgb_color		color;
+	t_vector3d	light_point;
+	float		ratio;
+	t_rgb_color	color;
 
 	if (count != 4 && count != 5)
 	{

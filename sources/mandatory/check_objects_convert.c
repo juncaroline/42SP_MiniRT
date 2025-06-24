@@ -2,9 +2,9 @@
 
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {
-	t_coordinates	center;
-	float			diameter;
-	t_rgb_color		color;
+	t_vector3d	center;
+	float		diameter;
+	t_rgb_color	color;
 
 	if (count != 4)
 	{
@@ -50,9 +50,9 @@ bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 
 bool	parse_plane(char **tokens, int count, t_plane *plane)
 {
-	t_coordinates	plane_point;
-	t_normalized_vector	plane_normal;
-	t_rgb_color		color;
+	t_vector3d	plane_point;
+	t_vector3d	plane_normal;
+	t_rgb_color	color;
 
 	if (count != 4)
 	{
@@ -98,11 +98,11 @@ bool	add_plane(t_scene *scene, t_plane *new_plane, int count)
 
 bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 {
-	t_coordinates		cylinder_center;
-	t_normalized_vector	cylinder_normal;
-	float				diameter;
-	float				height;
-	t_rgb_color			color;
+	t_vector3d	cylinder_center;
+	t_vector3d	cylinder_normal;
+	float		diameter;
+	float		height;
+	t_rgb_color	color;
 
 	if (count != 6)
 	{

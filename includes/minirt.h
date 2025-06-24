@@ -13,6 +13,8 @@
 # define WINDOW_WIDTH 1600
 # define WINDOW_HEIGHT 900
 
+# define M_PI 3.14159265358979323846
+
 typedef struct s_vector3d
 {
 	float	x;
@@ -67,6 +69,14 @@ typedef struct s_sphere
 	t_rgb_color	color;
 }	t_sphere;
 
+typedef struct s_sphere_quad
+{
+	float	a;
+	float	b;
+	float	c;
+	float	discriminant;
+}	t_sphere_quad;
+
 typedef struct s_plane
 {
 	t_vector3d	plane_point;
@@ -116,20 +126,33 @@ void	error_msg(int status);
 void	esc_command(void* param);
 int32_t	init(void);
 
-// parse.c
-void	check_file_extension(char *extension);
-void	read_file(char *scene_file, t_scene *scene);
+// intersect_cylinder.c
+bool	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, float *t);
 
-// pos_pixel_viewport.c
-t_vector3d	calculate_pixel_position(t_camera *cam, t_cam_basis camera_basis,
-	float viewport_width, float viewport_height);
 
-// ray_generator.c
-t_vector3d normalize(t_vector3d vector);
+// intersect_plane.c
+bool	intersect_plane(t_ray *ray, t_plane *plane, float *t);
+
+// intersect_sphere.c
+bool	intersect_sphere(t_ray *ray, t_sphere *sphere, float *t);
+
+// math.c
+t_vector3d	add_vectors(t_vector3d a, t_vector3d b);
 t_vector3d	cross_product(t_vector3d a, t_vector3d b);
 t_vector3d	subtract_vectors(t_vector3d a, t_vector3d b);
 t_vector3d	scalar_multiplication(float k, t_vector3d vector);
 t_vector3d	negative_vector(t_vector3d vector);
+
+// parse.c
+void	check_file_extension(char *extension);
+void	read_file(char *scene_file, t_scene *scene);
+
+// ray_direction.c
+t_vector3d	get_ray_direction(int x, int y, t_camera *cam, t_cam_basis basis);
+t_ray	generate_ray(int x, int y, t_camera *cam);
+
+// ray_generator.c
+t_vector3d	normalize(t_vector3d vector);
 t_cam_basis	camera_basis(t_camera *cam);
 
 // free.c
