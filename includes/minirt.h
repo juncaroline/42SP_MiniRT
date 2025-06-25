@@ -15,6 +15,14 @@
 
 # define M_PI 3.14159265358979323846
 
+
+typedef enum e_object_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_object_type;
+
 typedef struct s_vector3d
 {
 	float	x;
@@ -69,6 +77,7 @@ typedef struct s_sphere
 	t_rgb_color	color;
 }	t_sphere;
 
+// quadratic equations in ray-geometry intersection calculations
 typedef struct s_sphere_quad
 {
 	float	a;
@@ -92,6 +101,52 @@ typedef struct s_cylinder
 	float		height;
 	t_rgb_color	color;
 }	t_cylinder;
+
+typedef struct s_cylinder_projection
+{
+	t_vector3d	oc;
+	float		oc_times_v;
+	t_vector3d	oc_perpendicular;
+	float		d_times_v;
+	t_vector3d	projected_d;
+	t_vector3d	d_perpendicular;
+}	t_cylinder_projection;
+
+// quadratic equations in ray-geometry intersection calculations
+typedef struct s_cylinder_quad
+{
+	float	radius;
+	float	a;
+	float	b;
+	float	c;
+	float	discriminant;
+	float	sqrt_discriminant;
+	float	t0;
+	float	t1;
+	float	t_hit;
+}	t_cylinder_quad;
+
+typedef struct s_cylinder_intersec
+{
+	t_vector3d	intersec_point;
+	t_vector3d	vector_to_point;
+	float		height_projection;
+}	t_cylinder_intersec;
+
+typedef struct s_object
+{
+	t_object_type	type;
+	void			*data;
+}	t_object;
+
+typedef struct s_intersection_info
+{
+	bool		intersection;
+	float		dist_to_intersec;
+	t_vector3d	intersec_point;
+	t_vector3d	normal;
+	t_object	*object;
+} t_intersection_info;
 
 typedef struct s_scene
 {
@@ -119,6 +174,12 @@ bool	add_plane(t_scene *scene, t_plane *new_plane, int count);
 bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder);
 bool	add_cylinder(t_scene *scene, t_cylinder *new_cylinder, int count);
 
+// closest_hit.c
+t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres, int count);
+t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
+t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders, int count);
+t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene);
+
 // error.c
 void	error_msg(int status);
 
@@ -127,14 +188,17 @@ void	esc_command(void* param);
 int32_t	init(void);
 
 // intersect_cylinder.c
-bool	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, float *t);
-
+t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
+t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point);
 
 // intersect_plane.c
-bool	intersect_plane(t_ray *ray, t_plane *plane, float *t);
+t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane);
+t_vector3d	calculate_plane_normal(t_plane *plane, t_vector3d point);
 
 // intersect_sphere.c
-bool	intersect_sphere(t_ray *ray, t_sphere *sphere, float *t);
+t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
+t_vector3d	calculate_sphere_normal(t_sphere *sphere,
+	t_vector3d intersec_point);
 
 // math.c
 t_vector3d	add_vectors(t_vector3d a, t_vector3d b);
@@ -142,6 +206,7 @@ t_vector3d	cross_product(t_vector3d a, t_vector3d b);
 t_vector3d	subtract_vectors(t_vector3d a, t_vector3d b);
 t_vector3d	scalar_multiplication(float k, t_vector3d vector);
 t_vector3d	negative_vector(t_vector3d vector);
+float		dot_product(t_vector3d a, t_vector3d b);
 
 // parse.c
 void	check_file_extension(char *extension);

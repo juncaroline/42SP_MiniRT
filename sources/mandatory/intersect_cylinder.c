@@ -1,58 +1,115 @@
 #include "../../includes/minirt.h"
 
-bool	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, float *t)
+static void	init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
+	t_cylinder_projection *proj)
 {
-	t_vector3d	oc;
-	float	oc_times_v;
-	t_vector3d	oc_perpendicular;
-	float	d_times_v;
-	t_vector3d	projected_d;
-	t_vector3d	d_perpendicular;
+	proj->oc = subtract_vectors(ray->origin, cylinder->cylinder_center);
+	proj->oc_times_v = dot_product(proj->oc, cylinder->vector);
+	proj->oc_perpendicular = subtract_vectors(proj->oc,
+		scalar_multiplication(proj->oc_times_v, cylinder->vector));
+	proj->d_times_v = dot_product(ray->direction, cylinder->vector);
+	proj->projected_d = scalar_multiplication(proj->d_times_v,
+		cylinder->vector);
+	proj->d_perpendicular = subtract_vectors(ray->direction, proj->projected_d);
+}
+
+static bool	solve_cylinder_quadratic(t_cylinder_projection *proj,
+	t_cylinder *cylinder, t_cylinder_quad *quad)
+{
+	quad->radius = cylinder->diameter / 2.0f;
+	quad->a = dot_product(proj->d_perpendicular, proj->d_perpendicular);
+	quad->b = 2.0f * dot_product(proj->d_perpendicular, proj->oc_perpendicular);
+	quad->c = dot_product(proj->oc_perpendicular, proj->oc_perpendicular)
+		- quad->radius * quad->radius;
+	quad->discriminant = quad->b * quad->b - 4.0f * quad->a * quad->c;
 	
-	oc = subtract_vectors(ray->origin, cylinder->cylinder_center);
-	oc_times_v = dot_product(oc, cylinder->vector);
-	oc_perpendicular = subtract_vectors(oc, scalar_multiplication(oc_times_v, cylinder->vector));
-	d_times_v = dot_product(ray->direction, cylinder->vector);
-	projected_d = scalar_multiplication(d_times_v, cylinder->vector);
-	d_perpendicular = subtract_vectors(ray->direction, projected_d);
-
-	float	radius;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-	float	sqrt_discriminant;
-	float	t0;
-	float	t1;
-	float	t_hit;
-
-	radius = cylinder->diameter / 2.0f;
-	a = dot_product(d_perpendicular, d_perpendicular);
-	b = 2.0f * dot_product(d_perpendicular, oc_perpendicular);
-	c = dot_product(oc_perpendicular, oc_perpendicular) - radius * radius;
-	discriminant = b * b - 4.0f * a * c;
-	if (discriminant < 0.0f)
+	if (quad->discriminant < 0.0f)
 		return (false);
-	sqrt_discriminant = sqrtf(discriminant);
-	t0 = (-b - sqrt_discriminant) / (2.0f * a);
-	t1 = (-b + sqrt_discriminant) / (2.0f * a);
-	t_hit = -1.0f;
-	if (t0 > 0.0f && t1 > 0.0f)
-		t_hit = fminf(t0, t1);
-	else if (t0 > 0.0f)
-		t_hit = t0;
-	else if (t1 > 0.0f)
-		t_hit = t1;
+	quad->sqrt_discriminant = sqrtf(quad->discriminant);
+	quad->t0 = (-quad->b - quad->sqrt_discriminant) / (2.0f * quad->a);
+	quad->t1 = (-quad->b + quad->sqrt_discriminant) / (2.0f * quad->a);
+	quad->t_hit = -1.0f;
+	if (quad->t0 > 0.0f && quad->t1 > 0.0f)
+		quad->t_hit = fminf(quad->t0, quad->t1);
+	else if (quad->t0 > 0.0f)
+		quad->t_hit = quad->t0;
+	else if (quad->t1 > 0.0f)
+		quad->t_hit = quad->t1;
 	else
 		return (false);
-
-	t_vector3d	intersection_point;
-	intersection_point = add_vectors(ray->origin, scalar_multiplication(t_hit, ray->direction));
-	t_vector3d	vector_to_point;
-	vector_to_point = subtract_vectors(intersection_point, cylinder->cylinder_center);
-	float	height_projection = dot_product(vector_to_point, cylinder->vector);
-	if (height_projection < 0.0f || height_projection > cylinder->height)
-		return (false);
-	*t = t_hit;
 	return (true);
 }
+
+static bool	validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
+	t_cylinder_quad *quad)
+{
+	t_cylinder_intersec	intersec;
+	
+	intersec.intersec_point = add_vectors(ray->origin,
+		scalar_multiplication(quad->t_hit, ray->direction));
+	intersec.vector_to_point = subtract_vectors(intersec.intersec_point,
+		cylinder->cylinder_center);
+	intersec.height_projection = dot_product(intersec.vector_to_point,
+		cylinder->vector);
+	
+	if (intersec.height_projection < 0.0f || intersec.height_projection
+		> cylinder->height)
+		return (false);
+	return (true);
+}
+
+t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
+{
+	t_cylinder_projection	proj;
+	t_cylinder_quad			quad;
+	t_intersection_info		info;
+	
+	info.intersection = false;
+	info.dist_to_intesec = 0.0f;
+	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	
+	init_cylinder_projection(ray, cylinder, &proj);
+	if (!solve_cylinder_quadratic(&proj, cylinder, &quad))
+		return (info);
+	if (!validate_cylinder_intersec(ray, cylinder, &quad))
+		return (info);
+	
+	info.intersection = true;
+	info.dist_to_intesec = quad.t_hit;
+	info.intersec_point = add_vectors(ray->origin,
+		scalar_multiplication(quad.t_hit, ray->direction));
+	info.normal = calculate_cylinder_normal(cylinder, info.intersec_point);
+	return (info);
+}
+
+t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point)
+{
+	t_vector3d	point_to_axis;
+	t_vector3d	axis_point;
+	t_vector3d	normal;
+	
+	point_to_axis = subtract_vectors(point, cylinder->cylinder_center);
+	axis_point = scalar_multiplication(dot_product(point_to_axis, cylinder->vector), 
+		cylinder->vector);
+	info.normal = subtract_vectors(point_to_axis, axis_point);
+	info.normal = normalize_vector(info.normal);
+	return (normal);
+}
+
+// bool	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, float *t)
+// {
+// 	t_cylinder_projection	proj;
+// 	t_cylinder_quad			quad;
+	
+// 	init_cylinder_projection(ray, cylinder, &proj);
+	
+// 	if (!solve_cylinder_quadratic(&proj, cylinder, &quad))
+// 		return (false);
+	
+// 	if (!validate_cylinder_intersec(ray, cylinder, &quad))
+// 		return (false);
+	
+// 	*t = quad.t_hit;
+// 	return (true);
+// }
