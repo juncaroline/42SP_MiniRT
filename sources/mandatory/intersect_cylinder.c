@@ -6,10 +6,10 @@ static void	init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
 	proj->oc = subtract_vectors(ray->origin, cylinder->cylinder_center);
 	proj->oc_proj_v = dot_product(proj->oc, cylinder->vector);
 	proj->oc_perpendicular = subtract_vectors(proj->oc,
-		scalar_multiplication(proj->oc_proj_v, cylinder->vector));
+			scalar_multiplication(proj->oc_proj_v, cylinder->vector));
 	proj->d_proj_v = dot_product(ray->direction, cylinder->vector);
 	proj->projected_d = scalar_multiplication(proj->d_proj_v,
-		cylinder->vector);
+			cylinder->vector);
 	proj->d_perpendicular = subtract_vectors(ray->direction, proj->projected_d);
 }
 
@@ -22,7 +22,7 @@ static bool	solve_cylinder_quadratic(t_cylinder_projection *proj,
 	quad->c = dot_product(proj->oc_perpendicular, proj->oc_perpendicular)
 		- quad->radius * quad->radius;
 	quad->discriminant = quad->b * quad->b - 4.0f * quad->a * quad->c;
-	
+
 	if (quad->discriminant < 0.0f)
 		return (false);
 	quad->sqrt_discriminant = sqrtf(quad->discriminant);
@@ -44,22 +44,22 @@ static bool	validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
 	t_cylinder_quad *quad)
 {
 	t_cylinder_intersec	intersec;
-	
+
 	intersec.intersec_point = add_vectors(ray->origin,
-		scalar_multiplication(quad->t_hit, ray->direction));
+			scalar_multiplication(quad->t_hit, ray->direction));
 	intersec.vector_to_point = subtract_vectors(intersec.intersec_point,
-		cylinder->cylinder_center);
+			cylinder->cylinder_center);
 	intersec.height_projection = dot_product(intersec.vector_to_point,
-		cylinder->vector);
-	
+			cylinder->vector);
+
 	if (intersec.height_projection < 0.0f || intersec.height_projection
 		> cylinder->height)
 		return (false);
 	return (true);
 }
 
-static bool	intersect_cylinder_cap(t_ray *ray, t_cylinder *cylinder, bool top_cap,
-	t_intersection_info *info)
+static bool	intersect_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
+	bool top_cap, t_intersection_info *info)
 {
 	t_vector3d			center;
 	t_vector3d			normal;
@@ -76,7 +76,7 @@ static bool	intersect_cylinder_cap(t_ray *ray, t_cylinder *cylinder, bool top_ca
 	}
 	else
 		center = add_vectors(cylinder->cylinder_center,
-			scalar_multiplication(cylinder->height, cylinder->vector));
+				scalar_multiplication(cylinder->height, cylinder->vector));
 
 	plane.plane_point = center;
 	plane.vector = normal;
@@ -96,10 +96,10 @@ t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point)
 	t_vector3d	point_to_axis;
 	t_vector3d	axis_point;
 	t_vector3d	normal;
-	
+
 	point_to_axis = subtract_vectors(point, cylinder->cylinder_center);
-	axis_point = scalar_multiplication(dot_product(point_to_axis, cylinder->vector), 
-		cylinder->vector);
+	axis_point = scalar_multiplication(dot_product(point_to_axis,
+			cylinder->vector), cylinder->vector);
 	normal = subtract_vectors(point_to_axis, axis_point);
 	normal = normalize(normal);
 	return (normal);
@@ -112,10 +112,10 @@ t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	t_intersection_info		info;
 	t_intersection_info		cap_inf;
 	t_intersection_info		cap_sup;
-	bool	hit_lateral;
-	bool	hit_cap_inf;
-	bool	hit_cap_sup;
-	float	best_dist;
+	bool					hit_lateral;
+	bool					hit_cap_inf;
+	bool					hit_cap_sup;
+	float					best_dist;
 	t_intersection_info		best_info;
 
 	info.intersection = false;
@@ -124,14 +124,14 @@ t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
 	init_cylinder_projection(ray, cylinder, &proj);
 	hit_lateral = solve_cylinder_quadratic(&proj, cylinder, &quad);
-	
+
 	if (hit_lateral && validate_cylinder_intersec(ray, cylinder, &quad))
 	{
 		info.intersection = true;
 		info.dist_to_intersec = quad.t_hit;
 		info.intersec_point = add_vectors(ray->origin,
-			scalar_multiplication(quad.t_hit, ray->direction));
-			info.normal = calculate_cylinder_normal(cylinder, info.intersec_point);
+				scalar_multiplication(quad.t_hit, ray->direction));
+		info.normal = calculate_cylinder_normal(cylinder, info.intersec_point);
 	}
 	hit_cap_inf = intersect_cylinder_cap(ray, cylinder, false, &cap_inf);
 	hit_cap_sup = intersect_cylinder_cap(ray, cylinder, true, &cap_sup);
