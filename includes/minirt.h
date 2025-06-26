@@ -105,9 +105,9 @@ typedef struct s_cylinder
 typedef struct s_cylinder_projection
 {
 	t_vector3d	oc;
-	float		oc_times_v;
+	float		oc_proj_v;
 	t_vector3d	oc_perpendicular;
-	float		d_times_v;
+	float		d_proj_v;
 	t_vector3d	projected_d;
 	t_vector3d	d_perpendicular;
 }	t_cylinder_projection;
@@ -121,8 +121,8 @@ typedef struct s_cylinder_quad
 	float	c;
 	float	discriminant;
 	float	sqrt_discriminant;
-	float	t0;
-	float	t1;
+	float	nearest;
+	float	farther;
 	float	t_hit;
 }	t_cylinder_quad;
 
@@ -146,6 +146,9 @@ typedef struct s_intersection_info
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
 	t_object	*object;
+	t_intersection_info	cap_inf;
+	t_intersection_info	cap_sup;
+	t_intersection_info	best_info;
 } t_intersection_info;
 
 typedef struct s_scene

@@ -1,5 +1,6 @@
 #include "../../includes/minirt.h"
 
+
 t_vector3d	add_vectors(t_vector3d a, t_vector3d b)
 {
 	t_vector3d	result;
@@ -9,7 +10,6 @@ t_vector3d	add_vectors(t_vector3d a, t_vector3d b)
 	result.z = a.z + b.z;
 	return (result);
 }
-
 t_vector3d	cross_product(t_vector3d a, t_vector3d b)
 {
 	t_vector3d	result;
