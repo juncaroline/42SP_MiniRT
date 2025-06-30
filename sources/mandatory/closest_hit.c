@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   closest_hit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 09:27:00 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/06/30 09:27:00 by cabo-ram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minirt.h"
 
 t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres, int count)
@@ -83,9 +95,9 @@ t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 	if (!ray || !scene)
 		return (closest);
 
-	sphere_hit = find_closest_sphere(ray, scene->spheres, scene->sphere_count);
-	plane_hit = find_closest_plane(ray, scene->planes, scene->plane_count);
-	cylinder_hit = find_closest_cylinder(ray, scene->cylinders,
+	sphere_hit = find_closest_sphere(ray, scene->sphere, scene->sphere_count);
+	plane_hit = find_closest_plane(ray, scene->plane, scene->plane_count);
+	cylinder_hit = find_closest_cylinder(ray, scene->cylinder,
 		scene->cylinder_count);
 	closest = sphere_hit;
 	if (plane_hit.intersection && plane_hit.dist_to_intersec

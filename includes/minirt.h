@@ -145,9 +145,6 @@ typedef struct s_intersection_info
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
 	t_object	*object;
-	t_intersection_info	cap_inf;
-	t_intersection_info	cap_sup;
-	t_intersection_info	best_info;
 } t_intersection_info;
 
 typedef struct s_scene
@@ -190,17 +187,17 @@ void	esc_command(void* param);
 int32_t	init(void);
 
 // intersect_cylinder.c
+t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point);
 t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
-t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point);
 
 // intersect_plane.c
+t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane);
-t_vector3d	calculate_plane_normal(t_plane *plane, t_vector3d point);
 
 // intersect_sphere.c
-t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
-t_vector3d	calculate_sphere_normal(t_sphere *sphere,
+t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 	t_vector3d intersec_point);
+t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
 
 // math.c
 t_vector3d	add_vectors(t_vector3d a, t_vector3d b);
@@ -216,7 +213,7 @@ void	read_file(char *scene_file, t_scene *scene);
 
 // ray_direction.c
 t_vector3d	get_ray_direction(int x, int y, t_camera *cam, t_cam_basis basis);
-t_ray	generate_ray(int x, int y, t_camera *cam);
+t_ray		generate_ray(int x, int y, t_camera *cam);
 
 // ray_generator.c
 t_vector3d	normalize(t_vector3d vector);
@@ -241,9 +238,9 @@ void	verify_elements(char *content, int i);
 bool	validate_elements(char **tokens, t_scene *scene);
 
 // validate_param_convert.c
-bool	is_rgb_color(t_rgb_color color_value);
+bool		is_rgb_color(t_rgb_color color_value);
 t_rgb_color	parse_rgb(char *str);
-bool	is_normalized_vector(t_vector3d vector_value);
+bool		is_normalized_vector(t_vector3d vector_value);
 t_vector3d	parse_normalized_vector(char *str);
 t_vector3d	parse_coordinates(char *str);
 

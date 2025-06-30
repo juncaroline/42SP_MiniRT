@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect_cylinder.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/06/30 10:49:11 by cabo-ram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minirt.h"
 
 static void	init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
@@ -25,15 +37,15 @@ static bool	solve_cylinder_quadratic(t_cylinder_projection *proj,
 
 	if (quad->discriminant < 0.0f)
 		return (false);
+	if (fabs(quad->a) < 1e-6)
+		return (false);
 	quad->sqrt_discriminant = sqrtf(quad->discriminant);
 	quad->nearest = (-quad->b - quad->sqrt_discriminant) / (2.0f * quad->a);
 	quad->farther = (-quad->b + quad->sqrt_discriminant) / (2.0f * quad->a);
 	quad->t_hit = -1.0f;
-	if (quad->nearest > 0.0f && quad->farther > 0.0f)
-		quad->t_hit = fminf(quad->nearest, quad->farther);
-	else if (quad->nearest > 0.0f)
+	if (quad->nearest > 1e-6)
 		quad->t_hit = quad->nearest;
-	else if (quad->farther > 0.0f)
+	else if (quad->farther > 1e-6)
 		quad->t_hit = quad->farther;
 	else
 		return (false);
@@ -67,6 +79,7 @@ static bool	intersect_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	t_intersection_info	cap_info;
 	float				radius;
 	t_vector3d			delta;
+	float				distance_squared;
 
 	normal = cylinder->vector;
 	if (top_cap == false)
@@ -77,15 +90,15 @@ static bool	intersect_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	else
 		center = add_vectors(cylinder->cylinder_center,
 				scalar_multiplication(cylinder->height, cylinder->vector));
-
 	plane.plane_point = center;
 	plane.vector = normal;
 	cap_info = intersect_plane(ray, &plane);
-	if (cap_info.intersection == false)
+	if (cap_info.intersection == false || cap_info.dist_to_intersec <= 1e-6)
 		return (false);
 	delta = subtract_vectors(cap_info.intersec_point, center);
 	radius = cylinder->diameter / 2.0f;
-	if (dot_product(delta, delta) > radius * radius)
+	distance_squared = dot_product(delta, delta);
+	if (distance_squared > radius * radius + 1e-6)
 		return (false);
 	*info = cap_info;
 	return (true);
@@ -96,11 +109,26 @@ t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point)
 	t_vector3d	point_to_axis;
 	t_vector3d	axis_point;
 	t_vector3d	normal;
+	t_vector3d	projection;
 
 	point_to_axis = subtract_vectors(point, cylinder->cylinder_center);
 	axis_point = scalar_multiplication(dot_product(point_to_axis,
 			cylinder->vector), cylinder->vector);
 	normal = subtract_vectors(point_to_axis, axis_point);
+	float length_squared = dot_product(normal, normal);
+	printf("normal antes do fallback: ");
+	print_vector("", normal);
+	printf("length_squared: %f\n", length_squared);
+	if (length_squared < 1e-12)
+	{
+		if (fabs(cylinder->vector.x) < 0.9)
+			normal = (t_vector3d){1.0f, 0.0f, 0.0f};
+		else
+			normal = (t_vector3d){0.0f, 1.0f, 0.0f};
+		projection = scalar_multiplication(dot_product(normal,
+			cylinder->vector), cylinder->vector);
+		normal = subtract_vectors(normal, projection);
+	}
 	normal = normalize(normal);
 	return (normal);
 }
@@ -119,9 +147,7 @@ t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	t_intersection_info		best_info;
 
 	info.intersection = false;
-	info.dist_to_intersec = 0.0f;
-	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
-	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	best_info.intersection = false;
 	init_cylinder_projection(ray, cylinder, &proj);
 	hit_lateral = solve_cylinder_quadratic(&proj, cylinder, &quad);
 
@@ -135,19 +161,18 @@ t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	}
 	hit_cap_inf = intersect_cylinder_cap(ray, cylinder, false, &cap_inf);
 	hit_cap_sup = intersect_cylinder_cap(ray, cylinder, true, &cap_sup);
-	if (info.intersection)
+	best_dist = INFINITY;
+	if (info.intersection && info.dist_to_intersec < best_dist)
+	{
 		best_dist = info.dist_to_intersec;
-	else
-		best_dist = INFINITY;
-	best_info = info;
-	if (hit_cap_inf && cap_inf.dist_to_intersec < best_dist
-		&& cap_inf.dist_to_intersec > 0.0f)
+		best_info = info;
+	}
+	if (hit_cap_inf && cap_inf.dist_to_intersec < best_dist)
 	{
 		best_dist = cap_inf.dist_to_intersec;
 		best_info = cap_inf;
 	}
-	if (hit_cap_sup && cap_sup.dist_to_intersec < best_dist
-		&& cap_sup.dist_to_intersec > 0.0f)
+	if (hit_cap_sup && cap_sup.dist_to_intersec < best_dist)
 	{
 		best_dist = cap_sup.dist_to_intersec;
 		best_info = cap_sup;
