@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:25 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:54:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:35:41 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_vector3d	add_vectors(t_vector3d a, t_vector3d b)
 	result.z = a.z + b.z;
 	return (result);
 }
+
 t_vector3d	cross_product(t_vector3d a, t_vector3d b)
 {
 	t_vector3d	result;
@@ -54,14 +55,4 @@ t_vector3d	scalar_multiplication(float k, t_vector3d vector)
 float	dot_product(t_vector3d a, t_vector3d b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
-t_vector3d	negative_vector(t_vector3d vector)
-{
-	t_vector3d	result;
-
-	result.x = -vector.x;
-	result.y = -vector.y;
-	result.z = -vector.z;
-	return (result);
 }

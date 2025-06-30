@@ -6,11 +6,21 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:31 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:27:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:35:39 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+
+t_vector3d	negative_vector(t_vector3d vector)
+{
+	t_vector3d	result;
+
+	result.x = -vector.x;
+	result.y = -vector.y;
+	result.z = -vector.z;
+	return (result);
+}
 
 t_vector3d	normalize(t_vector3d vector)
 {

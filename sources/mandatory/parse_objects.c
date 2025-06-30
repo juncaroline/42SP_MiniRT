@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_objects_convert.c                            :+:      :+:    :+:   */
+/*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:26:57 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:21:48 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,6 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 	return (true);
 }
 
-bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
-{
-	t_sphere	*new_array;
-	int			i;
-
-	new_array = malloc(sizeof(t_sphere) * (scene->sphere_count + count));
-	if (!new_array)
-		return (false);
-	i = 0;
-	while (i < scene->sphere_count)
-	{
-		new_array[i] = scene->sphere[i];
-		i++;
-	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->sphere_count + i] = new_sphere[i];
-		i++;
-	}
-	free(scene->sphere);
-	scene->sphere = new_array;
-	scene->sphere_count += count;
-	return (true);
-}
-
 bool	parse_plane(char **tokens, int count, t_plane *plane)
 {
 	t_vector3d	plane_point;
@@ -79,32 +53,6 @@ bool	parse_plane(char **tokens, int count, t_plane *plane)
 	plane->plane_point = plane_point;
 	plane->vector = plane_normal;
 	plane->color = color;
-	return (true);
-}
-
-bool	add_plane(t_scene *scene, t_plane *new_plane, int count)
-{
-	t_plane	*new_array;
-	int			i;
-
-	new_array = malloc(sizeof(t_plane) * (scene->plane_count + count));
-	if (!new_array)
-		return (false);
-	i = 0;
-	while (i < scene->plane_count)
-	{
-		new_array[i] = scene->plane[i];
-		i++;
-	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->plane_count + i] = new_plane[i];
-		i++;
-	}
-	free(scene->plane);
-	scene->plane = new_array;
-	scene->plane_count += count;
 	return (true);
 }
 
@@ -134,31 +82,5 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 	cylinder->diameter = diameter;
 	cylinder->height = height;
 	cylinder->color = color;
-	return (true);
-}
-
-bool	add_cylinder(t_scene *scene, t_cylinder *new_cylinder, int count)
-{
-	t_cylinder	*new_array;
-	int			i;
-
-	new_array = malloc(sizeof(t_cylinder) * (scene->cylinder_count + count));
-	if (!new_array)
-		return (false);
-	i = 0;
-	while (i < scene->cylinder_count)
-	{
-		new_array[i] = scene->cylinder[i];
-		i++;
-	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->cylinder_count + i] = new_cylinder[i];
-		i++;
-	}
-	free(scene->cylinder);
-	scene->cylinder = new_array;
-	scene->cylinder_count += count;
 	return (true);
 }

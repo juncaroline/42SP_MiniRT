@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:29 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:27:30 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:34:49 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	get_pixel(int x, int y, float *px, float *py)
 static t_vector3d	get_direction_from_pixel(float px, float py, t_camera *cam,
 	t_cam_basis basis)
 {
-	float	ratio;
-	float	scale;
+	float		ratio;
+	float		scale;
 	t_vector3d	pixel_direction;
 	t_vector3d	temp1;
 	t_vector3d	temp2;
@@ -35,8 +35,8 @@ static t_vector3d	get_direction_from_pixel(float px, float py, t_camera *cam,
 	temp2 = scalar_multiplication(py, basis.v);
 	pixel_direction = subtract_vectors(add_vectors(temp1, temp2), basis.w);
 	return (normalize(pixel_direction));
-
 }
+
 t_vector3d	get_ray_direction(int x, int y, t_camera *cam, t_cam_basis basis)
 {
 	float	px;

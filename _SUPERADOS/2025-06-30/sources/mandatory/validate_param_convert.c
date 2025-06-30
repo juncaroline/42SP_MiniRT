@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:39 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:27:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:35:37 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ bool	is_normalized_vector(t_vector3d vector_value)
 
 t_vector3d	parse_normalized_vector(char *str)
 {
-	char				**vector;
-	int					i;
+	char		**vector;
+	int			i;
 	t_vector3d	vector_value;
 
 	vector_value.x = 0.0;

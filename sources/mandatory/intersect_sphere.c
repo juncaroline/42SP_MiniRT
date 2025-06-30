@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:27:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:33:16 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,12 @@ t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 	info.dist_to_intersec = 0.0f;
 	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
 	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
-
 	quad = intersect_sphere_quad(ray, sphere);
 	if (!intersect_sphere_solution(quad, &info.dist_to_intersec))
 		return (info);
-
 	info.intersection = true;
 	info.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_sphere_normal(sphere, info.intersec_point);
 	return (info);
 }
-
-// bool	intersect_sphere(t_ray *ray, t_sphere *sphere, float *t)
-// {
-// 	t_sphere_quad	quad;
-
-// 	quad = intersect_sphere_quad(ray, sphere);
-// 	return (intersect_sphere_solution(quad, t));
-// }
