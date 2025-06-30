@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 17:22:31 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:36:52 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	read_file(av[1], scene);
-	init();
+
+	init_scene(scene);
+	
+	// init();
 	// validate_elements(tokens, scene);
 	free_scene(scene);
 	free(scene);

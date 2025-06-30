@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 17:24:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:43:42 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,9 @@ typedef struct s_intersection_info
 	float		dist_to_intersec;
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
+
+	t_rgb_color	color;
+
 	t_object	*object;
 }	t_intersection_info;
 
@@ -187,8 +190,9 @@ t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 void				error_msg(int status);
 
 // init.c
-void				esc_command(void *param);
-int32_t				init(void);
+void				esc_command(void* param);
+int32_t				init_scene(t_scene *scene);
+// int32_t			init(void);
 
 // intersect_cylinder_calc.c
 void				init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
@@ -214,7 +218,7 @@ void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 						t_intersection_info *bottom_cap, t_intersection_info *top_cap);
 t_intersection_info	select_closest_intersection(
 						t_intersection_info surface, t_intersection_info bottom_cap,
-						t_intersection_info top_cap);
+						t_intersection_info top_cap, t_rgb_color color);
 t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 // intersect_plane.c
