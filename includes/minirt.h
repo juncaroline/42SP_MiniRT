@@ -144,6 +144,9 @@ typedef struct s_intersection_info
 	float		dist_to_intersec;
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
+
+	t_rgb_color	color;
+
 	t_object	*object;
 } t_intersection_info;
 
@@ -184,7 +187,8 @@ void	error_msg(int status);
 
 // init.c
 void	esc_command(void* param);
-int32_t	init(void);
+int32_t	init_scene(t_scene *scene);
+// int32_t	init(void);
 
 // intersect_cylinder.c
 t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point);
