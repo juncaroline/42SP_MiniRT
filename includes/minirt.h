@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:33:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:43:42 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 						t_intersection_info *bottom_cap, t_intersection_info *top_cap);
 t_intersection_info	select_closest_intersection(
 						t_intersection_info surface, t_intersection_info bottom_cap,
-						t_intersection_info top_cap);
+						t_intersection_info top_cap, t_rgb_color color);
 t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 // intersect_plane.c
