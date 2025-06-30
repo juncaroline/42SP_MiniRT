@@ -6,14 +6,13 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 16:22:24 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:24:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "constant.h"
 # include "../library/libft/libft.h"
 # include "../library/MLX42/include/MLX42/MLX42.h"
 # include <unistd.h>
@@ -27,6 +26,9 @@
 # define WINDOW_HEIGHT 900
 
 # define M_PI 3.14159265358979323846
+
+# define EPSILON 1e-6
+# define CLOSE_TO_ZERO_EPSILON 1e-12
 
 typedef enum e_object_type
 {
