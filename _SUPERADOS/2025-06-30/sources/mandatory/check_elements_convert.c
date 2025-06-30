@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:51 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:26:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:23:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ bool	parse_ambient(char **tokens, int count, t_ambient *ambient)
 	}
 	ambient->ratio = parse_ratio(tokens[1]);
 	ambient->color = parse_rgb(tokens[2]);
-	if ((ambient->ratio < 0.0 || ambient->ratio > 1.0) || 
-		!is_rgb_color(ambient->color))
+	if ((ambient->ratio < 0.0 || ambient->ratio > 1.0)
+		|| !is_rgb_color(ambient->color))
 		return (false);
 	return (true);
 }

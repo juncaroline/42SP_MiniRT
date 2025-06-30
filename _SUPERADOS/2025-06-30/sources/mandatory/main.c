@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:52 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:41:08 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	read_file(av[1], scene);
-
-	init_scene(scene);
-	
-	// init();
+	init();
 	// validate_elements(tokens, scene);
 	free_scene(scene);
 	free(scene);
@@ -50,4 +47,4 @@ int	main(int ac, char **av)
 
 // ./minirt ./sources/mandatory/scene.rt
 
-// valgrind --leak-check=full --suppressions=suppress_mlx_error.sup
+// valgrind --leak-check=full --suppressions=suppress_mlx_error.sup ./minirt ./sources/mandatory/scene.rt

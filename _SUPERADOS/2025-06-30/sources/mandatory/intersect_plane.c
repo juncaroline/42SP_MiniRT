@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:12 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:25:17 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane)
 	info.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_plane_normal(plane, info.intersec_point);
-	info.color = plane->color;
 	return (info);
 }
+
+// bool	intersect_plane(t_ray *ray, t_plane *plane, float *t)
+// {
+// 	float	denominator;
+// 	float	numerator;
+// 	t_vector3d	diff;
+
+// 	diff = subtract_vectors(plane->plane_point, ray->origin);
+// 	denominator = dot_product(ray->direction, plane->vector);
+// 	if (fabs(denominator) < EPSILON)
+// 		return (false);
+// 	numerator = dot_product(diff, plane->vector);
+// 	*t = numerator / denominator;
+// 	if (*t < 0.0f)
+// 		return (false);
+// 	return (true);
+// }

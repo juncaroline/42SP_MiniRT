@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:23:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 	info.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_sphere_normal(sphere, info.intersec_point);
-	info.color = sphere->color;
 	return (info);
 }
+
+// bool	intersect_sphere(t_ray *ray, t_sphere *sphere, float *t)
+// {
+// 	t_sphere_quad	quad;
+
+// 	quad = intersect_sphere_quad(ray, sphere);
+// 	return (intersect_sphere_solution(quad, t));
+// }
