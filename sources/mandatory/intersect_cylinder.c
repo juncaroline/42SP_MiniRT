@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 16:11:09 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:56:44 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point)
 			cylinder->vector), cylinder->vector);
 	normal = subtract_vectors(point_to_axis, axis_point);
 	float length_squared = dot_product(normal, normal);
-	printf("normal antes do fallback: ");
-	// print_vector("", normal);
-	printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
-	printf("length_squared: %f\n", length_squared);
+	// printf("normal antes do fallback: ");
+	// // print_vector("", normal);
+	// printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
+	// printf("length_squared: %f\n", length_squared);
 	if (length_squared < 1e-12)
 	{
 		if (fabs(cylinder->vector.x) < 0.9)
@@ -178,7 +178,7 @@ t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 		best_dist = cap_sup.dist_to_intersec;
 		best_info = cap_sup;
 	}
-	info.color = cylinder->color;
+	best_info.color = cylinder->color;
 	return (best_info);
 }
 
