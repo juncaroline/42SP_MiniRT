@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 16:44:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:31:52 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_file_extension(char *extension)
 		error_msg(1);
 }
 
-static void	verify_elements(char *content, int i)
+void	verify_elements(char *content, int i)
 {
 	if (ft_strncmp(content + i, "A", 1) == 0)
 		printf("Detected ambient light\n");
@@ -38,6 +38,30 @@ static void	verify_elements(char *content, int i)
 		printf("Detected cylinder\n");
 	else
 		printf("Unknown element: %s\n", content);
+}
+
+void	get_content(char	**content, int fd)
+{
+	free(*content);
+	*content = get_next_line(fd);
+}
+
+int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
+{
+	if (content[i] == '\n')
+		return (1);
+	*tokens = split_line(content);
+	if (!*tokens || !*tokens[0])
+	{
+		printf("Erro ao dividir linha em tokens\n");
+		return (1);
+	}
+	if (!validate_elements(*tokens, scene))
+	{
+		free_split(*tokens);
+		return (1);
+	}
+	return (0);
 }
 
 void	read_file(char *scene_file, t_scene *scene)
@@ -57,31 +81,60 @@ void	read_file(char *scene_file, t_scene *scene)
 	while (content)
 	{
 		i = skip_spaces(content);
-		if (content[i] == '\n')
+		if (verif_content(content, scene, &tokens, i))
 		{
-			free(content);
-			content = get_next_line(fd);
-			continue ;
-		}
-		tokens = split_line(content);
-		if (!tokens || !tokens[0])
-		{
-			printf("Erro ao dividir linha em tokens\n");
-			free(content);
-			content = get_next_line(fd);
-			continue ;
-		}
-		if (!validate_elements(tokens, scene))
-		{
-			free_split(tokens);
-			free(content);
-			content = get_next_line(fd);
+			get_content(&content, fd);
 			continue ;
 		}
 		verify_elements(content, i);
 		free_split(tokens);
-		free(content);
-		content = get_next_line(fd);
+		get_content(&content, fd);
 	}
 	close(fd);
 }
+
+// void	read_file(char *scene_file, t_scene *scene)
+// {
+// 	int		fd;
+// 	char	*content;
+// 	int		i;
+// 	char	**tokens;
+
+// 	check_file_extension(scene_file);
+// 	fd = open(scene_file, O_RDONLY);
+// 	if (fd < 0)
+// 		error_msg(2);
+// 	content = get_next_line(fd);
+// 	if (content == NULL)
+// 		error_msg(3);
+// 	while (content)
+// 	{
+// 		i = skip_spaces(content);
+// 		if (content[i] == '\n')
+// 		{
+// 			free(content);
+// 			content = get_next_line(fd);
+// 			continue ;
+// 		}
+// 		tokens = split_line(content);
+// 		if (!tokens || !tokens[0])
+// 		{
+// 			printf("Erro ao dividir linha em tokens\n");
+// 			free(content);
+// 			content = get_next_line(fd);
+// 			continue ;
+// 		}
+// 		if (!validate_elements(tokens, scene))
+// 		{
+// 			free_split(tokens);
+// 			free(content);
+// 			content = get_next_line(fd);
+// 			continue ;
+// 		}
+// 		verify_elements(content, i);
+// 		free_split(tokens);
+// 		free(content);
+// 		content = get_next_line(fd);
+// 	}
+// 	close(fd);
+// }

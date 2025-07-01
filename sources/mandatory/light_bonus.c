@@ -6,23 +6,22 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/01 16:39:47 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:30:26 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
+// shininess [10, 200];
 typedef struct s_material
 {
 	char		*type;
-	// t_rgb_color	color;
-	// float		reflective;
-	// float		transparency;
-	// float		refractive_index;
-	// shininess [10, 200];
+	t_rgb_color	color;
+	float		reflective;
+	float		transparency;
+	float		refractive_index;
 	float		shininess;
 }	t_material;
-
 
 t_rgb_color	scale_color(t_rgb_color c, float ratio)
 {
@@ -60,7 +59,7 @@ t_rgb_color	diff_color(t_intersection_info hit, t_scene *scene)
 	t_vector3d	light_dir;
 	float		diff;
 
-	light_dir = normalize(subtract_vectors(scene->light.light_point , \
+	light_dir = normalize(subtract_vectors(scene->light.light_point, \
 				hit.intersec_point));
 	diff = fmax(0.0f, dot_product(hit.normal, light_dir));
 	return (scale_color(scene->light.color, (diff * scene->light.ratio)));
@@ -72,7 +71,7 @@ t_vector3d	reflection(t_intersection_info hit, t_scene *scene)
 	t_vector3d	result;
 	t_vector3d	light_dir;
 
-	light_dir = normalize(subtract_vectors(scene->light.light_point , \
+	light_dir = normalize(subtract_vectors(scene->light.light_point, \
 				hit.intersec_point));
 	scalar_nbr = 2 * dot_product(hit.normal, light_dir);
 	result = scalar_multiplication(scalar_nbr, hit.normal);
@@ -87,7 +86,7 @@ t_rgb_color	spec_color(t_intersection_info hit, t_scene *scene, t_material mat)
 	float		prod;
 
 	v_refle = reflection(hit, scene);
-	v_cam = normalize(subtract_vectors(scene->camera.camera_position , \
+	v_cam = normalize(subtract_vectors(scene->camera.camera_position, \
 				hit.intersec_point));
 	max_value = fmax(0.0f, dot_product(v_refle, v_cam));
 	prod = pow(max_value, mat.shininess);
