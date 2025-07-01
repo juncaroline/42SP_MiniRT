@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:43:42 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:10:02 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,9 @@ t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane);
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
+
+// light.c
+t_rgb_color			get_color(t_intersection_info hit, t_scene *scene);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);

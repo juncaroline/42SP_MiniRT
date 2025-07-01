@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 17:00:16 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:13:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	render(t_scene *scene, mlx_image_t *img)
 	int	height;
 	int	x;
 	int	y;
+	t_rgb_color final_color;
 
 	width = img->width;
 	height = img->height;
@@ -47,11 +48,12 @@ void	render(t_scene *scene, mlx_image_t *img)
 		{
 			t_ray ray = generate_ray(x, y, &scene->camera);
 			t_intersection_info hit = find_closest_interesection(&ray, scene);
-			t_rgb_color final_color = {0, 0, 0};
+			// t_rgb_color final_color = {0, 0, 0};
 
 			// POR ENQUANTO APENAS A COR DO OBJ
-			if (hit.intersection)
-				final_color = hit.color;
+			// if (hit.intersection)
+			// 	final_color = hit.color;
+			final_color = get_color(hit, scene);
 			set_pixel(img, x, y, final_color);
 			x++;
 		}

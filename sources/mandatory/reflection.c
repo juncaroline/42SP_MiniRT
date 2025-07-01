@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:40:08 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/30 13:10:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:17:57 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef struct s_point_light
 	t_vector3d	position;
 	t_rgb_color	intensity;
 }	t_point_light;
+
+// typedef struct s_light
+// {
+// 	t_vector3d	light_point;
+// 	float		ratio;
+// 	t_rgb_color	color;
+// }	t_light;
 
 t_rgb_color;
 
