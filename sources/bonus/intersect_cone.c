@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_cylinder.c                               :+:      :+:    :+:   */
+/*   intersect_cone.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:40:22 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/07/01 14:15:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../includes/minirt_bonus.h"
 
-void	compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
+void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
 	t_intersection_info *bottom_cap, t_intersection_info *top_cap)
 {
 	bool	hit_bottom;
 	bool	hit_top;
 
-	hit_bottom = ray_intersects_cylinder_cap(ray, cylinder, false, bottom_cap);
-	hit_top = ray_intersects_cylinder_cap(ray, cylinder, true, top_cap);
+	hit_bottom = ray_intersects_cone_cap(ray, cone, false, bottom_cap);
+	hit_top = ray_intersects_cone_cap(ray, cone, true, top_cap);
 	if (!hit_bottom)
 		bottom_cap->intersection = false;
 	if (!hit_top)
 		top_cap->intersection = false;
 }
 
-t_intersection_info	select_closest_intersection(t_intersection_info surface,
-	t_intersection_info bottom_cap, t_intersection_info top_cap,
-	t_rgb_color color)
+t_intersection_info	select_closest_intersection(
+	t_intersection_info surface, t_intersection_info bottom_cap,
+	t_intersection_info top_cap, t_rgb_color color)
 {
 	float					closest_distance;
 	t_intersection_info		closest_intersection;
@@ -55,15 +55,15 @@ t_intersection_info	select_closest_intersection(t_intersection_info surface,
 	return (closest_intersection);
 }
 
-t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
+t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone)
 {
 	t_intersection_info	surface_intersection;
 	t_intersection_info	bottom_cap_intersection;
 	t_intersection_info	top_cap_intersection;
 
-	surface_intersection = ray_intersects_cylinder_surface(ray, cylinder);
-	compute_cylinder_cap_intersections(ray, cylinder,
+	surface_intersection = ray_intersects_cone_surface(ray, cone);
+	compute_cone_cap_intersections(ray, cone,
 		&bottom_cap_intersection, &top_cap_intersection);
 	return (select_closest_intersection(surface_intersection,
-			bottom_cap_intersection, top_cap_intersection, cylinder->color));
+			bottom_cap_intersection, top_cap_intersection, cone->color));
 }

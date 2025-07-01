@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:03 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 13:57:31 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../includes/minirt_bonus.h"
 
 void	error_msg(int status)
 {
