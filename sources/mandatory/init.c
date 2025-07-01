@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 16:49:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:53:15 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	esc_command(void *param)
 
 void	set_pixel(mlx_image_t *img, int x, int y, t_rgb_color c)
 {
-	size_t i = (y * img->width + x) * 4;
+	size_t	i;
+
+	i = (y * img->width + x) * 4;
 	img->pixels[i + 0] = c.red;
 	img->pixels[i + 1] = c.green;
 	img->pixels[i + 2] = c.blue;
