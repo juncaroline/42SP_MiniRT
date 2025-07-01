@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 19:05:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:28:37 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,19 @@ bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
 
 t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point)
 {
-	t_vector3d	point_to_axis;
-	t_vector3d	axis_point;
+	t_cone_intersec		intersec;
+	t_cone_projection	*proj;
+	// t_vector3d	proj_on_axis;
+	// t_vector3d	perpendicular;
+	// t_vector3d	axis_point;
 	t_vector3d	normal;
-	t_vector3d	projection;
-	float		length_squared;
+	// t_vector3d	projection;
+	// float		length_squared;
 
-	point_to_axis = subtract_vectors(point, cone->cone_center);
-	axis_point = scalar_multiplication(dot_product(point_to_axis,
-				cone->vector), cone->vector);
-	normal = subtract_vectors(point_to_axis, axis_point);
-	length_squared = dot_product(normal, normal);
-	if (length_squared < CLOSE_TO_ZERO_EPSILON)
-	{
-		if (fabs(cone->vector.x) < 0.9)
-			normal = (t_vector3d){1.0f, 0.0f, 0.0f};
-		else
-			normal = (t_vector3d){0.0f, 1.0f, 0.0f};
-		projection = scalar_multiplication(dot_product(normal,
-					cone->vector), cone->vector);
-		normal = subtract_vectors(normal, projection);
-	}
-	normal = normalize(normal);
-	return (normal);
+	init_cone_projection(NULL, cone, &intersec);
+	validate_cone_intersec(NULL, cone, NULL);
+	normal = subtract_vectors(intersec.vector_to_point,
+			scalar_multiplication((1 + proj->k) * intersec.height_projection,
+			cone->direction));
+	return (normalize(normal));
 }
