@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 12:10:02 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:44:50 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 void				error_msg(int status);
 
 // init.c
-void				esc_command(void* param);
+void				esc_command(void *param);
 int32_t				init_scene(t_scene *scene);
 // int32_t			init(void);
 
@@ -205,19 +205,24 @@ t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder,
 						t_vector3d point);
 
 // intersect_cylinder_aux.c
-t_plane				create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
-bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
-						t_vector3d cap_center, float cylinder_diameter);
-bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
-						bool is_top_cap, t_intersection_info *info);
+t_plane				create_cylinder_cap_plane(t_cylinder *cylinder,
+						bool is_top_cap);
+bool				is_intersection_within_cap_radius(
+						t_vector3d intersection_point, t_vector3d cap_center,
+						float cylinder_diameter);
+bool				ray_intersects_cylinder_cap(t_ray *ray,
+						t_cylinder *cylinder, bool is_top_cap,
+						t_intersection_info *info);
 t_intersection_info	ray_intersects_cylinder_surface(t_ray *ray,
 						t_cylinder *cylinder);
 
 // intersect_cylinder.c
-void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
-						t_intersection_info *bottom_cap, t_intersection_info *top_cap);
+void				compute_cylinder_cap_intersections(t_ray *ray,
+						t_cylinder *cylinder, t_intersection_info *bottom_cap,
+						t_intersection_info *top_cap);
 t_intersection_info	select_closest_intersection(
-						t_intersection_info surface, t_intersection_info bottom_cap,
+						t_intersection_info surface,
+						t_intersection_info bottom_cap,
 						t_intersection_info top_cap, t_rgb_color color);
 t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
@@ -260,6 +265,7 @@ bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
 // parse.c
 void				check_file_extension(char *extension);
 void				read_file(char *scene_file, t_scene *scene);
+void				verify_elements(char *content, int i);
 
 // ray_direction.c
 t_vector3d			get_ray_direction(int x, int y, t_camera *cam,
@@ -286,7 +292,6 @@ bool				ft_isfloat(const char *str);
 float				string_to_float(char *str);
 
 // validate_elements.c
-void				verify_elements(char *content, int i);
 bool				validate_elements(char **tokens, t_scene *scene);
 
 // validate_param.c
