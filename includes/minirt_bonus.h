@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/02 15:14:50 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:40:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,19 @@ typedef struct s_cone
 	t_rgb_color	color;
 }	t_cone;
 
+typedef struct s_cone_base
+{
+	t_vector3d	direction;
+	t_vector3d	cone_vertex;
+}	t_cone_base;
+
+typedef struct s_cone_data
+{
+	t_cone		*cone;
+	t_cone_base	base;
+	t_ray		*ray;
+}	t_cone_data;
+
 typedef struct s_cone_projection
 {
 	t_vector3d	oc;
@@ -172,6 +185,7 @@ typedef struct s_cone_projection
 typedef struct s_cone_quad
 {
 	float	radius;
+	float	cos_squared;
 	float	a;
 	float	b;
 	float	c;
@@ -244,29 +258,32 @@ int32_t				init_scene(t_scene *scene);
 // int32_t			init(void);
 
 // intersect_cone_aux.c
-t_plane	create_cone_cap_plane(t_cone *cone, bool is_covered);
-bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
-	t_vector3d cap_center, float cone_diameter);
-bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
-	bool is_covered, t_intersection_info *info);
+t_plane				create_cone_cap_plane(t_cone *cone, bool is_covered);
+bool				is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
+						t_vector3d cap_center, float cone_diameter);
+bool				ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
+						bool is_covered, t_intersection_info *info);
 t_intersection_info	ray_intersects_cone_surface(t_ray *ray,
-	t_cone *cone);
+						t_cone *cone, t_cone_base *base);
 
 // intersect_cone_calc.c
+void				init_cone_base(t_cone *cone, t_cone_base *base);
 void				init_cone_projection(t_ray *ray, t_cone *cone,
-						t_cone_projection *proj);
+						t_cone_projection *proj, t_cone_base *base);
+void				calculate_equation(t_cone_projection *proj, t_cone *cone,
+						t_cone_quad *quad, t_ray *ray);
 bool				solve_cone_quadratic(t_cone_projection *proj,
 						t_cone *cone, t_cone_quad *quad, t_ray *ray);
-bool				validate_cone_intersec(t_ray *ray, t_cone *cone,
-						t_cone_quad *quad);
-t_vector3d			calculate_cone_normal(t_cone *cone, t_vector3d point);
+bool				validate_cone_intersec(t_cone_quad *quad, t_cone_data *data);
 
 // intersect_cone.c
-void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersection_info *bottom_cap, t_intersection_info *top_cap);
+t_vector3d			calculate_cone_normal(t_cone *cone, t_vector3d point,
+						t_cone_base *base, t_cone_quad *quad);
+void				compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
+						t_intersection_info *bottom_cap, t_intersection_info *top_cap);
 t_intersection_info	select_closest_intersection_cone(
-	t_intersection_info surface_info, t_intersection_info base_info,
-	t_intersection_info top_info, t_rgb_color color);
+						t_intersection_info surface_info, t_intersection_info base_info,
+						t_intersection_info top_info, t_rgb_color color);
 t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone);
 
 // intersect_cylinder_calc.c
