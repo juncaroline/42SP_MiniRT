@@ -34,4 +34,6 @@ void	free_scene(t_scene *scene)
 		free(scene->plane);
 	if (scene->cylinder)
 		free(scene->cylinder);
+	if (scene->cone)
+		free(scene->cone);
 }

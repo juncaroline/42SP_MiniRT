@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:43:46 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:28:23 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 
 	if (count != 6)
 	{
-		printf("Erro: 'cy' espera 5 parâmetros, recebeu %d\n", count - 1);
+		printf("Erro: 'cn' espera 5 parâmetros, recebeu %d\n", count - 1);
 		return (false);
 	}
 	cone_center = parse_coordinates(tokens[1]);

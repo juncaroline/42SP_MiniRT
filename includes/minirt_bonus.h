@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 18:56:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:14:50 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,7 @@ typedef struct s_cylinder_intersec
 typedef struct s_cone
 {
 	t_vector3d	cone_center;
-	t_vector3d	cone_vertex;
 	t_vector3d	vector;
-	t_vector3d	direction;
 	float		diameter;
 	float		height;
 	t_rgb_color	color;
@@ -234,6 +232,7 @@ t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
 t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
 						int count);
+t_intersection_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
 t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
@@ -245,13 +244,13 @@ int32_t				init_scene(t_scene *scene);
 // int32_t			init(void);
 
 // intersect_cone_aux.c
-t_plane				create_cone_cap_plane(t_cone *cone, bool is_top_cap);
-bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
-						t_vector3d cap_center, float cone_diameter);
-bool				ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
-						bool is_top_cap, t_intersection_info *info);
+t_plane	create_cone_cap_plane(t_cone *cone, bool is_covered);
+bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
+	t_vector3d cap_center, float cone_diameter);
+bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
+	bool is_covered, t_intersection_info *info);
 t_intersection_info	ray_intersects_cone_surface(t_ray *ray,
-						t_cone *cone);
+	t_cone *cone);
 
 // intersect_cone_calc.c
 void				init_cone_projection(t_ray *ray, t_cone *cone,
@@ -263,11 +262,11 @@ bool				validate_cone_intersec(t_ray *ray, t_cone *cone,
 t_vector3d			calculate_cone_normal(t_cone *cone, t_vector3d point);
 
 // intersect_cone.c
-void				compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-						t_intersection_info *bottom_cap, t_intersection_info *top_cap);
-t_intersection_info	select_closest_intersection(
-						t_intersection_info surface, t_intersection_info bottom_cap,
-						t_intersection_info top_cap, t_rgb_color color);
+void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
+	t_intersection_info *bottom_cap, t_intersection_info *top_cap);
+t_intersection_info	select_closest_intersection_cone(
+	t_intersection_info surface_info, t_intersection_info base_info,
+	t_intersection_info top_info, t_rgb_color color);
 t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone);
 
 // intersect_cylinder_calc.c
@@ -323,12 +322,15 @@ bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
 bool				parse_plane(char **tokens, int count, t_plane *plane);
 bool				parse_cylinder(char **tokens, int count,
 						t_cylinder *cylinder);
+bool				parse_cone(char **tokens, int count, t_cone *cone);
 
 // parse_objects_add.c
 bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
 bool				add_plane(t_scene *scene, t_plane *new_plane, int count);
 bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
 						int count);
+bool				add_cone(t_scene *scene, t_cone *new_cone, int count);
+
 
 // parse.c
 void				check_file_extension(char *extension);

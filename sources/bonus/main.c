@@ -25,6 +25,8 @@ int	main(int ac, char **av)
 	scene->plane_count = 0;
 	scene->cylinder = NULL;
 	scene->cylinder_count = 0;
+	scene->cone = NULL;
+	scene->cone_count = 0;
 	if (ac != 2)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);
