@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/02 14:28:23 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:45:40 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {
-	t_vector3d	center;
-	float		diameter;
-	t_rgb_color	color;
+	// t_vector3d	center;
+	// float		diameter;
+	// t_rgb_color	color;
 
 	if (count != 4)
 	{
 		printf("Erro: 'sp' espera 3 parâmetros, recebeu %d\n", count - 1);
 		return (false);
 	}
-	center = parse_coordinates(tokens[1]);
-	diameter = parse_measurements(tokens[2]);
-	color = parse_rgb(tokens[3]);
-	if (diameter <= 0 || !is_rgb_color(color))
+	sphere->sphere_center = parse_coordinates(tokens[1]);
+	sphere->diameter = parse_measurements(tokens[2]);
+	sphere->color = parse_rgb(tokens[3]);
+	if (sphere->diameter <= 0 || !is_rgb_color(sphere->color))
 		return (false);
-	sphere->sphere_center = center;
-	sphere->diameter = diameter;
-	sphere->color = color;
+	// sphere->sphere_center = sphere->sphere_center;
+	// sphere->diameter = sphere->diameter;
+	// sphere->color = sphere->color;
 	return (true);
 }
 
