@@ -6,47 +6,25 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/02 18:12:58 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:40:04 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
-t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
-	t_cone_base *base, t_cone_quad *quad)
+void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
+	t_intersection_info *bottom_cap, t_intersection_info *top_cap, t_cone_base *base)
 {
-	t_cone_intersec	intersec;
-	t_vector3d		normal;
-	t_vector3d		axis_component;
-	t_vector3d		radial_component;
+	bool	hit_base;
+	bool	hit_top;
 
-	intersec.vector_to_point = subtract_vectors(point, base->cone_vertex);
-	intersec.height_projection = dot_product(intersec.vector_to_point,
-			base->direction);
-	axis_component = scalar_multiplication(intersec.height_projection,
-			base->direction);
-	radial_component = subtract_vectors(intersec.vector_to_point,
-			axis_component);
-	normal = subtract_vectors(radial_component,
-			scalar_multiplication(quad->cos_squared
-				* intersec.height_projection, base->direction));
-	return (normalize(normal));
+	hit_base = ray_intersects_cone_cap(ray, cone, false, bottom_cap);
+	hit_top = ray_intersects_cone_cap(ray, cone, true, top_cap);
+	if (!hit_base)
+		bottom_cap->intersection = false;
+	if (!hit_top)
+		top_cap->intersection = false;
 }
-
-// void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-// 	t_intersection_info *bottom_cap, t_intersection_info *top_cap)
-// {
-// 	bool		hit_base;
-// 	bool		hit_top;
-// 	t_cone_base	base;
-
-// 	hit_base = ray_intersects_cone_cap(ray, cone, false, bottom_cap);
-// 	hit_top = ray_intersects_cone_cap(ray, cone, true, top_cap);
-// 	if (!hit_base)
-// 		bottom_cap->intersection = false;
-// 	if (!hit_top)
-// 		top_cap->intersection = false;
-// }
 
 t_intersection_info	select_closest_intersection_cone(
 	t_intersection_info surface_info, t_intersection_info base_info,
@@ -83,17 +61,11 @@ t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone)
 	t_intersection_info	surface_info;
 	t_intersection_info	base_info;
 	t_intersection_info	top_info;
-	t_cone_base			base;
+	t_cone_base			*base;
 
-	surface_info.intersection = false;
-	base_info.intersection = false;
-	top_info.intersection = false;
-	if (!ray || !cone)
-		return (surface_info);
-	init_cone_base(cone, &base);
-	surface_info = ray_intersects_cone_surface(ray, cone, &base);
-	ray_intersects_cone_cap(ray, cone, false, &base_info);
-	ray_intersects_cone_cap(ray, cone, true, &top_info);
+	base = ft_calloc(1, sizeof(t_cone_base));
+	surface_info = ray_intersects_cone_surface(ray, cone, base);
+	compute_cone_cap_intersections(ray, cone, &base_info, &top_info, base);
 	return (select_closest_intersection_cone(surface_info, base_info,
 			top_info, cone->color));
 }

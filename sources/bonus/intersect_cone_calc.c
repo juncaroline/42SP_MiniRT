@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/02 18:20:06 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:45:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_cone_base(t_cone *cone, t_cone_base *base)
 void	init_cone_projection(t_ray *ray, t_cone *cone,
 	t_cone_projection *proj, t_cone_base *base)
 {
+	init_cone_base(cone, base);
 	proj->oc = subtract_vectors(ray->origin, base->cone_vertex);
 	proj->v_dot_d = dot_product(ray->direction, base->direction);
 	proj->oc_dot_d = dot_product(proj->oc, base->direction);
@@ -69,21 +70,45 @@ bool	solve_cone_quadratic(t_cone_projection *proj,
 	return (true);
 }
 
-bool	validate_cone_intersec(t_cone_quad *quad, t_cone_data *data)
+bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
+	t_cone_quad *quad, t_cone_base *base)
 {
 	t_cone_intersec	intersec;
 	t_vector3d		vector_from_vertex;
 
-	if (!quad || !data || !data->cone || !data->ray)
-		return (false);
-	intersec.intersec_point = add_vectors(data->ray->origin,
-			scalar_multiplication(quad->t_hit, data->ray->direction));
-	vector_from_vertex = subtract_vectors(intersec.intersec_point,
-			data->base.cone_vertex);
-	intersec.height_projection = dot_product(vector_from_vertex,
-			data->base.direction);
-	if (intersec.height_projection < 0.0f || intersec.height_projection
-		> data->cone->height)
+	init_cone_base(cone, base);
+	intersec.intersec_point = add_vectors(ray->origin,
+			scalar_multiplication(quad->t_hit, ray->direction));
+	vector_from_vertex = subtract_vectors(intersec.intersec_point, base->cone_vertex);
+	intersec.height_projection = dot_product(vector_from_vertex, base->direction);
+	if (intersec.height_projection > 0.0f || intersec.height_projection
+		< -cone->height)
 		return (false);
 	return (true);
+}
+
+t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
+	t_cone_base *base)
+{
+	t_vector3d		normal;
+	t_cone_intersec	intersec;
+	t_cone_quad		quad;
+	t_vector3d		axis_component;
+	t_vector3d		radial_component;
+
+	init_cone_base(cone, base);
+	intersec.vector_to_point = subtract_vectors(point, base->cone_vertex);
+	intersec.height_projection = dot_product(intersec.vector_to_point,
+			base->direction);
+	quad.radius = cone->diameter / 2.0f;
+	quad.cos_squared = (cone->height * cone->height)
+		/ (cone->height * cone->height + quad.radius * quad.radius);
+	axis_component = scalar_multiplication(intersec.height_projection,
+			base->direction);
+	radial_component = subtract_vectors(intersec.vector_to_point,
+			axis_component);
+	normal = subtract_vectors(radial_component,
+			scalar_multiplication(quad.cos_squared * intersec.height_projection,
+				base->direction));
+	return (normalize(normal));
 }

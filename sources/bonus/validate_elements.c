@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 16:18:48 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:39:59 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ static bool	handle_cone(char **tokens, t_scene *scene)
 	t_cone	new_cone;
 	int		count;
 
+	// new_cone = ft_calloc(1, sizeof(t_cone));
+	// if (!new_cone)
+	// {
+	// 	printf("Memory allocation failed for new cone\n");
+	// 	return (false);
+	// }
 	count = count_tokens(tokens);
 	if (!parse_cone(tokens, count, &new_cone))
 		return (false);
