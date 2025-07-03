@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 18:45:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:36:14 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ t_plane	create_cone_cap_plane(t_cone *cone, bool is_covered, t_cone_base *base)
 {
 	t_vector3d	center;
 	t_vector3d	normal;
-	t_vector3d	cone_vertex;
-	t_vector3d	direction;
 	t_plane		plane;
 
 	init_cone_base(cone, base);
-	normal = direction;
+	normal = base->direction;
 	if (is_covered == false)
 	{
 		center = cone->cone_center;
@@ -29,7 +27,7 @@ t_plane	create_cone_cap_plane(t_cone *cone, bool is_covered, t_cone_base *base)
 	}
 	else
 	{
-		center = cone_vertex;
+		center = base->cone_vertex;
 		normal = normal;
 	}
 	plane.plane_point = center;
@@ -56,11 +54,11 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	t_plane				cap_plane;
 	t_intersection_info	cap_info;
 	t_vector3d			cap_center;
-	t_cone_base			*base;
+	t_cone_base			base;
 
 	if (is_covered == true)
 		return (false);
-	cap_plane = create_cone_cap_plane(cone, is_covered, base);
+	cap_plane = create_cone_cap_plane(cone, is_covered, &base);
 	cap_info = intersect_plane(ray, &cap_plane);
 	if (!cap_info.intersection || cap_info.dist_to_intersec <= EPSILON)
 		return (false);

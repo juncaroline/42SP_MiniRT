@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 18:40:04 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:36:15 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,10 @@ t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone)
 	t_intersection_info	surface_info;
 	t_intersection_info	base_info;
 	t_intersection_info	top_info;
-	t_cone_base			*base;
+	t_cone_base			base;
 
-	base = ft_calloc(1, sizeof(t_cone_base));
-	surface_info = ray_intersects_cone_surface(ray, cone, base);
-	compute_cone_cap_intersections(ray, cone, &base_info, &top_info, base);
+	surface_info = ray_intersects_cone_surface(ray, cone, &base);
+	compute_cone_cap_intersections(ray, cone, &base_info, &top_info, &base);
 	return (select_closest_intersection_cone(surface_info, base_info,
 			top_info, cone->color));
 }
