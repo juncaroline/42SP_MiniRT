@@ -1,4 +1,4 @@
-NAME	:= minirt
+NAME	:= miniRT
 NAME_BONUS	:= minirt_bonus
 CC		:= cc
 CFLAGS	:= -g -Wextra -Wall -Werror
