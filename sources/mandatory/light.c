@@ -66,7 +66,28 @@ t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
 		return (final_color);
 	}
 	ambient = scale_color(hit.color, scene->ambient.ratio);
-	diffuse = diff_color(hit, scene);
-	final_color = add_color(ambient, diffuse);
+	final_color = ambient;
+	if (!in_shadow(scene, hit, &scene->light))
+	{
+		diffuse = diff_color(hit, scene);
+		final_color = add_color(ambient, diffuse);
+	}
 	return (final_color);
 }
+
+// t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
+// {
+// 	t_rgb_color	final_color;
+// 	t_rgb_color	ambient;
+// 	t_rgb_color	diffuse;
+
+// 	if (!hit.intersection)
+// 	{
+// 		final_color = (t_rgb_color){0, 0, 0};
+// 		return (final_color);
+// 	}
+// 	ambient = scale_color(hit.color, scene->ambient.ratio);
+// 	diffuse = diff_color(hit, scene);
+// 	final_color = add_color(ambient, diffuse);
+// 	return (final_color);
+// }

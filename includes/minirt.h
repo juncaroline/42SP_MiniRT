@@ -281,6 +281,10 @@ t_cam_basis			camera_basis(t_camera *cam);
 void				free_split(char **tokens);
 void				free_scene(t_scene *scene);
 
+// shadow.c
+bool				in_shadow(t_scene *scene, t_intersection_info hit,
+						t_light *s_light);
+
 // utils.c
 int					skip_spaces(char *line);
 void				replace_with_spaces(char *line);

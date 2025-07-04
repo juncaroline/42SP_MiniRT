@@ -12,8 +12,9 @@ SRCS_DIR := sources/mandatory/
 SRCS	:= $(addprefix $(SRCS_DIR), closest_hit.c error.c free.c init.c \
 				intersect_cylinder_aux.c intersect_cylinder_calc.c intersect_cylinder.c \
 				intersect_plane.c intersect_sphere.c light.c main.c math.c parse_elements.c \
-				parse_objects_add.c parse_objects.c parse.c ray_direction.c ray_generator.c utils.c utils2.c \
-				validate_elements.c validate_param.c validate_param2.c)
+				parse_objects_add.c parse_objects.c parse.c ray_direction.c ray_generator.c \
+				shadow.c utils.c utils2.c validate_elements.c validate_param.c validate_param2.c)
+
 SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), )
 DIR_OBJ	:= .objs
@@ -50,7 +51,7 @@ bonus: libmlx libft $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJS_BONUS)
 	@$(CC) $(OBJS_BONUS) $(LIBS) $(HEADERS) -o $(NAME_BONUS)
-	
+
 clean:
 	@make -C $(LIBFT) clean
 	@rm -rf $(DIR_OBJ) $(DIR_OBJ_BONUS)
