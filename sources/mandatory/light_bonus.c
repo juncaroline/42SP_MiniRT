@@ -126,15 +126,15 @@ t_rgb_color	loop_color(t_intersection_info hit, t_scene *scene, \
 	while (i < scene->light_count)
 	{
 		light = &scene->light[i];
-		if (in_shadow(scene, hit, light))
-			continue ;
+		if (!in_shadow(scene, hit, light))
+		{
+			diffuse = diff_color(hit, light);
 
-		diffuse = diff_color(hit, light);
+			material.shininess = 50;
 
-		material.shininess = 50;
-
-		specular = spec_color(hit, scene, material, light);
-		final_color = add_color(final_color, diffuse, specular);
+			specular = spec_color(hit, scene, material, light);
+			final_color = add_color(final_color, diffuse, specular);
+		}
 		i++;
 	}
 	return (final_color);
@@ -181,16 +181,15 @@ t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
 // 	while (i < scene->light_count)
 // 	{
 // 		t_light	*light = &scene->light[i];
-// 		if (in_shadow(scene, hit, light))
-// 			continue ;
+// 		if (!in_shadow(scene, hit, light))
+		// {
+		// 	diffuse = diff_color(hit, light);
 
-// 		diffuse = diff_color(hit, light);
+		// 	material.shininess = 50;
 
-// 		t_material	material;
-// 		material.shininess = 50;
-
-// 		specular = spec_color(hit, scene, material, light);
-// 		final_color = add_color(final_color, diffuse, specular);
+		// 	specular = spec_color(hit, scene, material, light);
+		// 	final_color = add_color(final_color, diffuse, specular);
+		// }
 // 		i++;
 // 	}
 // 	return (final_color);
