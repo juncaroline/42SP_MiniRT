@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 18:45:14 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:16:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,14 +230,16 @@ typedef struct s_scene
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
-	t_sphere	*sphere;
-	int			sphere_count;
-	t_plane		*plane;
-	int			plane_count;
-	t_cylinder	*cylinder;
-	int			cylinder_count;
-	t_cone		*cone;
-	int			cone_count;
+	t_object	*objects;
+	int			object_count;
+	// t_sphere	*sphere;
+	// int			sphere_count;
+	// t_plane		*plane;
+	// int			plane_count;
+	// t_cylinder	*cylinder;
+	// int			cylinder_count;
+	// t_cone		*cone;
+	// int			cone_count;
 }	t_scene;
 
 // closest_hit.c
