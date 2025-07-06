@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 20:09:16 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:16:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {
 	if (count != 4)
 	{
-		printf("Erro: 'sp' espera 3 parâmetros, recebeu %d\n", count - 1);
+		printf("Error: 'sp'expects 3 parameters, received %d\n", count - 1);
 		return (false);
 	}
 	sphere->sphere_center = parse_coordinates(tokens[1]);
@@ -31,7 +31,7 @@ bool	parse_plane(char **tokens, int count, t_plane *plane)
 {
 	if (count != 4)
 	{
-		printf("Erro: 'pl' espera 3 parâmetros, recebeu %d\n", count - 1);
+		printf("Error: 'pl' expects 3 parameters, received %d\n", count - 1);
 		return (false);
 	}
 	plane->plane_point = parse_coordinates(tokens[1]);
@@ -46,7 +46,7 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 {
 	if (count != 6)
 	{
-		printf("Erro: 'cy' espera 5 parâmetros, recebeu %d\n", count - 1);
+		printf("Error: 'cy' expects 5 parameters, received %d\n", count - 1);
 		return (false);
 	}
 	cylinder->cylinder_center = parse_coordinates(tokens[1]);

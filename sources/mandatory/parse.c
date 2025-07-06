@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 18:31:52 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:16:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	*tokens = split_line(content);
 	if (!*tokens || !*tokens[0])
 	{
-		printf("Erro ao dividir linha em tokens\n");
+		printf("Error splitting line into tokens\n");
 		return (1);
 	}
 	if (!validate_elements(*tokens, scene))
