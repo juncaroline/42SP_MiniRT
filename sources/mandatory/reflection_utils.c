@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflection_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/30 18:27:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 
 // t_color trace_ray(t_ray ray, t_scene *scene)
 // {
-// 	t_intersection_info hit = find_closest_interesection(&ray, scene);
+// 	t_intersec_info hit = find_closest_interesection(&ray, scene);
 
 // 	if (!hit.intersection)
 // 		return (t_color){0, 0, 0};  // fundo preto

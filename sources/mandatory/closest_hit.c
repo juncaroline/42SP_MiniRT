@@ -12,11 +12,11 @@
 
 #include "../../includes/minirt.h"
 
-// t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
+// t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 // 	int count)
 // {
-// 	t_intersection_info	closest;
-// 	t_intersection_info	current;
+// 	t_intersec_info	closest;
+// 	t_intersec_info	current;
 // 	int					i;
 
 // 	closest.object = NULL;
@@ -36,10 +36,10 @@
 // 	return (closest);
 // }
 
-// t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
+// t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
 // {
-// 	t_intersection_info	closest;
-// 	t_intersection_info	current;
+// 	t_intersec_info	closest;
+// 	t_intersec_info	current;
 // 	int					i;
 
 // 	closest.object = NULL;
@@ -59,11 +59,11 @@
 // 	return (closest);
 // }
 
-// t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
+// t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
 // 	int count)
 // {
-// 	t_intersection_info	closest;
-// 	t_intersection_info	current;
+// 	t_intersec_info	closest;
+// 	t_intersec_info	current;
 // 	int					i;
 
 // 	closest.object = NULL;
@@ -83,9 +83,9 @@
 // 	return (closest);
 // }
 
-t_intersection_info	intersect_object(t_ray *ray, t_object *object)
+t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 {
-	t_intersection_info	result;
+	t_intersec_info	result;
 	t_object_type		type;
 
 	result.object = NULL;
@@ -107,10 +107,10 @@ t_intersection_info	intersect_object(t_ray *ray, t_object *object)
 	return (result);
 }
 
-t_intersection_info	find_closest_object(t_ray *ray, t_object *objects, int count)
+t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 {
-	t_intersection_info	closest;
-	t_intersection_info	current;
+	t_intersec_info	closest;
+	t_intersec_info	current;
 	int					i;
 
 	closest.object = NULL;
@@ -129,9 +129,9 @@ t_intersection_info	find_closest_object(t_ray *ray, t_object *objects, int count
 	return (closest);
 }
 
-t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene)
+t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 {
-	t_intersection_info	closest;
+	t_intersec_info	closest;
 
 	closest.object = NULL;
 	closest.intersection = false;

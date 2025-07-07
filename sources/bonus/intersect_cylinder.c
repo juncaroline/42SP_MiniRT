@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
 void	compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
-	t_intersection_info *bottom_cap, t_intersection_info *top_cap)
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap)
 {
 	bool	hit_bottom;
 	bool	hit_top;
@@ -26,12 +26,12 @@ void	compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 		top_cap->intersection = false;
 }
 
-t_intersection_info	select_closest_intersection(
-	t_intersection_info surface, t_intersection_info bottom_cap,
-	t_intersection_info top_cap, t_rgb_color color)
+t_intersec_info	select_closest_intersection(
+	t_intersec_info surface, t_intersec_info bottom_cap,
+	t_intersec_info top_cap, t_rgb_color color)
 {
 	float					closest_distance;
-	t_intersection_info		closest_intersection;
+	t_intersec_info		closest_intersection;
 
 	closest_intersection.intersection = false;
 	closest_distance = INFINITY;
@@ -55,11 +55,11 @@ t_intersection_info	select_closest_intersection(
 	return (closest_intersection);
 }
 
-t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
+t_intersec_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
-	t_intersection_info	surface_intersection;
-	t_intersection_info	bottom_cap_intersection;
-	t_intersection_info	top_cap_intersection;
+	t_intersec_info	surface_intersection;
+	t_intersec_info	bottom_cap_intersection;
+	t_intersec_info	top_cap_intersection;
 
 	surface_intersection = ray_intersects_cylinder_surface(ray, cylinder);
 	compute_cylinder_cap_intersections(ray, cylinder,

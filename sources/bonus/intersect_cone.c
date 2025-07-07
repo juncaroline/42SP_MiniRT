@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cone.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 19:36:15 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:50:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
 void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersection_info *bottom_cap, t_intersection_info *top_cap, t_cone_base *base)
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap, t_cone_intersec *base)
 {
 	bool	hit_base;
 	bool	hit_top;
@@ -26,12 +26,11 @@ void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
 		top_cap->intersection = false;
 }
 
-t_intersection_info	select_closest_intersection_cone(
-	t_intersection_info surface_info, t_intersection_info base_info,
-	t_intersection_info top_info, t_rgb_color color)
+t_intersec_info	select_closest_intersection_cone(t_intersec_info surface_info,
+	t_intersec_info base_info, t_intersec_info top_info, t_rgb_color color)
 {
 	float					closest_distance;
-	t_intersection_info		closest_intersection;
+	t_intersec_info		closest_intersection;
 
 	closest_intersection.intersection = false;
 	closest_distance = INFINITY;
@@ -56,12 +55,12 @@ t_intersection_info	select_closest_intersection_cone(
 	return (closest_intersection);
 }
 
-t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone)
+t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone)
 {
-	t_intersection_info	surface_info;
-	t_intersection_info	base_info;
-	t_intersection_info	top_info;
-	t_cone_base			base;
+	t_intersec_info	surface_info;
+	t_intersec_info	base_info;
+	t_intersec_info	top_info;
+	t_cone_intersec	base;
 
 	surface_info = ray_intersects_cone_surface(ray, cone, &base);
 	compute_cone_cap_intersections(ray, cone, &base_info, &top_info, &base);

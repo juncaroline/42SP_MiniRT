@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_aux.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 15:30:59 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ bool	is_intersection_within_cap_radius(t_vector3d intersection_point,
 }
 
 bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
-	bool is_top_cap, t_intersection_info *info)
+	bool is_top_cap, t_intersec_info *info)
 {
 	t_plane				plane;
-	t_intersection_info	cap_info;
+	t_intersec_info	cap_info;
 
 	plane = create_cylinder_cap_plane(cylinder, is_top_cap);
 	cap_info = intersect_plane(ray, &plane);
@@ -62,12 +62,12 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	return (true);
 }
 
-t_intersection_info	ray_intersects_cylinder_surface(t_ray *ray,
+t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 	t_cylinder *cylinder)
 {
 	t_cylinder_projection	proj;
 	t_cylinder_quad			quad;
-	t_intersection_info		info;
+	t_intersec_info		info;
 	bool					hit_surface;
 
 	info.intersection = false;

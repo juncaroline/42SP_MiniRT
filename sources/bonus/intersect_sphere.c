@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/06 21:43:52 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ t_vector3d	calculate_sphere_normal(t_sphere *sphere,
 	return (normal);
 }
 
-t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
+t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
 	t_sphere_quad		quad;
-	t_intersection_info	info;
+	t_intersec_info	info;
 
 	info.intersection = false;
 	info.dist_to_intersec = 0.0f;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/06 22:12:58 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/07 09:00:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,18 +164,11 @@ typedef struct s_cone
 	bool		has_checker;
 }	t_cone;
 
-typedef struct s_cone_base
-{
-	t_vector3d	direction;
-	t_vector3d	cone_vertex;
-}	t_cone_base;
-
-// typedef struct s_cone_data
+// typedef struct s_cone_base
 // {
-// 	t_cone		*cone;
-// 	t_cone_base	base;
-// 	t_ray		*ray;
-// }	t_cone_data;
+// 	t_vector3d	direction;
+// 	t_vector3d	cone_vertex;
+// }	t_cone_base; // interseção
 
 typedef struct s_cone_projection
 {
@@ -205,6 +198,8 @@ typedef struct s_cone_intersec
 	t_vector3d	intersec_point;
 	t_vector3d	vector_to_point;
 	float		height_projection;
+	t_vector3d	direction;
+	t_vector3d	cone_vertex;
 }	t_cone_intersec;
 
 
@@ -219,7 +214,7 @@ typedef struct s_object
 	t_rgb_color		black;
 }	t_object;
 
-typedef struct s_intersection_info
+typedef struct s_intersec_info
 {
 	bool		intersection;
 	float		dist_to_intersec;
@@ -229,7 +224,7 @@ typedef struct s_intersection_info
 	t_rgb_color	color;
 
 	t_object	*object;
-}	t_intersection_info;
+}	t_intersec_info;
 
 typedef struct s_scene
 {
@@ -248,14 +243,26 @@ typedef struct s_scene
 	// int			cone_count;
 }	t_scene;
 
+// checkerboard.c
+t_rgb_color			checkerboard_object_pattern(t_vector3d point, t_object *object,
+						float scale);
+// t_rgb_color			checkerboard_plane_pattern(t_vector3d point, float scale,
+// 						t_object *color);
+// t_rgb_color			checkerboard_sphere_pattern(t_vector3d point, t_sphere *sphere,
+// 						float scale, t_object *color);
+// t_rgb_color			checkerboard_cylinder_pattern(t_vector3d point,
+// 						t_cylinder *cylinder, float scale, t_object *color);
+// t_rgb_color			checkerboard_cone_pattern(t_vector3d point, t_cone *cone,
+// 						float scale, t_object *color);
+
 // closest_hit.c
-t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
+t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 						int count);
-t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
-t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
+t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
+t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
 						int count);
-t_intersection_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
-t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene);
+t_intersec_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
+t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
 void				error_msg(int status);
@@ -266,12 +273,12 @@ int32_t				init_scene(t_scene *scene);
 // int32_t			init(void);
 
 // intersect_cone_aux.c
-t_plane	create_cone_cap_plane(t_cone *cone, bool is_covered, t_cone_base *base);
+t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_base *base);
 bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
 	t_vector3d cap_center, float cone_diameter);
 bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
-	bool is_covered, t_intersection_info *info);
-t_intersection_info	ray_intersects_cone_surface(t_ray *ray,
+	bool is_covered, t_intersec_info *info);
+t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 	t_cone *cone, t_cone_base *base);
 
 // intersect_cone_calc.c
@@ -289,11 +296,11 @@ t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
 
 // intersect_cone.c
 void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersection_info *bottom_cap, t_intersection_info *top_cap, t_cone_base *base);
-t_intersection_info	select_closest_intersection_cone(
-	t_intersection_info surface_info, t_intersection_info base_info,
-	t_intersection_info top_info, t_rgb_color color);
-t_intersection_info	intersect_cone(t_ray *ray, t_cone *cone);
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap, t_cone_base *base);
+t_intersec_info	select_closest_intersection_cone(
+	t_intersec_info surface_info, t_intersec_info base_info,
+	t_intersec_info top_info, t_rgb_color color);
+t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone);
 
 // intersect_cylinder_calc.c
 void				init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
@@ -310,26 +317,26 @@ t_plane				create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
 bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
 						t_vector3d cap_center, float cylinder_diameter);
 bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
-						bool is_top_cap, t_intersection_info *info);
-t_intersection_info	ray_intersects_cylinder_surface(t_ray *ray,
+						bool is_top_cap, t_intersec_info *info);
+t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 						t_cylinder *cylinder);
 
 // intersect_cylinder.c
 void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
-						t_intersection_info *bottom_cap, t_intersection_info *top_cap);
-t_intersection_info	select_closest_intersection(
-						t_intersection_info surface, t_intersection_info bottom_cap,
-						t_intersection_info top_cap, t_rgb_color color);
-t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
+						t_intersec_info *bottom_cap, t_intersec_info *top_cap);
+t_intersec_info	select_closest_intersection(
+						t_intersec_info surface, t_intersec_info bottom_cap,
+						t_intersec_info top_cap, t_rgb_color color);
+t_intersec_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 // intersect_plane.c
 t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
-t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane);
+t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
 
 // intersect_sphere.c
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
-t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
+t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);

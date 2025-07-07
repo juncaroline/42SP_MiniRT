@@ -85,14 +85,14 @@ typedef struct s_object
 	void			*data;
 }	t_object;
 
-typedef struct s_intersection_info
+typedef struct s_intersec_info
 {
 	bool		intersection;
 	float		dist_to_intersec;
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
 	t_object	*object;
-} t_intersection_info;
+} t_intersec_info;
 
 t_vector3d subtract_vectors(t_vector3d a, t_vector3d b)
 {
@@ -163,9 +163,9 @@ t_vector3d	calculate_plane_normal(t_plane *plane, t_vector3d point)
 	return (normalize(plane->vector));
 }
 
-t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane)
+t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 {
-	t_intersection_info	info;
+	t_intersec_info	info;
 	float				denominator;
 	float				numerator;
 	t_vector3d			diff;
@@ -250,12 +250,12 @@ static bool	validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
 }
 
 static bool	intersect_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
-	bool top_cap, t_intersection_info *info)
+	bool top_cap, t_intersec_info *info)
 {
 	t_vector3d			center;
 	t_vector3d			normal;
 	t_plane				plane;
-	t_intersection_info	cap_info;
+	t_intersec_info	cap_info;
 	float				radius;
 	t_vector3d			delta;
 	float				distance_squared;
@@ -312,18 +312,18 @@ t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point)
 	return (normal);
 }
 
-t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
+t_intersec_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_cylinder_projection	proj;
 	t_cylinder_quad			quad;
-	t_intersection_info		info;
-	t_intersection_info		cap_inf;
-	t_intersection_info		cap_sup;
+	t_intersec_info		info;
+	t_intersec_info		cap_inf;
+	t_intersec_info		cap_sup;
 	bool					hit_lateral;
 	bool					hit_cap_inf;
 	bool					hit_cap_sup;
 	float					best_dist;
-	t_intersection_info		best_info;
+	t_intersec_info		best_info;
 
 	info.intersection = false;
 	best_info.intersection = false;
@@ -363,7 +363,7 @@ void	test_intersect_cylinder()
 {
 	t_ray ray;
 	t_cylinder cylinder;
-	t_intersection_info result;
+	t_intersec_info result;
 
 	// Raio vindo da frente, apontando para o centro do cilindro
 	ray.origin = (t_vector3d){0, 1, -5};

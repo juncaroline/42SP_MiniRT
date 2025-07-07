@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	render(t_scene *scene, mlx_image_t *img)
 		while (x < width)
 		{
 			t_ray ray = generate_ray(x, y, &scene->camera);
-			t_intersection_info hit = find_closest_interesection(&ray, scene);
+			t_intersec_info hit = find_closest_interesection(&ray, scene);
 			t_rgb_color final_color = {0, 0, 0};
 
 			// POR ENQUANTO APENAS A COR DO OBJ

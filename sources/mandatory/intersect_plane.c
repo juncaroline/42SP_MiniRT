@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:12 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_vector3d	calculate_plane_normal(t_plane *plane, t_vector3d point)
 	return (normalize(plane->vector));
 }
 
-t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane)
+t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 {
-	t_intersection_info	info;
+	t_intersec_info	info;
 	float				denominator;
 	float				numerator;
 	t_vector3d			diff;

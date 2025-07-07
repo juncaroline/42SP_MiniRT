@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cone_aux.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 19:36:14 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:42:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
-t_plane	create_cone_cap_plane(t_cone *cone, bool is_covered, t_cone_base *base)
+t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base)
 {
 	t_vector3d	center;
 	t_vector3d	normal;
@@ -49,16 +49,16 @@ bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
 }
 
 bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
-	bool is_covered, t_intersection_info *info)
+	bool is_covered, t_intersec_info *info)
 {
 	t_plane				cap_plane;
-	t_intersection_info	cap_info;
+	t_intersec_info	cap_info;
 	t_vector3d			cap_center;
-	t_cone_base			base;
+	t_cone_intersec		base;
 
 	if (is_covered == true)
 		return (false);
-	cap_plane = create_cone_cap_plane(cone, is_covered, &base);
+	cap_plane = create_cone_plane(cone, is_covered, &base);
 	cap_info = intersect_plane(ray, &cap_plane);
 	if (!cap_info.intersection || cap_info.dist_to_intersec <= EPSILON)
 		return (false);
@@ -70,12 +70,12 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	return (true);
 }
 
-t_intersection_info	ray_intersects_cone_surface(t_ray *ray,
-	t_cone *cone, t_cone_base *base)
+t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
+	t_cone *cone, t_cone_intersec *base)
 {
 	t_cone_projection	proj;
 	t_cone_quad			quad;
-	t_intersection_info	info;
+	t_intersec_info	info;
 	bool				hit_surface;
 
 	info.intersection = false;

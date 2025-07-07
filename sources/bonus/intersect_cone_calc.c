@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cone_calc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 18:45:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/07 08:39:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
-void	init_cone_base(t_cone *cone, t_cone_base *base)
+void	init_cone_base(t_cone *cone, t_cone_intersec *base)
 {
 	if (!cone || !base)
 		return ;
@@ -22,7 +22,7 @@ void	init_cone_base(t_cone *cone, t_cone_base *base)
 }
 
 void	init_cone_projection(t_ray *ray, t_cone *cone,
-	t_cone_projection *proj, t_cone_base *base)
+	t_cone_projection *proj, t_cone_intersec *base)
 {
 	init_cone_base(cone, base);
 	proj->oc = subtract_vectors(ray->origin, base->cone_vertex);
@@ -71,7 +71,7 @@ bool	solve_cone_quadratic(t_cone_projection *proj,
 }
 
 bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
-	t_cone_quad *quad, t_cone_base *base)
+	t_cone_quad *quad, t_cone_intersec *base)
 {
 	t_cone_intersec	intersec;
 	t_vector3d		vector_from_vertex;
@@ -88,7 +88,7 @@ bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
 }
 
 t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
-	t_cone_base *base)
+	t_cone_intersec *base)
 {
 	t_vector3d		normal;
 	t_cone_intersec	intersec;
