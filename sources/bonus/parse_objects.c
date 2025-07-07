@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 19:45:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:44:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {
-	// t_vector3d	center;
-	// float		diameter;
-	// t_rgb_color	color;
-
-	if (count != 4)
+	if (count != 4 && count != 5)
 	{
-		printf("Erro: 'sp' espera 3 parâmetros, recebeu %d\n", count - 1);
+		printf("Error: 'sp'expects 3 parameters, received %d\n", count - 1);
 		return (false);
 	}
 	sphere->sphere_center = parse_coordinates(tokens[1]);
@@ -28,88 +24,61 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 	sphere->color = parse_rgb(tokens[3]);
 	if (sphere->diameter <= 0 || !is_rgb_color(sphere->color))
 		return (false);
-	// sphere->sphere_center = sphere->sphere_center;
-	// sphere->diameter = sphere->diameter;
-	// sphere->color = sphere->color;
+	if (count == 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
+		sphere->has_checker = true;
 	return (true);
 }
 
 bool	parse_plane(char **tokens, int count, t_plane *plane)
 {
-	t_vector3d	plane_point;
-	t_vector3d	plane_normal;
-	t_rgb_color	color;
-
-	if (count != 4)
+	if (count != 4 && count != 5)
 	{
-		printf("Erro: 'pl' espera 3 parâmetros, recebeu %d\n", count - 1);
+		printf("Error: 'pl' expects 3 parameters, received %d\n", count - 1);
 		return (false);
 	}
-	plane_point = parse_coordinates(tokens[1]);
-	plane_normal = parse_normalized_vector(tokens[2]);
-	color = parse_rgb(tokens[3]);
-	if (!is_normalized_vector(plane_normal) || !is_rgb_color(color))
+	plane->plane_point = parse_coordinates(tokens[1]);
+	plane->vector = parse_normalized_vector(tokens[2]);
+	plane->color = parse_rgb(tokens[3]);
+	plane->has_checker = false;
+	if (!is_normalized_vector(plane->vector) || !is_rgb_color(plane->color))
 		return (false);
-	plane->plane_point = plane_point;
-	plane->vector = plane_normal;
-	plane->color = color;
+	if (count == 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
+		plane->has_checker = true;
 	return (true);
 }
 
 bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 {
-	t_vector3d	cylinder_center;
-	t_vector3d	cylinder_normal;
-	float		diameter;
-	float		height;
-	t_rgb_color	color;
-
 	if (count != 6)
 	{
-		printf("Erro: 'cy' espera 5 parâmetros, recebeu %d\n", count - 1);
+		printf("Error: 'cy' expects 5 parameters, received %d\n", count - 1);
 		return (false);
 	}
-	cylinder_center = parse_coordinates(tokens[1]);
-	cylinder_normal = parse_normalized_vector(tokens[2]);
-	diameter = parse_measurements(tokens[3]);
-	height = parse_measurements(tokens[4]);
-	color = parse_rgb(tokens[5]);
-	if (!is_normalized_vector(cylinder_normal) || diameter <= 0.0
-		|| height <= 0.0 || !is_rgb_color(color))
+	cylinder->cylinder_center = parse_coordinates(tokens[1]);
+	cylinder->vector = parse_normalized_vector(tokens[2]);
+	cylinder->diameter = parse_measurements(tokens[3]);
+	cylinder->height = parse_measurements(tokens[4]);
+	cylinder->color = parse_rgb(tokens[5]);
+	if (!is_normalized_vector(cylinder->vector) || cylinder->diameter <= 0.0
+		|| cylinder->height <= 0.0 || !is_rgb_color(cylinder->color))
 		return (false);
-	cylinder->cylinder_center = cylinder_center;
-	cylinder->vector = cylinder_normal;
-	cylinder->diameter = diameter;
-	cylinder->height = height;
-	cylinder->color = color;
 	return (true);
 }
 
 bool	parse_cone(char **tokens, int count, t_cone *cone)
 {
-	t_vector3d	cone_center;
-	t_vector3d	cone_normal;
-	float		diameter;
-	float		height;
-	t_rgb_color	color;
-
 	if (count != 6)
 	{
 		printf("Erro: 'cn' espera 5 parâmetros, recebeu %d\n", count - 1);
 		return (false);
 	}
-	cone_center = parse_coordinates(tokens[1]);
-	cone_normal = parse_normalized_vector(tokens[2]);
-	diameter = parse_measurements(tokens[3]);
-	height = parse_measurements(tokens[4]);
-	color = parse_rgb(tokens[5]);
-	if (!is_normalized_vector(cone_normal) || diameter <= 0.0
-		|| height <= 0.0 || !is_rgb_color(color))
+	cone->cone_center = parse_coordinates(tokens[1]);
+	cone->vector = parse_normalized_vector(tokens[2]);
+	cone->diameter = parse_measurements(tokens[3]);
+	cone->height = parse_measurements(tokens[4]);
+	cone->color = parse_rgb(tokens[5]);
+	if (!is_normalized_vector(vector) || cone->diameter <= 0.0
+		|| cone->height <= 0.0 || !is_rgb_color(cone->color))
 		return (false);
-	cone->cone_center = cone_center;
-	cone->vector = cone_normal;
-	cone->diameter = diameter;
-	cone->height = height;
-	cone->color = color;
 	return (true);
 }

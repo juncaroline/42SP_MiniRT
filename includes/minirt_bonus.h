@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/06 20:16:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/06 22:12:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_sphere
 	t_vector3d	sphere_center;
 	float		diameter;
 	t_rgb_color	color;
+	bool		has_checker;
 }	t_sphere;
 
 // quadratic equations in ray-geometry intersection calculations
@@ -106,6 +107,7 @@ typedef struct s_plane
 	t_vector3d	plane_point;
 	t_vector3d	vector;
 	t_rgb_color	color;
+	bool		has_checker;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -115,6 +117,7 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_rgb_color	color;
+	bool		has_checker;
 }	t_cylinder;
 
 typedef struct s_cylinder_projection
@@ -158,6 +161,7 @@ typedef struct s_cone
 	float		diameter;
 	float		height;
 	t_rgb_color	color;
+	bool		has_checker;
 }	t_cone;
 
 typedef struct s_cone_base
@@ -211,6 +215,8 @@ typedef struct s_object
 {
 	t_object_type	type;
 	void			*data;
+	t_rgb_color		white;
+	t_rgb_color		black;
 }	t_object;
 
 typedef struct s_intersection_info
