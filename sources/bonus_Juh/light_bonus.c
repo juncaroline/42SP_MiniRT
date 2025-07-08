@@ -126,6 +126,7 @@ t_rgb_color	loop_color(t_intersection_info hit, t_scene *scene, \
 	while (i < scene->light_count)
 	{
 		light = &scene->light[i];
+
 		if (!in_shadow(scene, hit, light))
 		{
 			diffuse = diff_color(hit, light);
@@ -154,6 +155,8 @@ t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
 		final_color = (t_rgb_color){0, 0, 0};
 		return (final_color);
 	}
+	if (hit.has_texture)
+		hit.color = sample_texture(hit.texture, hit.uv.u, hit.uv.v);
 	ambient = scale_color(hit.color, scene->ambient.ratio);
 
 	final_color = loop_color(hit, scene, ambient, material);
