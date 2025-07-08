@@ -1,5 +1,5 @@
-NAME	:= minirt
-NAME_BONUS	:= minirt_bonus
+NAME	:= miniRT
+NAME_BONUS	:= miniRT_bonus
 CC		:= cc
 CFLAGS	:= -g -Wextra -Wall -Werror
 LIBMLX	:= ./library/MLX42

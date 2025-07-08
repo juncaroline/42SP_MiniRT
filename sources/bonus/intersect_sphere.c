@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 12:19:24 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:41:34 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ t_vector3d	calculate_sphere_normal(t_sphere *sphere,
 
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
-	t_sphere_quad		quad;
+	t_sphere_quad	quad;
 	t_intersec_info	info;
+	t_object		sphere_object;
 
 	info.intersection = false;
 	info.dist_to_intersec = 0.0f;
@@ -80,8 +81,14 @@ t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_sphere_normal(sphere, info.intersec_point);
 	if (sphere->has_checker)
+	{
+		sphere_object.type = SPHERE;
+		sphere_object.data = (void *)sphere;
+		sphere_object.white = (t_rgb_color){255, 255, 255};
+		sphere_object.black = (t_rgb_color){0, 0, 0};
 		info.color = checkerboard_object_pattern(info.intersec_point,
-			(t_object *)sphere, 1.0f);
+				&sphere_object, 1.0f);
+	}
 	else
 		info.color = sphere->color;
 	return (info);

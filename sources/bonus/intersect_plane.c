@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 12:53:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:41:38 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ t_vector3d	calculate_plane_normal(t_plane *plane, t_vector3d point)
 t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 {
 	t_intersec_info	info;
-	float				denominator;
-	float				numerator;
-	t_vector3d			diff;
+	float			denominator;
+	float			numerator;
+	t_vector3d		diff;
+	t_object		plane_object;
 
 	info.intersection = false;
 	info.dist_to_intersec = 0.0f;
@@ -42,8 +43,14 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_plane_normal(plane, info.intersec_point);
 	if (plane->has_checker)
+	{
+		plane_object.type = PLANE;
+		plane_object.data = (void *)plane;
+		plane_object.white = (t_rgb_color){255, 255, 255};
+		plane_object.black = (t_rgb_color){0, 0, 0};
 		info.color = checkerboard_object_pattern(info.intersec_point,
-			(t_object *)plane, 1.0f);
+				&plane_object, 1.0f);
+	}
 	else
 		info.color = plane->color;
 	return (info);

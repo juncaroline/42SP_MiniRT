@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cone_aux.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 16:43:27 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	t_intersec_info	cap_info;
 	t_vector3d			cap_center;
 	t_cone_intersec		base;
+	t_object			*object;
 
 	if (is_covered == true)
 		return (false);
