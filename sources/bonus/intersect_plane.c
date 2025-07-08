@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 12:53:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_plane_normal(plane, info.intersec_point);
 	if (plane->has_checker)
-		info.color = checkboard_plane_pattern(info.intersec_point,
-			1.0f, (t_rgb_color){255, 255, 255}, (t_rgb_color){0, 0, 0});
+		info.color = checkerboard_object_pattern(info.intersec_point,
+			(t_object *)plane, 1.0f);
 	else
 		info.color = plane->color;
 	return (info);

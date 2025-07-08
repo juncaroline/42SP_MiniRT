@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:07 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:03:54 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,19 @@ void	free_split(char **tokens)
 
 void	free_scene(t_scene *scene)
 {
+	int	i;
+
 	if (!scene)
 		return ;
-	if (scene->sphere)
-		free(scene->sphere);
-	if (scene->plane)
-		free(scene->plane);
-	if (scene->cylinder)
-		free(scene->cylinder);
-	if (scene->cone)
-		free(scene->cone);
+	if (scene->objects)
+	{
+		i = 0;
+		while (i < scene->object_count)
+		{
+			if (scene->objects[i].data)
+				free(scene->objects[i].data);
+			i++;
+		}
+		free(scene->objects);
+	}
 }

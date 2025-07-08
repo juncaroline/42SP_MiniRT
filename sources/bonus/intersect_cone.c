@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cone.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:50:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 11:37:09 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
 void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersec_info *bottom_cap, t_intersec_info *top_cap, t_cone_intersec *base)
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap,
+	t_cone_intersec *base)
 {
 	bool	hit_base;
 	bool	hit_top;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/06 21:44:32 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 11:40:26 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 	cone->diameter = parse_measurements(tokens[3]);
 	cone->height = parse_measurements(tokens[4]);
 	cone->color = parse_rgb(tokens[5]);
-	if (!is_normalized_vector(vector) || cone->diameter <= 0.0
+	if (!is_normalized_vector(cone->vector) || cone->diameter <= 0.0
 		|| cone->height <= 0.0 || !is_rgb_color(cone->color))
 		return (false);
 	return (true);

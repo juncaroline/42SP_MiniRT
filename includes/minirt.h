@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:08 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 11:24:30 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_light
 {
 	t_vector3d	light_point;
 	float		ratio;
-	t_rgb_color	color;
 }	t_light;
 
 typedef struct s_sphere
@@ -153,7 +152,7 @@ typedef struct s_object
 	void			*data;
 }	t_object;
 
-typedef struct s_intersec_info
+typedef struct s_intersection_info
 {
 	bool		intersection;
 	float		dist_to_intersec;
@@ -163,7 +162,7 @@ typedef struct s_intersec_info
 	t_rgb_color	color;
 
 	t_object	*object;
-}	t_intersec_info;
+}	t_intersection_info;
 
 typedef struct s_scene
 {
@@ -179,18 +178,18 @@ typedef struct s_scene
 }	t_scene;
 
 // closest_hit.c
-t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
+t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 						int count);
-t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
-t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
+t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
+t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
 						int count);
-t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene);
+t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
 void				error_msg(int status);
 
 // init.c
-void				esc_command(void* param);
+void				esc_command(void *param);
 int32_t				init_scene(t_scene *scene);
 // int32_t			init(void);
 
@@ -205,30 +204,38 @@ t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder,
 						t_vector3d point);
 
 // intersect_cylinder_aux.c
-t_plane				create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
-bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
-						t_vector3d cap_center, float cylinder_diameter);
-bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
-						bool is_top_cap, t_intersec_info *info);
-t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
+t_plane				create_cylinder_cap_plane(t_cylinder *cylinder,
+						bool is_top_cap);
+bool				is_intersection_within_cap_radius(
+						t_vector3d intersection_point, t_vector3d cap_center,
+						float cylinder_diameter);
+bool				ray_intersects_cylinder_cap(t_ray *ray,
+						t_cylinder *cylinder, bool is_top_cap,
+						t_intersection_info *info);
+t_intersection_info	ray_intersects_cylinder_surface(t_ray *ray,
 						t_cylinder *cylinder);
 
 // intersect_cylinder.c
-void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
-						t_intersec_info *bottom_cap, t_intersec_info *top_cap);
-t_intersec_info	select_closest_intersection(
-						t_intersec_info surface, t_intersec_info bottom_cap,
-						t_intersec_info top_cap, t_rgb_color color);
-t_intersec_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
+void				compute_cylinder_cap_intersections(t_ray *ray,
+						t_cylinder *cylinder, t_intersection_info *bottom_cap,
+						t_intersection_info *top_cap);
+t_intersection_info	select_closest_intersection(
+						t_intersection_info surface,
+						t_intersection_info bottom_cap,
+						t_intersection_info top_cap, t_rgb_color color);
+t_intersection_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 // intersect_plane.c
 t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
-t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
+t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane);
 
 // intersect_sphere.c
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
-t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
+t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
+
+// light.c
+t_rgb_color			get_color(t_intersection_info hit, t_scene *scene);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
@@ -257,6 +264,7 @@ bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
 // parse.c
 void				check_file_extension(char *extension);
 void				read_file(char *scene_file, t_scene *scene);
+void				verify_elements(char *content, int i);
 
 // ray_direction.c
 t_vector3d			get_ray_direction(int x, int y, t_camera *cam,
@@ -283,7 +291,6 @@ bool				ft_isfloat(const char *str);
 float				string_to_float(char *str);
 
 // validate_elements.c
-void				verify_elements(char *content, int i);
 bool				validate_elements(char **tokens, t_scene *scene);
 
 // validate_param.c

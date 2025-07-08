@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:17:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,8 @@ int	main(int ac, char **av)
 	scene = malloc(sizeof(t_scene));
 	if (!scene)
 		return (EXIT_FAILURE);
-	scene->sphere = NULL;
-	scene->sphere_count = 0;
-	scene->plane = NULL;
-	scene->plane_count = 0;
-	scene->cylinder = NULL;
-	scene->cylinder_count = 0;
-	scene->cone = NULL;
-	scene->cone_count = 0;
+	scene->objects = NULL;
+	scene->object_count = 0;
 	if (ac != 2)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);

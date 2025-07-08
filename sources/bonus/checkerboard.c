@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checkerboard.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/08 11:30:07 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/07/08 11:30:07 by cabo-ram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minirt_bonus.h"
 
 static t_rgb_color	checkerboard_pattern(float coord1, float coord2,
@@ -66,6 +78,11 @@ t_rgb_color	checkerboard_object_pattern(t_vector3d point, t_object *object,
 	if (object->type == SPHERE)
 		get_sphere_coordinates(point, (t_sphere *)object->data, &coord1,
 			&coord2);
+	else if (object->type == PLANE)
+	{
+		coord1 = point.x;
+		coord2 = point.z;
+	}
 	else if (object->type == CYLINDER)
 		get_cylinder_coordinates(point, (t_cylinder *)object->data, &coord1,
 			&coord2);

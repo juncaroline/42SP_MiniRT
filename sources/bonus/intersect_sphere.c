@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 12:19:24 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_sphere_normal(sphere, info.intersec_point);
 	if (sphere->has_checker)
-		info.color = checkboard_sphere_pattern(info.intersec_point,
-			sphere, 1.0f, (t_rgb_color){255, 255, 255}, (t_rgb_color){0, 0, 0});
+		info.color = checkerboard_object_pattern(info.intersec_point,
+			(t_object *)sphere, 1.0f);
 	else
 		info.color = sphere->color;
 	return (info);

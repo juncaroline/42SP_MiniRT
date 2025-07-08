@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 09:00:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/08 13:30:05 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,14 +233,14 @@ typedef struct s_scene
 	t_light		light;
 	t_object	*objects;
 	int			object_count;
-	// t_sphere	*sphere;
-	// int			sphere_count;
-	// t_plane		*plane;
-	// int			plane_count;
-	// t_cylinder	*cylinder;
-	// int			cylinder_count;
-	// t_cone		*cone;
-	// int			cone_count;
+	t_sphere	*sphere;
+	int			sphere_count;
+	t_plane		*plane;
+	int			plane_count;
+	t_cylinder	*cylinder;
+	int			cylinder_count;
+	t_cone		*cone;
+	int			cone_count;
 }	t_scene;
 
 // checkerboard.c
@@ -256,12 +256,14 @@ t_rgb_color			checkerboard_object_pattern(t_vector3d point, t_object *object,
 // 						float scale, t_object *color);
 
 // closest_hit.c
-t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
-						int count);
-t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
-t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
-						int count);
-t_intersec_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
+// t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
+// 						int count);
+// t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
+// t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
+// 						int count);
+// t_intersec_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
+t_intersec_info		intersect_object(t_ray *ray, t_object *object);
+t_intersec_info		find_closest_object(t_ray *ray, t_object *objects, int count);
 t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
@@ -273,30 +275,31 @@ int32_t				init_scene(t_scene *scene);
 // int32_t			init(void);
 
 // intersect_cone_aux.c
-t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_base *base);
+t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base);
 bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
 	t_vector3d cap_center, float cone_diameter);
 bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	bool is_covered, t_intersec_info *info);
 t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
-	t_cone *cone, t_cone_base *base);
+	t_cone *cone, t_cone_intersec *base);
 
 // intersect_cone_calc.c
-void	init_cone_base(t_cone *cone, t_cone_base *base);
+void	init_cone_base(t_cone *cone, t_cone_intersec *base);
 void	init_cone_projection(t_ray *ray, t_cone *cone,
-	t_cone_projection *proj, t_cone_base *base);
+	t_cone_projection *proj, t_cone_intersec *base);
 void	calculate_equation(t_cone_projection *proj, t_cone *cone,
 	t_cone_quad *quad, t_ray *ray);
 bool	solve_cone_quadratic(t_cone_projection *proj,
 	t_cone *cone, t_cone_quad *quad, t_ray *ray);
 bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
-	t_cone_quad *quad, t_cone_base *base);
+	t_cone_quad *quad, t_cone_intersec *base);
 t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
-	t_cone_base *base);
+	t_cone_intersec *base);
 
 // intersect_cone.c
 void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersec_info *bottom_cap, t_intersec_info *top_cap, t_cone_base *base);
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap,
+	t_cone_intersec *base);
 t_intersec_info	select_closest_intersection_cone(
 	t_intersec_info surface_info, t_intersec_info base_info,
 	t_intersec_info top_info, t_rgb_color color);
