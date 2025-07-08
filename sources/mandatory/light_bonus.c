@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/01 18:30:26 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:52:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_rgb_color	add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c)
 	return (color);
 }
 
-t_rgb_color	diff_color(t_intersection_info hit, t_scene *scene)
+t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
 {
 	t_vector3d	light_dir;
 	float		diff;
@@ -65,7 +65,7 @@ t_rgb_color	diff_color(t_intersection_info hit, t_scene *scene)
 	return (scale_color(scene->light.color, (diff * scene->light.ratio)));
 }
 
-t_vector3d	reflection(t_intersection_info hit, t_scene *scene)
+t_vector3d	reflection(t_intersec_info hit, t_scene *scene)
 {
 	float		scalar_nbr;
 	t_vector3d	result;
@@ -78,7 +78,7 @@ t_vector3d	reflection(t_intersection_info hit, t_scene *scene)
 	return (subtract_vectors(result, light_dir));
 }
 
-t_rgb_color	spec_color(t_intersection_info hit, t_scene *scene, t_material mat)
+t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat)
 {
 	t_vector3d	v_refle;
 	t_vector3d	v_cam;
@@ -93,7 +93,7 @@ t_rgb_color	spec_color(t_intersection_info hit, t_scene *scene, t_material mat)
 	return (scale_color(scene->light.color, pow(max_value, mat.shininess)));
 }
 
-t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
+t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;

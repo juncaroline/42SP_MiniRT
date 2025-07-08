@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/01 18:29:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:52:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_rgb_color	add_color(t_rgb_color a, t_rgb_color b)
 	return (color);
 }
 
-t_rgb_color	diff_color(t_intersection_info hit, t_scene *scene)
+t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
 {
 	t_vector3d	light_dir;
 	float		diff;
@@ -54,7 +54,7 @@ t_rgb_color	diff_color(t_intersection_info hit, t_scene *scene)
 	return (scale_color(scene->light.color, (diff * scene->light.ratio)));
 }
 
-t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
+t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;

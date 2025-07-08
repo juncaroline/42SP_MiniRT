@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 16:53:15 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:52:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	set_pixel(mlx_image_t *img, int x, int y, t_rgb_color c)
 void	set_color(t_scene *scene, mlx_image_t *img, int x, int y)
 {
 	t_ray				ray;
-	t_intersection_info	hit;
+	t_intersec_info	hit;
 	t_rgb_color			final_color;
 
 	ray = generate_ray(x, y, &scene->camera);

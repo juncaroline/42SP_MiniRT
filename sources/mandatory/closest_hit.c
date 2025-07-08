@@ -12,11 +12,11 @@
 
 #include "../../includes/minirt.h"
 
-t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
+t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 	int count)
 {
-	t_intersection_info	closest;
-	t_intersection_info	current;
+	t_intersec_info	closest;
+	t_intersec_info	current;
 	int					i;
 
 	closest.object = NULL;
@@ -36,10 +36,10 @@ t_intersection_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 	return (closest);
 }
 
-t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
+t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
 {
-	t_intersection_info	closest;
-	t_intersection_info	current;
+	t_intersec_info	closest;
+	t_intersec_info	current;
 	int					i;
 
 	closest.object = NULL;
@@ -59,11 +59,11 @@ t_intersection_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
 	return (closest);
 }
 
-t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
+t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
 	int count)
 {
-	t_intersection_info	closest;
-	t_intersection_info	current;
+	t_intersec_info	closest;
+	t_intersec_info	current;
 	int					i;
 
 	closest.object = NULL;
@@ -83,12 +83,12 @@ t_intersection_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
 	return (closest);
 }
 
-t_intersection_info	find_closest_interesection(t_ray *ray, t_scene *scene)
+t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 {
-	t_intersection_info	sphere_hit;
-	t_intersection_info	plane_hit;
-	t_intersection_info	cylinder_hit;
-	t_intersection_info	closest;
+	t_intersec_info	sphere_hit;
+	t_intersec_info	plane_hit;
+	t_intersec_info	cylinder_hit;
+	t_intersec_info	closest;
 
 	closest.object = NULL;
 	closest.intersection = false;
