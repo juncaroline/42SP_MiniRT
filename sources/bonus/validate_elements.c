@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/03 18:39:59 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:00:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,21 @@ static bool	handle_sphere(char **tokens, t_scene *scene)
 	return (true);
 }
 
-static bool	handle_plane(char **tokens, t_scene *scene)
-{
-	t_plane	new_plane;
-	int		count;
+// static bool	handle_plane(char **tokens, t_scene *scene)
+// {
+// 	t_plane	new_plane;
+// 	int		count;
+// 	int		add;
 
-	count = count_tokens(tokens);
-	if (!parse_plane(tokens, count, &new_plane))
-		return (false);
-	if (!add_plane(scene, &new_plane, 1))
-		return (false);
-	return (true);
-}
+// 	count = count_tokens(tokens);
+// 	if (!parse_plane(tokens, count, &new_plane))
+// 		return (false);
+// 	add = scene->plane_count;
+// 	if (!add_plane(scene, &new_plane, 1))
+// 		return (false);
+// 	add_object(scene, PLANE, &scene->plane[add]);
+// 	return (true);
+// }
 
 static bool	handle_cylinder(char **tokens, t_scene *scene)
 {
@@ -100,6 +103,19 @@ static bool	handle_cone(char **tokens, t_scene *scene)
 	return (true);
 }
 
+static bool	handle_light(char **tokens, t_scene *scene)
+{
+	t_light	new_light;
+	int		count;
+
+	count = count_tokens(tokens);
+	if (!parse_light(tokens, count, &new_light))
+		return (false);
+	if (!add_light(scene, &new_light, 1))
+		return (false);
+	return (true);
+}
+
 bool	validate_elements(char **tokens, t_scene *scene)
 {
 	int	count;
@@ -110,7 +126,7 @@ bool	validate_elements(char **tokens, t_scene *scene)
 	else if (ft_strcmp(tokens[0], "C") == 0)
 		return (parse_camera(tokens, count, &scene->camera));
 	else if (ft_strcmp(tokens[0], "L") == 0)
-		return (parse_light(tokens, count, &scene->light));
+		return (handle_light(tokens, scene));
 	else if (ft_strcmp(tokens[0], "sp") == 0)
 		return (handle_sphere(tokens, scene));
 	else if (ft_strcmp(tokens[0], "pl") == 0)

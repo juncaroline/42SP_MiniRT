@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 16:42:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:48:39 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,8 @@ typedef struct s_scene
 {
 	t_ambient	ambient;
 	t_camera	camera;
-	t_light		light;
+	t_light		*light;
+	int			light_count;
 	t_object	*objects;
 	int			object_count;
 	t_sphere	*sphere;
@@ -264,7 +265,7 @@ t_rgb_color			checkerboard_object_pattern(t_vector3d point, t_object *object,
 // t_intersec_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
 t_intersec_info		intersect_object(t_ray *ray, t_object *object);
 t_intersec_info		find_closest_object(t_ray *ray, t_object *objects, int count);
-t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene);
+t_intersec_info		find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
 void				error_msg(int status);
@@ -359,6 +360,7 @@ bool				parse_plane(char **tokens, int count, t_plane *plane);
 bool				parse_cylinder(char **tokens, int count,
 						t_cylinder *cylinder);
 bool				parse_cone(char **tokens, int count, t_cone *cone);
+void				add_object(t_scene *scene, t_object_type type, void *data);
 
 // parse_objects_add.c
 bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
@@ -366,6 +368,7 @@ bool				add_plane(t_scene *scene, t_plane *new_plane, int count);
 bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
 						int count);
 bool				add_cone(t_scene *scene, t_cone *new_cone, int count);
+bool				add_light(t_scene *scene, t_light *new_light, int count);
 
 
 // parse.c

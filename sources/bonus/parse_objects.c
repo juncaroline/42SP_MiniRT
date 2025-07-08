@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 11:40:26 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:48:20 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,16 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 		|| cone->height <= 0.0 || !is_rgb_color(cone->color))
 		return (false);
 	return (true);
+}
+
+void	add_object(t_scene *scene, t_object_type type, void *data)
+{
+	t_object	*object;
+
+	object = &scene->objects[scene->object_count];
+	object->type = type;
+	object->data = data;
+	object->white = (t_rgb_color){255, 255, 255};
+	object->black = (t_rgb_color){0, 0, 0};
+	scene->object_count++;
 }

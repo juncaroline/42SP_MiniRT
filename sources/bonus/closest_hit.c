@@ -153,7 +153,7 @@ t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 // 	if (type == SPHERE)
 // 		result = intersect_sphere(ray, (t_sphere *)object->data);
 // 	else if (type == PLANE)
-// 		result = intersect_plane(ray, (t_plane *)object->data, object);
+// 		result = intersect_plane(ray, (t_plane *)object->data);
 // 	else if (type == CYLINDER)
 // 		result = intersect_cylinder(ray, (t_cylinder *)object->data);
 // 	else if (type == CONE)

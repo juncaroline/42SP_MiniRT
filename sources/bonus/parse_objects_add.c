@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:20:29 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:15 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:54:03 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,31 @@ bool	add_cone(t_scene *scene, t_cone *new_cone, int count)
 	free(scene->cone);
 	scene->cone = new_array;
 	scene->cone_count += count;
+	return (true);
+}
+
+bool	add_light(t_scene *scene, t_light *new_light, int count)
+{
+	t_light	*new_array;
+	int			i;
+
+	new_array = malloc(sizeof(t_light) * (scene->light_count + count));
+	if (!new_array)
+		return (false);
+	i = 0;
+	while (i < scene->light_count)
+	{
+		new_array[i] = scene->light[i];
+		i++;
+	}
+	i = 0;
+	while (i < count)
+	{
+		new_array[scene->light_count + i] = new_light[i];
+		i++;
+	}
+	free(scene->light);
+	scene->light = new_array;
+	scene->light_count += count;
 	return (true);
 }
