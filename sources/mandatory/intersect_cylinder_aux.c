@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_aux.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 15:30:59 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:00:05 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ t_intersection_info	ray_intersects_cylinder_surface(t_ray *ray,
 	t_intersection_info		info;
 	bool					hit_surface;
 
-	info.intersection = false;
+	init_intersection_info(&info);
+	// info.intersection = false;
 	init_cylinder_projection(ray, cylinder, &proj);
 	hit_surface = solve_cylinder_quadratic(&proj, cylinder, &quad);
 	if (hit_surface && validate_cylinder_intersec(ray, cylinder, &quad))

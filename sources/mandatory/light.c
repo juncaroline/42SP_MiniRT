@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/01 18:29:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:12:38 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,36 @@ t_rgb_color	diff_color(t_intersection_info hit, t_scene *scene)
 	return (scale_color(scene->light.color, (diff * scene->light.ratio)));
 }
 
-t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
+t_vector3d vector_negate(t_vector3d v)
+{
+		t_vector3d	result;
+
+		result.x = -v.x;
+		result.y = -v.y;
+		result.z = -v.z;
+		return (result);
+}
+
+
+void prepare_point(t_intersection_info *hit, t_ray ray)
+{
+	t_vector3d	eyev;
+
+	eyev = vector_negate(ray.direction);
+	if (dot_product(hit->normal, eyev) < 0)
+		hit->normal = scalar_multiplication(-1, hit->normal);
+	hit->over_point = add_vectors(hit->intersec_point, \
+		scalar_multiplication(EPSILON, hit->normal));
+}
+
+
+t_rgb_color	get_color(t_intersection_info hit, t_scene *scene, t_ray ray)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
 	t_rgb_color	diffuse;
 
+	prepare_point(&hit, ray);
 	if (!hit.intersection)
 	{
 		final_color = (t_rgb_color){0, 0, 0};
@@ -74,6 +98,27 @@ t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
 	}
 	return (final_color);
 }
+
+// t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
+// {
+// 	t_rgb_color	final_color;
+// 	t_rgb_color	ambient;
+// 	t_rgb_color	diffuse;
+
+// 	if (!hit.intersection)
+// 	{
+// 		final_color = (t_rgb_color){0, 0, 0};
+// 		return (final_color);
+// 	}
+// 	ambient = scale_color(hit.color, scene->ambient.ratio);
+// 	final_color = ambient;
+// 	if (!in_shadow(scene, hit, &scene->light))
+// 	{
+// 		diffuse = diff_color(hit, scene);
+// 		final_color = add_color(ambient, diffuse);
+// 	}
+// 	return (final_color);
+// }
 
 // t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
 // {

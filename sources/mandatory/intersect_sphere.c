@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:56:35 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,30 @@ t_vector3d	calculate_sphere_normal(t_sphere *sphere,
 	return (normal);
 }
 
+void	init_intersection_info(t_intersection_info *info)
+{
+	info->intersection = false;
+	info->dist_to_intersec = 0.0f;
+	info->intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info->normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info->over_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info->color = (t_rgb_color){0, 0, 0};
+	info->object = NULL;
+}
+
 t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
 	t_sphere_quad		quad;
 	t_intersection_info	info;
 
-	info.intersection = false;
-	info.dist_to_intersec = 0.0f;
-	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
-	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	init_intersection_info(&info);
+	// info.intersection = false;
+	// info.dist_to_intersec = 0.0f;
+	// info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	// info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+
+	// info.over_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+
 	quad = intersect_sphere_quad(ray, sphere);
 	if (!intersect_sphere_solution(quad, &info.dist_to_intersec))
 		return (info);
