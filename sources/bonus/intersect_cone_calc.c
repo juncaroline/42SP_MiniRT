@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 14:04:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:53:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
 	intersec.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(quad->t_hit, ray->direction));
 	vector_from_vertex = subtract_vectors(intersec.intersec_point,
-		base->cone_vertex);
+			base->cone_vertex);
 	intersec.height_projection = dot_product(vector_from_vertex,
-		base->direction);
+			base->direction);
 	if (intersec.height_projection > 0.0f || intersec.height_projection
 		< -cone->height)
 		return (false);

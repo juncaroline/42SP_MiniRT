@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 14:04:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:08:08 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base)
 	t_vector3d	normal;
 	t_plane		plane;
 
+	ft_bzero(&plane, sizeof(t_plane));
 	init_cone_base(cone, base);
 	normal = base->direction;
 	if (is_covered == false)
@@ -32,6 +33,8 @@ t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base)
 	}
 	plane.plane_point = center;
 	plane.vector = normal;
+	plane.color = cone->color;
+	plane.has_checker = false;
 	return (plane);
 }
 
@@ -51,11 +54,11 @@ bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
 bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	bool is_covered, t_intersec_info *info)
 {
-	t_plane				cap_plane;
+	t_plane			cap_plane;
 	t_intersec_info	cap_info;
-	t_vector3d			cap_center;
-	t_cone_intersec		base;
-	t_object			*object;
+	t_vector3d		cap_center;
+	t_cone_intersec	base;
+	t_object		*object;
 
 	if (is_covered == true)
 		return (false);
@@ -79,12 +82,7 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 	t_intersec_info		info;
 	bool				hit_surface;
 
-	info.intersection = false;
-	info.dist_to_intersec = 0.0f;
-	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
-	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
-	info.color = (t_rgb_color){0, 0, 0};
-	info.object = NULL;
+	ft_bzero(&info, sizeof(t_intersec_info));
 	init_cone_projection(ray, cone, &proj, base);
 	hit_surface = solve_cone_quadratic(&proj, cone, &quad, ray);
 	if (hit_surface && validate_cone_intersec(ray, cone, &quad, base))

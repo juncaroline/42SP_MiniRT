@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 15:27:29 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:54:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,6 @@ typedef struct s_cone
 	t_rgb_color	color;
 	bool		has_checker;
 }	t_cone;
-
-// typedef struct s_cone_base
-// {
-// 	t_vector3d	direction;
-// 	t_vector3d	cone_vertex;
-// }	t_cone_base; // interseção
 
 typedef struct s_cone_projection
 {

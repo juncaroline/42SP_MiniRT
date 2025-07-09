@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 15:29:47 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:15:11 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 	}
 	sphere->sphere_center = parse_coordinates(tokens[1]);
 	sphere->diameter = parse_measurements(tokens[2]);
-	if (sphere->diameter <= 0.0f)
-	{
-		printf("❌ Diâmetro inválido: %.2f\n", sphere->diameter);
-		return (false);
-	}
 	sphere->color = parse_rgb(tokens[3]);
 	sphere->has_checker = false;
 	if (sphere->diameter <= 0 || !is_rgb_color(sphere->color))
@@ -55,7 +50,7 @@ bool	parse_plane(char **tokens, int count, t_plane *plane)
 
 bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 {
-	if (count != 6)
+	if (count != 6 && count != 7)
 	{
 		printf("Error: 'cy' expects 5 parameters, received %d\n", count - 1);
 		return (false);
@@ -69,6 +64,8 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 	if (!is_normalized_vector(cylinder->vector) || cylinder->diameter <= 0.0
 		|| cylinder->height <= 0.0 || !is_rgb_color(cylinder->color))
 		return (false);
+	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
+		cylinder->has_checker = true;
 	return (true);
 }
 

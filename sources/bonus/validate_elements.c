@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 15:27:25 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:39:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static bool	handle_sphere(char **tokens, t_scene *scene)
 		return (false);
 	add_object(scene, SPHERE, NULL);
 	rebuild_object_pointers(scene);
-	
 	return (true);
 }
 
