@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 17:15:49 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:30:24 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,42 @@ bool	is_intersection_within_cap_radius(t_vector3d intersection_point,
 static void	get_top_cap_coordinates(t_vector3d point, t_cylinder *cylinder,
 	float *coord1, float *coord2)
 {
-	t_vector3d center = add_vectors(cylinder->cylinder_center,
-		scalar_multiplication(cylinder->height / 2.0f, cylinder->vector));
-	t_vector3d local = subtract_vectors(point, center);
+	t_vector3d	center;
+	t_vector3d	local;
+	t_vector3d	u;
+	t_vector3d	v;
+	float		radius;
 
-	*coord1 = local.x;
-	*coord2 = local.z;
+	center = add_vectors(cylinder->cylinder_center,
+		scalar_multiplication(cylinder->height, cylinder->vector));
+	local = subtract_vectors(point, center);
+	radius = cylinder->diameter / 2.0f;
+	if (fabs(cylinder->vector.x) < 0.9f)
+		u = normalize(cross_product(cylinder->vector, (t_vector3d){1.0f, 0.0f, 0.0f}));
+	else
+		u = normalize(cross_product(cylinder->vector, (t_vector3d){0.0f, 1.0f, 0.0f}));
+	v = cross_product(cylinder->vector, u);
+	*coord1 = dot_product(local, u) / radius;
+	*coord2 = dot_product(local, v) / radius;
 }
 
 static void	get_bottom_cap_coordinates(t_vector3d point, t_cylinder *cylinder,
 	float *coord1, float *coord2)
 {
-	t_vector3d center = add_vectors(cylinder->cylinder_center,
-		scalar_multiplication(-cylinder->height / 2.0f, cylinder->vector));
-	t_vector3d local = subtract_vectors(point, center);
+	t_vector3d	local;
+	t_vector3d	u;
+	t_vector3d	v;
+	float		radius;
 
-	*coord1 = local.x;
-	*coord2 = local.z;
+	local = subtract_vectors(point, cylinder->cylinder_center);
+	radius = cylinder->diameter / 2.0f;
+	if (fabs(cylinder->vector.x) < 0.9f)
+		u = normalize(cross_product(cylinder->vector, (t_vector3d){1.0f, 0.0f, 0.0f}));
+	else
+		u = normalize(cross_product(cylinder->vector, (t_vector3d){0.0f, 1.0f, 0.0f}));
+	v = cross_product(cylinder->vector, u);
+	*coord1 = dot_product(local, u) / radius;
+	*coord2 = dot_product(local, v) / radius;
 }
 
 bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
@@ -75,7 +94,6 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 {
 	t_plane			plane;
 	t_intersec_info	cap_info;
-	t_object		*object;
 	t_object		cylinder_object;
 	float			coord1;
 	float			coord2;
@@ -127,7 +145,6 @@ t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 		info.intersec_point = add_vectors(ray->origin,
 				scalar_multiplication(quad.t_hit, ray->direction));
 		info.normal = calculate_cylinder_normal(cylinder, info.intersec_point);
-		// info.color = cylinder->color;
 		if (cylinder->has_checker)
 		{
 			cylinder_object.type = CYLINDER;
@@ -135,7 +152,7 @@ t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 			cylinder_object.white = (t_rgb_color){255, 255, 255};
 			cylinder_object.black = (t_rgb_color){0, 0, 0};
 			info.color = checkerboard_object_pattern(info.intersec_point,
-					&cylinder_object, 1.0f);
+					&cylinder_object, 10.0f);
 		}
 		else
 			info.color = cylinder->color;

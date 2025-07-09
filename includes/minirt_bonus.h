@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 15:54:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:42:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
 	t_cone_intersec *base);
 t_intersec_info	select_closest_intersection_cone(
 	t_intersec_info surface_info, t_intersec_info base_info,
-	t_intersec_info top_info, t_rgb_color color);
+	t_intersec_info top_info);
 t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone);
 
 // intersect_cylinder_calc.c

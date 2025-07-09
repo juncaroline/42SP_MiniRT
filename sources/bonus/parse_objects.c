@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 17:15:11 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:35:08 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 
 bool	parse_cone(char **tokens, int count, t_cone *cone)
 {
-	if (count != 6)
+	if (count != 6 && count != 7)
 	{
 		printf("Erro: 'cn' espera 5 parâmetros, recebeu %d\n", count - 1);
 		return (false);
@@ -85,6 +85,8 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 	if (!is_normalized_vector(cone->vector) || cone->diameter <= 0.0
 		|| cone->height <= 0.0 || !is_rgb_color(cone->color))
 		return (false);
+	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
+		cone->has_checker = true;
 	return (true);
 }
 

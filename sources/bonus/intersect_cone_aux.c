@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 16:08:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:42:34 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	t_intersec_info	cap_info;
 	t_vector3d		cap_center;
 	t_cone_intersec	base;
-	t_object		*object;
+	t_object		cone_object;
 
 	if (is_covered == true)
 		return (false);
@@ -71,6 +71,17 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 			cap_center, cone->diameter))
 		return (false);
 	*info = cap_info;
+	if (cone->has_checker)
+	{
+		cone_object.type = CONE;
+		cone_object.data = (void *)cone;
+		cone_object.white = (t_rgb_color){255, 255, 255};
+		cone_object.black = (t_rgb_color){0, 0, 0};
+		info->color = checkerboard_object_pattern(cap_info.intersec_point,
+				&cone_object, 10.0f);
+	}
+	else
+		info->color = cone->color;
 	return (true);
 }
 
@@ -81,6 +92,7 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 	t_cone_quad			quad;
 	t_intersec_info		info;
 	bool				hit_surface;
+	t_object			cone_object;
 
 	ft_bzero(&info, sizeof(t_intersec_info));
 	init_cone_projection(ray, cone, &proj, base);
@@ -92,6 +104,17 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 		info.intersec_point = add_vectors(ray->origin,
 				scalar_multiplication(quad.t_hit, ray->direction));
 		info.normal = calculate_cone_normal(cone, info.intersec_point, base);
+		if (cone->has_checker)
+		{
+			cone_object.type = CONE;
+			cone_object.data = (void *)cone;
+			cone_object.white = (t_rgb_color){255, 255, 255};
+			cone_object.black = (t_rgb_color){0, 0, 0};
+			info.color = checkerboard_object_pattern(info.intersec_point,
+					&cone_object, 10.0f);
+		}
+		else
+			info.color = cone->color;
 	}
 	return (info);
 }

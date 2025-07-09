@@ -42,13 +42,21 @@ static void	get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
 	t_vector3d	center_to_intersection;
 	float		height;
 	t_vector3d	radial;
+	float		radial_length;
 
 	center_to_intersection = subtract_vectors(point, cylinder->cylinder_center);
 	height = dot_product(center_to_intersection, cylinder->vector);
 	radial = subtract_vectors(center_to_intersection,
 			scalar_multiplication(height, cylinder->vector));
-	radial = normalize(radial);
-	*coord1 = 0.5f + atan2(radial.z, radial.x) / (2 * M_PI);
+	
+	radial_length = sqrtf(dot_product(radial, radial));
+	if (radial_length < EPSILON)
+		*coord1 = 0.0f;
+	else
+	{
+		radial = scalar_multiplication(1.0f / radial_length, radial);
+		*coord1 = 0.5f + atan2(radial.z, radial.x) / (2 * M_PI);
+	}
 	*coord2 = height / cylinder->height;
 }
 
@@ -94,38 +102,3 @@ t_rgb_color	checkerboard_object_pattern(t_vector3d point, t_object *object,
 	}
 	return (checkerboard_pattern(coord1, coord2, scale, object));
 }
-
-// t_rgb_color	checkerboard_plane_pattern(t_vector3d point, float scale, t_object *color)
-// {
-// 	return (checkerboard_pattern(point.x, point.z, scale, color));
-// }
-
-// t_rgb_color	checkerboard_sphere_pattern(t_vector3d point, t_sphere *sphere,
-// 	float scale, t_object *color)
-// {
-// 	float	coord1;
-// 	float	coord2;
-
-// 	get_sphere_coordinates(point, sphere, &coord1, &coord2);
-// 	return (checkerboard_pattern(coord1, coord2, scale, color));
-// }
-
-// t_rgb_color	checkerboard_cylinder_pattern(t_vector3d point,
-// 	t_cylinder *cylinder, float scale, t_object *color)
-// {
-// 	float	coord1;
-// 	float	coord2;
-
-// 	get_cylinder_coordinates(point, cylinder, &coord1, &coord2);
-// 	return (checkerboard_pattern(coord1, coord2, scale, color));
-// }
-
-// t_rgb_color	checkerboard_cone_pattern(t_vector3d point, t_cone *cone,
-// 	float scale, t_object *color)
-// {
-// 	float	coord1;
-// 	float	coord2;
-
-// 	get_cone_coordinates(point, cone, &coord1, &coord2);
-// 	return (checkerboard_pattern(coord1, coord2, scale, color));
-// }
