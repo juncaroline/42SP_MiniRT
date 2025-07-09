@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:07 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 16:39:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:48:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,8 @@ void	free_scene(t_scene *scene)
 		free(scene->cylinder);
 	if (scene->cone)
 		free(scene->cone);
+	if (scene->light)
+		free(scene->light);
+	if (scene->objects)
+		free(scene->objects);
 }

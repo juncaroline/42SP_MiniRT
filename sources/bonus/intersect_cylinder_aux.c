@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 16:44:04 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:04:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ bool	is_intersection_within_cap_radius(t_vector3d intersection_point,
 bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	bool is_top_cap, t_intersec_info *info)
 {
-	t_plane				plane;
+	t_plane			plane;
 	t_intersec_info	cap_info;
-	t_object			*object;
+	t_object		*object;
 
 	plane = create_cylinder_cap_plane(cylinder, is_top_cap);
 	cap_info = intersect_plane(ray, &plane);
@@ -60,6 +60,7 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 			plane.plane_point, cylinder->diameter))
 		return (false);
 	*info = cap_info;
+	info->color = cylinder->color;
 	return (true);
 }
 
@@ -68,10 +69,15 @@ t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 {
 	t_cylinder_projection	proj;
 	t_cylinder_quad			quad;
-	t_intersec_info		info;
+	t_intersec_info			info;
 	bool					hit_surface;
 
 	info.intersection = false;
+	info.dist_to_intersec = 0.0f;
+	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.color = (t_rgb_color){0, 0, 0};
+	info.object = NULL;
 	init_cylinder_projection(ray, cylinder, &proj);
 	hit_surface = solve_cylinder_quadratic(&proj, cylinder, &quad);
 	if (hit_surface && validate_cylinder_intersec(ray, cylinder, &quad))
@@ -81,6 +87,7 @@ t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 		info.intersec_point = add_vectors(ray->origin,
 				scalar_multiplication(quad.t_hit, ray->direction));
 		info.normal = calculate_cylinder_normal(cylinder, info.intersec_point);
+		info.color = cylinder->color;
 	}
 	return (info);
 }

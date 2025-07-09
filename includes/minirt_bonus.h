@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 18:48:39 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:27:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,6 +361,7 @@ bool				parse_cylinder(char **tokens, int count,
 						t_cylinder *cylinder);
 bool				parse_cone(char **tokens, int count, t_cone *cone);
 void				add_object(t_scene *scene, t_object_type type, void *data);
+void				rebuild_object_pointers(t_scene *scene);
 
 // parse_objects_add.c
 bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);

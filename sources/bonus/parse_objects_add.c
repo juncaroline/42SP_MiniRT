@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:20:29 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 16:54:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:17:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 	t_sphere	*new_array;
 	int			i;
 
-	new_array = malloc(sizeof(t_sphere) * (scene->sphere_count + count));
+	if (count != 1)
+		return (false);
+	new_array = malloc(sizeof(t_sphere) * (scene->sphere_count + 1));
 	if (!new_array)
 		return (false);
 	i = 0;
@@ -26,15 +28,16 @@ bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 		new_array[i] = scene->sphere[i];
 		i++;
 	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->sphere_count + i] = new_sphere[i];
-		i++;
-	}
+	// i = 0;
+	// while (i < count)
+	// {
+	// 	new_array[scene->sphere_count + i] = new_sphere[i];
+	// 	i++;
+	// }
+	new_array[scene->sphere_count] = *new_sphere;
 	free(scene->sphere);
 	scene->sphere = new_array;
-	scene->sphere_count += count;
+	scene->sphere_count += 1;
 	return (true);
 }
 

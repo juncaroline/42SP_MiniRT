@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 12:17:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:04:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ int	main(int ac, char **av)
 {
 	t_scene	*scene;
 
-	scene = malloc(sizeof(t_scene));
+	scene = ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		return (EXIT_FAILURE);
-	scene->objects = NULL;
-	scene->object_count = 0;
+	// scene = malloc(sizeof(t_scene));
+	// if (!scene)
+	// 	return (EXIT_FAILURE);
+	// ft_bzero(scene, sizeof(t_scene));
 	if (ac != 2)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);

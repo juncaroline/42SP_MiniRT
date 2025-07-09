@@ -20,7 +20,6 @@ static t_rgb_color	checkerboard_pattern(float coord1, float coord2,
 
 	x = floor(coord1 * scale);
 	y = floor(coord2 * scale);
-
 	if ((x + y) % 2 == 0)
 		return (object->white);
 	else
@@ -47,7 +46,7 @@ static void	get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
 	center_to_intersection = subtract_vectors(point, cylinder->cylinder_center);
 	height = dot_product(center_to_intersection, cylinder->vector);
 	radial = subtract_vectors(center_to_intersection,
-		scalar_multiplication(height, cylinder->vector));
+			scalar_multiplication(height, cylinder->vector));
 	radial = normalize(radial);
 	*coord1 = 0.5f + atan2(radial.z, radial.x) / (2 * M_PI);
 	*coord2 = height / cylinder->height;
@@ -63,7 +62,7 @@ static void	get_cone_coordinates(t_vector3d point, t_cone *cone, float *coord1,
 	center_to_intersection = subtract_vectors(point, cone->cone_center);
 	height = dot_product(center_to_intersection, cone->vector);
 	radial = subtract_vectors(center_to_intersection,
-		scalar_multiplication(height, cone->vector));
+			scalar_multiplication(height, cone->vector));
 	radial = normalize(radial);
 	*coord1 = 0.5f + atan2(radial.z, radial.x) / (2 * M_PI);
 	*coord2 = height / cone->height;

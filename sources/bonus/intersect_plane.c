@@ -30,6 +30,8 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 	info.dist_to_intersec = 0.0f;
 	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
 	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.color = (t_rgb_color){0, 0, 0};
+	info.object = NULL;
 	diff = subtract_vectors(plane->plane_point, ray->origin);
 	denominator = dot_product(ray->direction, plane->vector);
 	if (fabs(denominator) < EPSILON)

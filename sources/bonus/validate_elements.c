@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 19:00:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:27:25 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,26 @@ static bool	handle_sphere(char **tokens, t_scene *scene)
 		return (false);
 	if (!add_sphere(scene, &new_sphere, 1))
 		return (false);
+	add_object(scene, SPHERE, NULL);
+	rebuild_object_pointers(scene);
+	
 	return (true);
 }
 
-// static bool	handle_plane(char **tokens, t_scene *scene)
-// {
-// 	t_plane	new_plane;
-// 	int		count;
-// 	int		add;
+static bool	handle_plane(char **tokens, t_scene *scene)
+{
+	t_plane	new_plane;
+	int		count;
 
-// 	count = count_tokens(tokens);
-// 	if (!parse_plane(tokens, count, &new_plane))
-// 		return (false);
-// 	add = scene->plane_count;
-// 	if (!add_plane(scene, &new_plane, 1))
-// 		return (false);
-// 	add_object(scene, PLANE, &scene->plane[add]);
-// 	return (true);
-// }
+	count = count_tokens(tokens);
+	if (!parse_plane(tokens, count, &new_plane))
+		return (false);
+	if (!add_plane(scene, &new_plane, 1))
+		return (false);
+	add_object(scene, PLANE, NULL);
+	rebuild_object_pointers(scene);
+	return (true);
+}
 
 static bool	handle_cylinder(char **tokens, t_scene *scene)
 {
@@ -81,6 +83,8 @@ static bool	handle_cylinder(char **tokens, t_scene *scene)
 		return (false);
 	if (!add_cylinder(scene, &new_cylinder, 1))
 		return (false);
+	add_object(scene, CYLINDER, NULL);
+	rebuild_object_pointers(scene);
 	return (true);
 }
 
@@ -89,17 +93,13 @@ static bool	handle_cone(char **tokens, t_scene *scene)
 	t_cone	new_cone;
 	int		count;
 
-	// new_cone = ft_calloc(1, sizeof(t_cone));
-	// if (!new_cone)
-	// {
-	// 	printf("Memory allocation failed for new cone\n");
-	// 	return (false);
-	// }
 	count = count_tokens(tokens);
 	if (!parse_cone(tokens, count, &new_cone))
 		return (false);
 	if (!add_cone(scene, &new_cone, 1))
 		return (false);
+	add_object(scene, CONE, NULL);
+	rebuild_object_pointers(scene);
 	return (true);
 }
 

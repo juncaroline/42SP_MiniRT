@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 16:43:27 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:04:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,15 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 {
 	t_cone_projection	proj;
 	t_cone_quad			quad;
-	t_intersec_info	info;
+	t_intersec_info		info;
 	bool				hit_surface;
 
 	info.intersection = false;
+	info.dist_to_intersec = 0.0f;
+	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.color = (t_rgb_color){0, 0, 0};
+	info.object = NULL;
 	init_cone_projection(ray, cone, &proj, base);
 	hit_surface = solve_cone_quadratic(&proj, cone, &quad, ray);
 	if (hit_surface && validate_cone_intersec(ray, cone, &quad, base))

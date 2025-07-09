@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:41 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/09 11:41:52 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void	compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 	bool	hit_bottom;
 	bool	hit_top;
 
+	bottom_cap->intersection = false;
+	bottom_cap->dist_to_intersec = 0.0f;
+	bottom_cap->intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	bottom_cap->normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	bottom_cap->color = (t_rgb_color){0, 0, 0};
+	bottom_cap->object = NULL;
+	top_cap->intersection = false;
+	top_cap->dist_to_intersec = 0.0f;
+	top_cap->intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
+	top_cap->normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	top_cap->color = (t_rgb_color){0, 0, 0};
+	top_cap->object = NULL;
 	hit_bottom = ray_intersects_cylinder_cap(ray, cylinder, false, bottom_cap);
 	hit_top = ray_intersects_cylinder_cap(ray, cylinder, true, top_cap);
 	if (!hit_bottom)
@@ -51,7 +63,6 @@ t_intersec_info	select_closest_intersection(
 		closest_distance = top_cap.dist_to_intersec;
 		closest_intersection = top_cap;
 	}
-	closest_intersection.color = color;
 	return (closest_intersection);
 }
 

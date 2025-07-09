@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 16:41:34 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:28:57 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ static bool	intersect_sphere_solution(t_sphere_quad quad, float *t)
 
 	if (quad.discriminant < 0.0f)
 		return (false);
+	if (quad.a == 0.0f || quad.discriminant < 0.0f || isnan(quad.discriminant))
+		return (false);
 	nearest = (-quad.b - sqrtf(quad.discriminant)) / (2.0f * quad.a);
 	farther = (-quad.b + sqrtf(quad.discriminant)) / (2.0f * quad.a);
-	if (nearest < 0.0f && farther < 0.0f)
+	if (nearest < 1e-4f && farther < 1e-4f)
 		return (false);
-	else if (nearest < 0.0f)
+	else if (nearest < 1e-4f)
 		*t = farther;
-	else if (farther < 0.0f)
+	else if (farther < 1e-4f)
 		*t = nearest;
 	else
 	{
@@ -73,6 +75,8 @@ t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 	info.dist_to_intersec = 0.0f;
 	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
 	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.color = (t_rgb_color){0, 0, 0};
+	info.object = NULL;
 	quad = intersect_sphere_quad(ray, sphere);
 	if (!intersect_sphere_solution(quad, &info.dist_to_intersec))
 		return (info);
