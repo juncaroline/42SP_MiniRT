@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 15:58:23 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/10 12:04:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane)
 	t_vector3d			diff;
 
 	init_intersection_info(&info);
-	// info.intersection = false;
-	// info.dist_to_intersec = 0.0f;
-	// info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
-	// info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
 	diff = subtract_vectors(plane->plane_point, ray->origin);
 	denominator = dot_product(ray->direction, plane->vector);
 	if (fabs(denominator) < EPSILON)

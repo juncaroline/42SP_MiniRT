@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 09:00:45 by marvin           ###   ########.fr       */
+/*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/07/10 11:44:09 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef MINIRT_BONUS_H
+# define MINIRT_BONUS_H
 
 # include "../library/libft/libft.h"
 # include "../library/MLX42/include/MLX42/MLX42.h"
@@ -151,9 +151,6 @@ typedef struct s_cylinder_intersec
 	float		height_projection;
 }	t_cylinder_intersec;
 
-
-
-
 typedef struct s_cone
 {
 	t_vector3d	cone_center;
@@ -201,9 +198,6 @@ typedef struct s_cone_intersec
 	t_vector3d	direction;
 	t_vector3d	cone_vertex;
 }	t_cone_intersec;
-
-
-
 
 
 typedef struct s_object

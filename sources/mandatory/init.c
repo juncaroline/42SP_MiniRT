@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 15:40:35 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/10 12:00:15 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	set_color(t_scene *scene, mlx_image_t *img, int x, int y)
 	ray = generate_ray(x, y, &scene->camera);
 	hit = find_closest_interesection(&ray, scene);
 	final_color = get_color(hit, scene, ray);
-	// final_color = get_color(hit, scene);
 	set_pixel(img, x, y, final_color);
 }
 

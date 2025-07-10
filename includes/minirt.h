@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 15:57:50 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/10 12:10:28 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define M_PI 3.14159265358979323846
 
-# define EPSILON 1e-6
+# define EPSILON 1e-3
 # define CLOSE_TO_ZERO_EPSILON 1e-12
 
 typedef enum e_object_type
@@ -230,14 +230,21 @@ t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersection_info	intersect_plane(t_ray *ray, t_plane *plane);
 
 // intersect_sphere.c
-void				init_intersection_info(t_intersection_info *info);
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersection_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
 
+// intersect_utils.c
+void				init_intersection_info(t_intersection_info *info);
+
 // light.c
-// t_rgb_color			get_color(t_intersection_info hit, t_scene *scene);
-t_rgb_color	get_color(t_intersection_info hit, t_scene *scene, t_ray ray);
+t_rgb_color			get_color(t_intersection_info hit, t_scene *scene,
+						t_ray ray);
+
+// light_shadow.c
+bool				in_shadow(t_scene *scene, t_intersection_info hit,
+						t_light *s_light);
+void				prepare_point(t_intersection_info *hit, t_ray ray);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
@@ -281,10 +288,6 @@ t_cam_basis			camera_basis(t_camera *cam);
 // free.c
 void				free_split(char **tokens);
 void				free_scene(t_scene *scene);
-
-// shadow.c
-bool				in_shadow(t_scene *scene, t_intersection_info hit,
-						t_light *s_light);
 
 // utils.c
 int					skip_spaces(char *line);
