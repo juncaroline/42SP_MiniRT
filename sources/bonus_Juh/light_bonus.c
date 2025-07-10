@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/01 18:30:26 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:37:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,7 @@ t_rgb_color	loop_color(t_intersection_info hit, t_scene *scene, \
 		if (!in_shadow(scene, hit, light))
 		{
 			diffuse = diff_color(hit, light);
-
 			material.shininess = 50;
-
 			specular = spec_color(hit, scene, material, light);
 			final_color = add_color(final_color, diffuse, specular);
 		}
@@ -141,62 +139,48 @@ t_rgb_color	loop_color(t_intersection_info hit, t_scene *scene, \
 	return (final_color);
 }
 
-t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
+// VERSAO COM SOMBRA E MULTI-LIGHTS
+t_rgb_color	color_without_shadow(t_intersection_info hit, t_scene *scene, t_material material, t_light *light)
+{
+	t_rgb_color	final_color;
+	t_rgb_color	diffuse;
+	t_rgb_color	specular;
+
+	diffuse = diff_color(hit, light);
+	material.shininess = 50;
+	specular = spec_color(hit, scene, material, light);
+	final_color = add_color(diffuse, specular);
+	return (final_color);
+}
+t_rgb_color	get_color(t_intersection_info hit, t_scene *scene, t_ray ray)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
 	t_rgb_color	diffuse;
 	t_rgb_color	specular;
 
-	t_material	material;
-
+	prepare_point(&hit, ray);
 	if (!hit.intersection)
 	{
 		final_color = (t_rgb_color){0, 0, 0};
 		return (final_color);
 	}
-	if (hit.has_texture)
-		hit.color = sample_texture(hit.texture, hit.uv.u, hit.uv.v);
 	ambient = scale_color(hit.color, scene->ambient.ratio);
+	final_color = ambient;
 
-	final_color = loop_color(hit, scene, ambient, material);
+	int	i = 0;
+	while (i < scene->light_count)
+	{
+		t_light	*light = &scene->light[i];
+		if (!in_shadow(scene, hit, light))
+		{
+			final_color = color_without_shadow(hit, scene, material, light);
+			final_color = add_color(final_color, ambient);
+		}
+		i++;
+	}
 	return (final_color);
 }
-
-// VERSAO COM SOMBRA E MULTI-LIGHTS
-
-// t_rgb_color	get_color(t_intersection_info hit, t_scene *scene)
-// {
-// 	t_rgb_color	final_color;
-// 	t_rgb_color	ambient;
-// 	t_rgb_color	diffuse;
-// 	t_rgb_color	specular;
-
-// 	if (!hit.intersection)
-// 	{
-// 		final_color = (t_rgb_color){0, 0, 0};
-// 		return (final_color);
-// 	}
-// 	ambient = scale_color(hit.color, scene->ambient.ratio);
-// 	final_color = ambient;
-
-// 	int	i = 0;
-// 	while (i < scene->light_count)
-// 	{
-// 		t_light	*light = &scene->light[i];
-// 		if (!in_shadow(scene, hit, light))
-		// {
-		// 	diffuse = diff_color(hit, light);
-
-		// 	material.shininess = 50;
-
-		// 	specular = spec_color(hit, scene, material, light);
-		// 	final_color = add_color(final_color, diffuse, specular);
-		// }
-// 		i++;
-// 	}
-// 	return (final_color);
-// }
 
 
 // PRIMEIRA VERSAO
