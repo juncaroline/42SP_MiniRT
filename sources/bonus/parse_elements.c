@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:51 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 12:28:43 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,20 @@ bool	parse_camera(char **tokens, int count, t_camera *camera)
 
 bool	parse_light(char **tokens, int count, t_light *light)
 {
-	t_vector3d	light_point;
-	float		ratio;
-	t_rgb_color	color;
-
 	if (count != 4 && count != 5)
 	{
 		printf("Erro: 'L' espera 3 ou 4 parâmetros, recebeu %d\n", count - 1);
 		return (false);
 	}
-	light_point = parse_coordinates(tokens[1]);
-	ratio = parse_ratio(tokens[2]);
-	color = parse_rgb(tokens[3]);
-	if (ratio < 0.0 || ratio > 1.0)
+	light->light_point = parse_coordinates(tokens[1]);
+	light->ratio = parse_ratio(tokens[2]);
+	light->color = parse_rgb(tokens[3]);
+	if (light->ratio < 0.0 || light->ratio > 1.0)
 		return (false);
-	light->light_point = light_point;
-	light->ratio = ratio;
 	if (count == 5)
 	{
-		if (!is_rgb_color(color))
+		if (!is_rgb_color(light->color))
 			return (false);
 	}
-	light->color = color;
 	return (true);
 }

@@ -6,11 +6,47 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 16:06:25 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:57:37 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
+
+t_plane	create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap)
+{
+	t_vector3d	center;
+	t_vector3d	normal;
+	t_plane		plane;
+
+	ft_bzero(&plane, sizeof(t_plane));
+	normal = cylinder->vector;
+	if (is_top_cap == false)
+	{
+		center = cylinder->cylinder_center;
+		normal = scalar_multiplication(-1.0f, normal);
+	}
+	else
+		center = add_vectors(cylinder->cylinder_center,
+				scalar_multiplication(cylinder->height, cylinder->vector));
+	plane.plane_point = center;
+	plane.vector = normal;
+	plane.color = cylinder->color;
+	plane.has_checker = false;
+	return (plane);
+}
+
+bool	is_intersection_within_cap_radius(t_vector3d intersection_point,
+	t_vector3d cap_center, float cylinder_diameter)
+{
+	t_vector3d	delta;
+	float		radius;
+	float		distance_squared;
+
+	delta = subtract_vectors(intersection_point, cap_center);
+	radius = cylinder_diameter / 2.0f;
+	distance_squared = dot_product(delta, delta);
+	return (distance_squared <= radius * radius + EPSILON);
+}
 
 void	compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 	t_intersec_info *bottom_cap, t_intersec_info *top_cap)

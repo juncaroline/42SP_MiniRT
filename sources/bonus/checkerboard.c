@@ -48,7 +48,6 @@ static void	get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
 	height = dot_product(center_to_intersection, cylinder->vector);
 	radial = subtract_vectors(center_to_intersection,
 			scalar_multiplication(height, cylinder->vector));
-	
 	radial_length = sqrtf(dot_product(radial, radial));
 	if (radial_length < EPSILON)
 		*coord1 = 0.0f;
@@ -76,7 +75,7 @@ static void	get_cone_coordinates(t_vector3d point, t_cone *cone, float *coord1,
 	*coord2 = height / cone->height;
 }
 
-t_rgb_color	checkerboard_object_pattern(t_vector3d point, t_object *object,
+t_rgb_color	object_pattern(t_vector3d point, t_object *object,
 	float scale)
 {
 	float	coord1;

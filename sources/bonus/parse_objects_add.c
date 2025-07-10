@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:20:29 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 16:12:28 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:45:28 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 		new_array[i] = scene->sphere[i];
 		i++;
 	}
-	// i = 0;
-	// while (i < count)
-	// {
-	// 	new_array[scene->sphere_count + i] = new_sphere[i];
-	// 	i++;
-	// }
 	new_array[scene->sphere_count] = *new_sphere;
 	free(scene->sphere);
 	scene->sphere = new_array;
@@ -57,12 +51,6 @@ bool	add_plane(t_scene *scene, t_plane *new_plane, int count)
 		new_array[i] = scene->plane[i];
 		i++;
 	}
-	// i = 0;
-	// while (i < count)
-	// {
-	// 	new_array[scene->plane_count + i] = new_plane[i];
-	// 	i++;
-	// }
 	new_array[scene->plane_count] = *new_plane;
 	free(scene->plane);
 	scene->plane = new_array;
@@ -86,12 +74,6 @@ bool	add_cylinder(t_scene *scene, t_cylinder *new_cylinder, int count)
 		new_array[i] = scene->cylinder[i];
 		i++;
 	}
-	// i = 0;
-	// while (i < count)
-	// {
-	// 	new_array[scene->cylinder_count + i] = new_cylinder[i];
-	// 	i++;
-	// }
 	new_array[scene->cylinder_count] = *new_cylinder;
 	free(scene->cylinder);
 	scene->cylinder = new_array;
@@ -115,12 +97,6 @@ bool	add_cone(t_scene *scene, t_cone *new_cone, int count)
 		new_array[i] = scene->cone[i];
 		i++;
 	}
-	// i = 0;
-	// while (i < count)
-	// {
-	// 	new_array[scene->cone_count + i] = new_cone[i];
-	// 	i++;
-	// }
 	new_array[scene->cone_count] = *new_cone;
 	free(scene->cone);
 	scene->cone = new_array;
@@ -133,7 +109,9 @@ bool	add_light(t_scene *scene, t_light *new_light, int count)
 	t_light	*new_array;
 	int		i;
 
-	new_array = malloc(sizeof(t_light) * (scene->light_count + count));
+	if (count != 1)
+		return (false);
+	new_array = malloc(sizeof(t_light) * (scene->light_count + 1));
 	if (!new_array)
 		return (false);
 	i = 0;
@@ -142,14 +120,9 @@ bool	add_light(t_scene *scene, t_light *new_light, int count)
 		new_array[i] = scene->light[i];
 		i++;
 	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->light_count + i] = new_light[i];
-		i++;
-	}
+	new_array[scene->light_count] = *new_light;
 	free(scene->light);
 	scene->light = new_array;
-	scene->light_count += count;
+	scene->light_count += 1;
 	return (true);
 }

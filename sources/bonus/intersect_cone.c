@@ -6,15 +6,40 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 17:43:23 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:30:22 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
-void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersec_info *bottom_cap, t_intersec_info *top_cap,
+t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
 	t_cone_intersec *base)
+{
+	t_vector3d		normal;
+	t_cone_intersec	intersec;
+	t_cone_quad		quad;
+	t_vector3d		axis_component;
+	t_vector3d		radial_component;
+
+	init_cone_base(cone, base);
+	intersec.vector_to_point = subtract_vectors(point, base->cone_vertex);
+	intersec.height_projection = dot_product(intersec.vector_to_point,
+			base->direction);
+	quad.radius = cone->diameter / 2.0f;
+	quad.cos_squared = (cone->height * cone->height)
+		/ (cone->height * cone->height + quad.radius * quad.radius);
+	axis_component = scalar_multiplication(intersec.height_projection,
+			base->direction);
+	radial_component = subtract_vectors(intersec.vector_to_point,
+			axis_component);
+	normal = subtract_vectors(radial_component,
+			scalar_multiplication(quad.cos_squared * intersec.height_projection,
+				base->direction));
+	return (normalize(normal));
+}
+
+void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap)
 {
 	bool	hit_base;
 	bool	hit_top;
@@ -62,7 +87,7 @@ t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone)
 	t_cone_intersec	base;
 
 	surface_info = ray_intersects_cone_surface(ray, cone, &base);
-	compute_cone_cap_intersections(ray, cone, &base_info, &top_info, &base);
+	compute_cone_cap_intersections(ray, cone, &base_info, &top_info);
 	return (select_closest_intersection_cone(surface_info, base_info,
 			top_info));
 }

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 16:49:23 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:14:12 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 		sphere_object.data = (void *)sphere;
 		sphere_object.white = (t_rgb_color){255, 255, 255};
 		sphere_object.black = (t_rgb_color){0, 0, 0};
-		info.color = checkerboard_object_pattern(info.intersec_point,
+		info.color = object_pattern(info.intersec_point,
 				&sphere_object, 10.0f);
 	}
 	else

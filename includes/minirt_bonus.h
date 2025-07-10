@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 17:42:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:13:35 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,8 +238,18 @@ typedef struct s_scene
 	int			cone_count;
 }	t_scene;
 
+typedef struct s_material
+{
+	char		*type;
+	t_rgb_color	color;
+	float		reflective;
+	float		transparency;
+	float		refractive_index;
+	float		shininess;
+}	t_material;
+
 // checkerboard.c
-t_rgb_color			checkerboard_object_pattern(t_vector3d point, t_object *object,
+t_rgb_color			object_pattern(t_vector3d point, t_object *object,
 						float scale);
 // t_rgb_color			checkerboard_plane_pattern(t_vector3d point, float scale,
 // 						t_object *color);
@@ -264,6 +274,13 @@ t_intersec_info		find_closest_interesection(t_ray *ray, t_scene *scene);
 // error.c
 void				error_msg(int status);
 
+// handle_param.c
+bool				handle_sphere(char **tokens, t_scene *scene);
+bool				handle_plane(char **tokens, t_scene *scene);
+bool				handle_cylinder(char **tokens, t_scene *scene);
+bool				handle_cone(char **tokens, t_scene *scene);
+bool				handle_light(char **tokens, t_scene *scene);
+
 // init.c
 void				esc_command(void* param);
 int32_t				init_scene(t_scene *scene);
@@ -278,6 +295,11 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 	t_cone *cone, t_cone_intersec *base);
 
+// intersect_cone_aux2.c
+void	init_cone_struct(t_object *object, t_cone *cone);
+t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base);
+
+
 // intersect_cone_calc.c
 void	init_cone_base(t_cone *cone, t_cone_intersec *base);
 void	init_cone_projection(t_ray *ray, t_cone *cone,
@@ -288,13 +310,12 @@ bool	solve_cone_quadratic(t_cone_projection *proj,
 	t_cone *cone, t_cone_quad *quad, t_ray *ray);
 bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
 	t_cone_quad *quad, t_cone_intersec *base);
-t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
-	t_cone_intersec *base);
 
 // intersect_cone.c
-void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
-	t_intersec_info *bottom_cap, t_intersec_info *top_cap,
+t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
 	t_cone_intersec *base);
+void	compute_cone_cap_intersections(t_ray *ray, t_cone *cone,
+	t_intersec_info *bottom_cap, t_intersec_info *top_cap);
 t_intersec_info	select_closest_intersection_cone(
 	t_intersec_info surface_info, t_intersec_info base_info,
 	t_intersec_info top_info);
@@ -319,6 +340,12 @@ bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 						t_cylinder *cylinder);
 
+// intersect_cylinder_aux2.c
+void				get_top_cap_coord(t_vector3d point, t_cylinder *cylinder,
+						float *coord1, float *coord2);
+void				get_bottom_cap_coord(t_vector3d point, t_cylinder *cylinder,
+						float *coord1, float *coord2);
+
 // intersect_cylinder.c
 void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 						t_intersec_info *bottom_cap, t_intersec_info *top_cap);
@@ -336,12 +363,22 @@ t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
 
+// light.c
+t_rgb_color	scale_color(t_rgb_color c, float ratio);
+t_rgb_color	max_color(t_rgb_color c);
+t_rgb_color	add_color(t_rgb_color a, t_rgb_color b);
+t_rgb_color	diff_color(t_intersec_info hit, t_light *light);
+t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
+
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
 t_vector3d			cross_product(t_vector3d a, t_vector3d b);
 t_vector3d			subtract_vectors(t_vector3d a, t_vector3d b);
 t_vector3d			scalar_multiplication(float k, t_vector3d vector);
 float				dot_product(t_vector3d a, t_vector3d b);
+
+// parse_objects_utils.c
+void	rebuild_object_pointers(t_scene *scene);
 
 // parse_elements.c
 bool				parse_ambient(char **tokens, int count, t_ambient *ambient);
@@ -355,7 +392,6 @@ bool				parse_cylinder(char **tokens, int count,
 						t_cylinder *cylinder);
 bool				parse_cone(char **tokens, int count, t_cone *cone);
 void				add_object(t_scene *scene, t_object_type type, void *data);
-void				rebuild_object_pointers(t_scene *scene);
 
 // parse_objects_add.c
 bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
@@ -396,6 +432,7 @@ float				string_to_float(char *str);
 
 // validate_elements.c
 void				verify_elements(char *content, int i);
+int					count_tokens(char **tokens);
 bool				validate_elements(char **tokens, t_scene *scene);
 
 // validate_param.c

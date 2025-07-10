@@ -1,0 +1,16 @@
+# Minimal scene to test multiple light sources
+A 0.1 255,255,255
+
+# Camera
+C 0,0,5 0,0,-1 60
+
+# Three primary colored lights
+L -3,3,3 0.8 255,0,0      # Red light
+L 3,3,3 0.8 0,255,0       # Green light  
+L 0,3,-3 0.6 0,0,255      # Blue light
+
+# Single white sphere to see color mixing
+sp 0,0,0 2 255,255,255
+
+# Ground plane
+pl 0,-2,0 0,1,0 150,150,150

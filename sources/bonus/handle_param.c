@@ -1,0 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_param.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/10 15:31:52 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/07/10 15:36:50 by cabo-ram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/minirt_bonus.h"
+
+bool	handle_sphere(char **tokens, t_scene *scene)
+{
+	t_sphere	new_sphere;
+	int			count;
+
+	count = count_tokens(tokens);
+	if (!parse_sphere(tokens, count, &new_sphere))
+		return (false);
+	if (!add_sphere(scene, &new_sphere, 1))
+		return (false);
+	add_object(scene, SPHERE, NULL);
+	rebuild_object_pointers(scene);
+	return (true);
+}
+
+bool	handle_plane(char **tokens, t_scene *scene)
+{
+	t_plane	new_plane;
+	int		count;
+
+	count = count_tokens(tokens);
+	if (!parse_plane(tokens, count, &new_plane))
+		return (false);
+	if (!add_plane(scene, &new_plane, 1))
+		return (false);
+	add_object(scene, PLANE, NULL);
+	rebuild_object_pointers(scene);
+	return (true);
+}
+
+bool	handle_cylinder(char **tokens, t_scene *scene)
+{
+	t_cylinder	new_cylinder;
+	int			count;
+
+	count = count_tokens(tokens);
+	if (!parse_cylinder(tokens, count, &new_cylinder))
+		return (false);
+	if (!add_cylinder(scene, &new_cylinder, 1))
+		return (false);
+	add_object(scene, CYLINDER, NULL);
+	rebuild_object_pointers(scene);
+	return (true);
+}
+
+bool	handle_cone(char **tokens, t_scene *scene)
+{
+	t_cone	new_cone;
+	int		count;
+
+	count = count_tokens(tokens);
+	if (!parse_cone(tokens, count, &new_cone))
+		return (false);
+	if (!add_cone(scene, &new_cone, 1))
+		return (false);
+	add_object(scene, CONE, NULL);
+	rebuild_object_pointers(scene);
+	return (true);
+}
+
+bool	handle_light(char **tokens, t_scene *scene)
+{
+	t_light	new_light;
+	int		count;
+
+	count = count_tokens(tokens);
+	if (!parse_light(tokens, count, &new_light))
+		return (false);
+	if (!add_light(scene, &new_light, 1))
+		return (false);
+	return (true);
+}

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/09 17:35:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:49:22 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,45 +88,6 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
 		cone->has_checker = true;
 	return (true);
-}
-
-void	rebuild_object_pointers(t_scene *scene)
-{
-	int	i;
-	int	sphere_idx;
-	int	plane_idx;
-	int	cylinder_idx;
-	int	cone_idx;
-
-	sphere_idx = 0;
-	plane_idx = 0;
-	cylinder_idx = 0;
-	cone_idx = 0;
-	i = 0;
-	while (i < scene->object_count)
-	{
-		if (scene->objects[i].type == SPHERE)
-		{
-			scene->objects[i].data = &scene->sphere[sphere_idx];
-			sphere_idx++;
-		}
-		else if (scene->objects[i].type == PLANE)
-		{
-			scene->objects[i].data = &scene->plane[plane_idx];
-			plane_idx++;
-		}
-		else if (scene->objects[i].type == CYLINDER)
-		{
-			scene->objects[i].data = &scene->cylinder[cylinder_idx];
-			cylinder_idx++;
-		}
-		else if (scene->objects[i].type == CONE)
-		{
-			scene->objects[i].data = &scene->cone[cone_idx];
-			cone_idx++;
-		}
-		i++;
-	}
 }
 
 void	add_object(t_scene *scene, t_object_type type, void *data)
