@@ -12,6 +12,7 @@
 
 #include "../../includes/minirt.h"
 
+<<<<<<< HEAD
 // t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
 // 	int count)
 // {
@@ -109,6 +110,11 @@ t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 
 t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 {
+=======
+t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
+	int count)
+{
+>>>>>>> origin/main
 	t_intersec_info	closest;
 	t_intersec_info	current;
 	int					i;
@@ -129,9 +135,65 @@ t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 	return (closest);
 }
 
+<<<<<<< HEAD
 t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 {
 	t_intersec_info	closest;
+=======
+t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
+{
+	t_intersec_info	closest;
+	t_intersec_info	current;
+	int					i;
+
+	closest.object = NULL;
+	closest.intersection = false;
+	closest.dist_to_intersec = INFINITY;
+	i = 0;
+	if (count <= 0 || !planes || !ray)
+		return (closest);
+	while (i < count)
+	{
+		current = intersect_plane(ray, &planes[i]);
+		if (current.intersection
+			&& current.dist_to_intersec < closest.dist_to_intersec)
+			closest = current;
+		i++;
+	}
+	return (closest);
+}
+
+t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
+	int count)
+{
+	t_intersec_info	closest;
+	t_intersec_info	current;
+	int					i;
+
+	closest.object = NULL;
+	closest.intersection = false;
+	closest.dist_to_intersec = INFINITY;
+	i = 0;
+	if (count <= 0 || !cylinders || !ray)
+		return (closest);
+	while (i < count)
+	{
+		current = intersect_cylinder(ray, &cylinders[i]);
+		if (current.intersection
+			&& current.dist_to_intersec < closest.dist_to_intersec)
+			closest = current;
+		i++;
+	}
+	return (closest);
+}
+
+t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
+{
+	t_intersec_info	sphere_hit;
+	t_intersec_info	plane_hit;
+	t_intersec_info	cylinder_hit;
+	t_intersec_info	closest;
+>>>>>>> origin/main
 
 	closest.object = NULL;
 	closest.intersection = false;
