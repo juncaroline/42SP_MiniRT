@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 16:13:35 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:53:34 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,28 +251,18 @@ typedef struct s_material
 // checkerboard.c
 t_rgb_color			object_pattern(t_vector3d point, t_object *object,
 						float scale);
-// t_rgb_color			checkerboard_plane_pattern(t_vector3d point, float scale,
-// 						t_object *color);
-// t_rgb_color			checkerboard_sphere_pattern(t_vector3d point, t_sphere *sphere,
-// 						float scale, t_object *color);
-// t_rgb_color			checkerboard_cylinder_pattern(t_vector3d point,
-// 						t_cylinder *cylinder, float scale, t_object *color);
-// t_rgb_color			checkerboard_cone_pattern(t_vector3d point, t_cone *cone,
-// 						float scale, t_object *color);
 
 // closest_hit.c
-// t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
-// 						int count);
-// t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count);
-// t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
-// 						int count);
-// t_intersec_info	find_closest_cone(t_ray *ray, t_cone *cones, int count);
 t_intersec_info		intersect_object(t_ray *ray, t_object *object);
 t_intersec_info		find_closest_object(t_ray *ray, t_object *objects, int count);
 t_intersec_info		find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
 void				error_msg(int status);
+
+// free.c
+void				free_split(char **tokens);
+void				free_scene(t_scene *scene);
 
 // handle_param.c
 bool				handle_sphere(char **tokens, t_scene *scene);
@@ -283,11 +273,12 @@ bool				handle_light(char **tokens, t_scene *scene);
 
 // init.c
 void				esc_command(void* param);
+void				set_pixel(mlx_image_t *img, int x, int y, t_rgb_color c);
+void				set_color(t_scene *scene, mlx_image_t *img, int x, int y);
+void				render(t_scene *scene, mlx_image_t *img);
 int32_t				init_scene(t_scene *scene);
-// int32_t			init(void);
 
 // intersect_cone_aux.c
-t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base);
 bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
 	t_vector3d cap_center, float cone_diameter);
 bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
@@ -321,20 +312,10 @@ t_intersec_info	select_closest_intersection_cone(
 	t_intersec_info top_info);
 t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone);
 
-// intersect_cylinder_calc.c
-void				init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
-						t_cylinder_projection *proj);
-bool				solve_cylinder_quadratic(t_cylinder_projection *proj,
-						t_cylinder *cylinder, t_cylinder_quad *quad);
-bool				validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
-						t_cylinder_quad *quad);
-t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder,
-						t_vector3d point);
-
 // intersect_cylinder_aux.c
-t_plane				create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
-bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
-						t_vector3d cap_center, float cylinder_diameter);
+// t_plane				create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
+// bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
+// 						t_vector3d cap_center, float cylinder_diameter);
 bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 						bool is_top_cap, t_intersec_info *info);
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
@@ -346,7 +327,24 @@ void				get_top_cap_coord(t_vector3d point, t_cylinder *cylinder,
 void				get_bottom_cap_coord(t_vector3d point, t_cylinder *cylinder,
 						float *coord1, float *coord2);
 
+
+// intersect_cylinder_calc.c
+void				init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
+						t_cylinder_projection *proj);
+bool				solve_cylinder_quadratic(t_cylinder_projection *proj,
+						t_cylinder *cylinder, t_cylinder_quad *quad);
+bool				validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
+						t_cylinder_quad *quad);
+t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder,
+						t_vector3d point);
+
+
+
+
 // intersect_cylinder.c
+t_plane	create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
+bool	is_intersection_within_cap_radius(t_vector3d intersection_point,
+	t_vector3d cap_center, float cylinder_diameter);
 void				compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 						t_intersec_info *bottom_cap, t_intersec_info *top_cap);
 t_intersec_info	select_closest_intersection(
@@ -363,12 +361,22 @@ t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
 
+// // light_bonus.c
+// t_rgb_color	scale_color(t_rgb_color c, float ratio);
+// t_rgb_color	max_color(t_rgb_color c);
+// t_rgb_color	add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c);
+// t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene);
+// t_vector3d	reflection(t_intersec_info hit, t_scene *scene);
+// t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat);
+// t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
+
 // light.c
 t_rgb_color	scale_color(t_rgb_color c, float ratio);
 t_rgb_color	max_color(t_rgb_color c);
 t_rgb_color	add_color(t_rgb_color a, t_rgb_color b);
 t_rgb_color	diff_color(t_intersec_info hit, t_light *light);
 t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
+
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
@@ -377,21 +385,10 @@ t_vector3d			subtract_vectors(t_vector3d a, t_vector3d b);
 t_vector3d			scalar_multiplication(float k, t_vector3d vector);
 float				dot_product(t_vector3d a, t_vector3d b);
 
-// parse_objects_utils.c
-void	rebuild_object_pointers(t_scene *scene);
-
 // parse_elements.c
 bool				parse_ambient(char **tokens, int count, t_ambient *ambient);
 bool				parse_camera(char **tokens, int count, t_camera *camera);
 bool				parse_light(char **tokens, int count, t_light *light);
-
-// parse_objects.c
-bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
-bool				parse_plane(char **tokens, int count, t_plane *plane);
-bool				parse_cylinder(char **tokens, int count,
-						t_cylinder *cylinder);
-bool				parse_cone(char **tokens, int count, t_cone *cone);
-void				add_object(t_scene *scene, t_object_type type, void *data);
 
 // parse_objects_add.c
 bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
@@ -401,9 +398,27 @@ bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
 bool				add_cone(t_scene *scene, t_cone *new_cone, int count);
 bool				add_light(t_scene *scene, t_light *new_light, int count);
 
+// parse_objects_utils.c
+void	rebuild_object_pointers(t_scene *scene);
+
+
+
+// parse_objects.c
+bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
+bool				parse_plane(char **tokens, int count, t_plane *plane);
+bool				parse_cylinder(char **tokens, int count,
+						t_cylinder *cylinder);
+bool				parse_cone(char **tokens, int count, t_cone *cone);
+void				add_object(t_scene *scene, t_object_type type, void *data);
+
+
+
 
 // parse.c
 void				check_file_extension(char *extension);
+void	get_content(char	**content, int fd);
+int	verif_content(char *content, t_scene *scene, char ***tokens, int i);
+
 void				read_file(char *scene_file, t_scene *scene);
 
 // ray_direction.c
@@ -416,9 +431,10 @@ t_vector3d			negative_vector(t_vector3d vector);
 t_vector3d			normalize(t_vector3d vector);
 t_cam_basis			camera_basis(t_camera *cam);
 
-// free.c
-void				free_split(char **tokens);
-void				free_scene(t_scene *scene);
+// // reflection.c
+// t_vector3d			reflection(t_vector3d ray_in, t_vector3d normal);
+// bool				valid_material(t_material	*m);
+
 
 // utils.c
 int					skip_spaces(char *line);

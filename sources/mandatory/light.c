@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_bonus.c                                      :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/11 17:25:12 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:54:26 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../includes/minirt.h"
 
 t_rgb_color	scale_color(t_rgb_color c, float ratio)
 {
@@ -32,13 +32,13 @@ t_rgb_color	max_color(t_rgb_color c)
 	return (final);
 }
 
-t_rgb_color	add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c)
+t_rgb_color	add_color(t_rgb_color a, t_rgb_color b)
 {
 	t_rgb_color	color;
 
-	color.red = a.red + b.red + c.red;
-	color.green = a.green + b.green + c.green;
-	color.blue = a.blue + b.blue + c.blue;
+	color.red = a.red + b.red;
+	color.green = a.green + b.green;
+	color.blue = a.blue + b.blue;
 	color = max_color(color);
 	return (color);
 }
@@ -47,39 +47,13 @@ t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
 {
 	t_vector3d	light_dir;
 	float		diff;
+	t_rgb_color	light;
 
-	light_dir = normalize(subtract_vectors(scene->light->light_point, \
+	light = (t_rgb_color){255, 255, 255};
+	light_dir = normalize(subtract_vectors(scene->light.light_point, \
 				hit.intersec_point));
 	diff = fmax(0.0f, dot_product(hit.normal, light_dir));
-	return (scale_color(scene->light->color, (diff * scene->light->ratio)));
-}
-
-t_vector3d	reflection(t_intersec_info hit, t_scene *scene)
-{
-	float		scalar_nbr;
-	t_vector3d	result;
-	t_vector3d	light_dir;
-
-	light_dir = normalize(subtract_vectors(scene->light->light_point, \
-				hit.intersec_point));
-	scalar_nbr = 2 * dot_product(hit.normal, light_dir);
-	result = scalar_multiplication(scalar_nbr, hit.normal);
-	return (subtract_vectors(result, light_dir));
-}
-
-t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat)
-{
-	t_vector3d	v_refle;
-	t_vector3d	v_cam;
-	double		max_value;
-	float		prod;
-
-	v_refle = reflection(hit, scene);
-	v_cam = normalize(subtract_vectors(scene->camera.camera_position, \
-				hit.intersec_point));
-	max_value = fmax(0.0f, dot_product(v_refle, v_cam));
-	prod = pow(max_value, mat.shininess);
-	return (scale_color(scene->light->color, pow(max_value, mat.shininess)));
+	return (scale_color(light, (diff * scene->light.ratio)));
 }
 
 t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
@@ -87,20 +61,14 @@ t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
 	t_rgb_color	diffuse;
-	t_rgb_color	specular;
 
 	if (!hit.intersection)
 	{
 		final_color = (t_rgb_color){0, 0, 0};
 		return (final_color);
-	}
+	}	
 	ambient = scale_color(hit.color, scene->ambient.ratio);
 	diffuse = diff_color(hit, scene);
-
-	t_material	material;
-
-	material.shininess = 50;
-	specular = spec_color(hit, scene, material);
-	final_color = add_color(ambient, diffuse, specular);
+	final_color = add_color(ambient, diffuse);
 	return (final_color);
 }

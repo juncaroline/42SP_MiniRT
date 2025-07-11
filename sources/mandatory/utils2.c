@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:35 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 09:27:36 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:05:23 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,35 +58,24 @@ bool	ft_isfloat(const char *str)
 
 float	string_to_float(char *str)
 {
-	int		sign;
-	float	div;
 	float	result;
+	float	div;
+	char	*dec_pos;
 
-	div = 1.0;
-	sign = 1.0;
-	result = 0.0;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-' || *str == '+')
+	result = (float)ft_atoi(str);
+	dec_pos = str;
+	while (*dec_pos && *dec_pos != '.')
+		dec_pos++;
+	if (*dec_pos == '.')
 	{
-		if (*str == '-')
-			sign = -1.0;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		result = result * 10.0 + (*str - '0');
-		str++;
-	}
-	if (*str == '.')
-	{
-		str++;
-		while (*str >= '0' && *str <= '9')
+		dec_pos++;
+		div = 1.0;
+		while (*dec_pos >= '0' && *dec_pos <= '9')
 		{
 			div *= 10.0;
-			result = result + (*str - '0') / div;
-			str++;
+			result += (*dec_pos - '0') / div;
+			dec_pos++;
 		}
 	}
-	return (result * sign);
+	return (result);
 }

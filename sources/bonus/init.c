@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 15:35:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:03:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,23 @@ void	esc_command(void *param)
 
 void	set_pixel(mlx_image_t *img, int x, int y, t_rgb_color c)
 {
-	size_t	i;
-
-	i = (y * img->width + x) * 4;
+	size_t i = (y * img->width + x) * 4;
 	img->pixels[i + 0] = c.red;
 	img->pixels[i + 1] = c.green;
 	img->pixels[i + 2] = c.blue;
 	img->pixels[i + 3] = 255;
+}
+
+void	set_color(t_scene *scene, mlx_image_t *img, int x, int y)
+{
+	t_ray			ray;
+	t_intersec_info	hit;
+	t_rgb_color		final_color;
+
+	ray = generate_ray(x, y, &scene->camera);
+	hit = find_closest_interesection(&ray, scene);
+	final_color = get_color(hit, scene);
+	set_pixel(img, x, y, final_color);
 }
 
 void	render(t_scene *scene, mlx_image_t *img)
@@ -47,11 +57,7 @@ void	render(t_scene *scene, mlx_image_t *img)
 		x = 0;
 		while (x < width)
 		{
-			t_ray ray = generate_ray(x, y, &scene->camera);
-			t_intersec_info hit = find_closest_interesection(&ray, scene);
-			t_rgb_color final_color;
-			final_color = get_color(hit, scene);
-			set_pixel(img, x, y, final_color);
+			set_color(scene, img, x, y);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:20:29 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 16:21:47 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:04:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 	t_sphere	*new_array;
 	int			i;
 
-	new_array = malloc(sizeof(t_sphere) * (scene->sphere_count + count));
+	if (count != 1)
+		return (false);
+	new_array = malloc(sizeof(t_sphere) * (scene->sphere_count + 1));
 	if (!new_array)
 		return (false);
 	i = 0;
@@ -26,15 +28,10 @@ bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 		new_array[i] = scene->sphere[i];
 		i++;
 	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->sphere_count + i] = new_sphere[i];
-		i++;
-	}
+	new_array[scene->sphere_count] = *new_sphere;
 	free(scene->sphere);
 	scene->sphere = new_array;
-	scene->sphere_count += count;
+	scene->sphere_count += 1;
 	return (true);
 }
 
@@ -43,7 +40,9 @@ bool	add_plane(t_scene *scene, t_plane *new_plane, int count)
 	t_plane	*new_array;
 	int		i;
 
-	new_array = malloc(sizeof(t_plane) * (scene->plane_count + count));
+	if (count != 1)
+		return (false);
+	new_array = malloc(sizeof(t_plane) * (scene->plane_count + 1));
 	if (!new_array)
 		return (false);
 	i = 0;
@@ -52,15 +51,10 @@ bool	add_plane(t_scene *scene, t_plane *new_plane, int count)
 		new_array[i] = scene->plane[i];
 		i++;
 	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->plane_count + i] = new_plane[i];
-		i++;
-	}
+	new_array[scene->plane_count] = *new_plane;
 	free(scene->plane);
 	scene->plane = new_array;
-	scene->plane_count += count;
+	scene->plane_count += 1;
 	return (true);
 }
 
@@ -69,7 +63,9 @@ bool	add_cylinder(t_scene *scene, t_cylinder *new_cylinder, int count)
 	t_cylinder	*new_array;
 	int			i;
 
-	new_array = malloc(sizeof(t_cylinder) * (scene->cylinder_count + count));
+	if (count != 1)
+		return (false);
+	new_array = malloc(sizeof(t_cylinder) * (scene->cylinder_count + 1));
 	if (!new_array)
 		return (false);
 	i = 0;
@@ -78,14 +74,9 @@ bool	add_cylinder(t_scene *scene, t_cylinder *new_cylinder, int count)
 		new_array[i] = scene->cylinder[i];
 		i++;
 	}
-	i = 0;
-	while (i < count)
-	{
-		new_array[scene->cylinder_count + i] = new_cylinder[i];
-		i++;
-	}
+	new_array[scene->cylinder_count] = *new_cylinder;
 	free(scene->cylinder);
 	scene->cylinder = new_array;
-	scene->cylinder_count += count;
+	scene->cylinder_count += 1;
 	return (true);
 }

@@ -6,39 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:40:08 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:11:43 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
-#include <math.h>
-
-typedef struct s_material
-{
-	t_rgb_color	color;
-	float		ambient;
-	float		diffuse;
-	float		specular;
-	float		shininess;
-} t_material;
-
-typedef struct s_sphere
-{
-	t_vector3d	sphere_center;
-	float		diameter;
-	t_rgb_color	color;
-
-	t_material	material;
-
-}	t_sphere;
-
-typedef struct s_point_light
-{
-	t_vector3d	position;
-	t_rgb_color	intensity;
-}	t_point_light;
-
-t_rgb_color;
 
 t_vector3d	reflection(t_vector3d ray_in, t_vector3d normal)
 {

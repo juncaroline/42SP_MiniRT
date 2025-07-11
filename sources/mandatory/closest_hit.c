@@ -12,77 +12,6 @@
 
 #include "../../includes/minirt.h"
 
-// t_intersec_info	find_closest_sphere(t_ray *ray, t_sphere *spheres,
-// 	int count)
-// {
-// 	t_intersec_info	closest;
-// 	t_intersec_info	current;
-// 	int					i;
-
-// 	closest.object = NULL;
-// 	closest.intersection = false;
-// 	closest.dist_to_intersec = INFINITY;
-// 	i = 0;
-// 	if (count <= 0 || !spheres || !ray)
-// 		return (closest);
-// 	while (i < count)
-// 	{
-// 		current = intersect_sphere(ray, &spheres[i]);
-// 		if (current.intersection
-// 			&& current.dist_to_intersec < closest.dist_to_intersec)
-// 			closest = current;
-// 		i++;
-// 	}
-// 	return (closest);
-// }
-
-// t_intersec_info	find_closest_plane(t_ray *ray, t_plane*planes, int count)
-// {
-// 	t_intersec_info	closest;
-// 	t_intersec_info	current;
-// 	int					i;
-
-// 	closest.object = NULL;
-// 	closest.intersection = false;
-// 	closest.dist_to_intersec = INFINITY;
-// 	i = 0;
-// 	if (count <= 0 || !planes || !ray)
-// 		return (closest);
-// 	while (i < count)
-// 	{
-// 		current = intersect_plane(ray, &planes[i]);
-// 		if (current.intersection
-// 			&& current.dist_to_intersec < closest.dist_to_intersec)
-// 			closest = current;
-// 		i++;
-// 	}
-// 	return (closest);
-// }
-
-// t_intersec_info	find_closest_cylinder(t_ray *ray, t_cylinder *cylinders,
-// 	int count)
-// {
-// 	t_intersec_info	closest;
-// 	t_intersec_info	current;
-// 	int					i;
-
-// 	closest.object = NULL;
-// 	closest.intersection = false;
-// 	closest.dist_to_intersec = INFINITY;
-// 	i = 0;
-// 	if (count <= 0 || !cylinders || !ray)
-// 		return (closest);
-// 	while (i < count)
-// 	{
-// 		current = intersect_cylinder(ray, &cylinders[i]);
-// 		if (current.intersection
-// 			&& current.dist_to_intersec < closest.dist_to_intersec)
-// 			closest = current;
-// 		i++;
-// 	}
-// 	return (closest);
-// }
-
 t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 {
 	t_intersec_info	result;
@@ -100,8 +29,6 @@ t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 		result = intersect_plane(ray, (t_plane *)object->data);
 	else if (type == CYLINDER)
 		result = intersect_cylinder(ray, (t_cylinder *)object->data);
-	else if (type == CONE)
-		result = intersect_cone(ray, (t_cone *)object->data);
 	if (result.intersection)
 		result.object = object;
 	return (result);
@@ -121,7 +48,7 @@ t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 	i = 0;
 	while (i < count)
 	{
-		current = intersect_single_object(ray, &objects[i]);
+		current = intersect_object(ray, &objects[i]);
 		if (current.intersection && current.dist_to_intersec < closest.dist_to_intersec)
 			closest = current;
 		i++;

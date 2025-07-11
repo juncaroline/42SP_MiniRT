@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:52 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:38:17 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ int	main(int ac, char **av)
 {
 	t_scene	*scene;
 
-	scene = malloc(sizeof(t_scene));
+	// scene = malloc(sizeof(t_scene));
+	// if (!scene)
+	// 	return (EXIT_FAILURE);
+	scene = ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		return (EXIT_FAILURE);
-	scene->sphere = NULL;
-	scene->sphere_count = 0;
-	scene->plane = NULL;
-	scene->plane_count = 0;
-	scene->cylinder = NULL;
-	scene->cylinder_count = 0;
+	// scene->sphere = NULL;
+	// scene->sphere_count = 0;
+	// scene->plane = NULL;
+	// scene->plane_count = 0;
+	// scene->cylinder = NULL;
+	// scene->cylinder_count = 0;
 	if (ac != 2)
 	{
 		ft_putstr_fd("Usage: ./minirt <scene_file.rt>\n", 2);
