@@ -11,7 +11,7 @@ LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -lreadline -ldl -lglfw -pthr
 SRCS_DIR := sources/mandatory/
 SRCS	:= $(addprefix $(SRCS_DIR), closest_hit.c error.c free.c init.c \
 				intersect_cylinder_aux.c intersect_cylinder_calc.c intersect_cylinder.c \
-				intersect_plane.c intersect_sphere.c light.c main.c math.c parse_elements.c \
+				intersect_plane.c intersect_sphere.c main.c math.c parse_elements.c \
 				parse_objects_add.c parse_objects.c parse.c ray_direction.c ray_generator.c utils.c utils2.c \
 				validate_elements.c validate_param.c validate_param2.c)
 SRCS_BONUS := sources/bonus/

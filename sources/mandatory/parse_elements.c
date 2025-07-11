@@ -6,11 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:51 by cabo-ram          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2025/07/08 11:23:11 by cabo-ram         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/08 11:17:36 by cabo-ram         ###   ########.fr       */
->>>>>>> origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +45,9 @@ bool	parse_camera(char **tokens, int count, t_camera *camera)
 
 bool	parse_light(char **tokens, int count, t_light *light)
 {
-<<<<<<< HEAD
 	if (count != 5)
 	{
 		printf("Error: 'L' expects 4 parameters, received %d\n", count - 1);
-=======
-	if (count != 3)
-	{
-		printf("Error: 'L' expects 2 parameters, received %d\n", count - 1);
->>>>>>> origin/main
 		return (false);
 	}
 	light->light_point = parse_coordinates(tokens[1]);

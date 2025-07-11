@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
 /*   Updated: 2025/07/07 08:42:52 by marvin           ###   ########.fr       */
-=======
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/08 14:52:02 by cabo-ram         ###   ########.fr       */
->>>>>>> origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +26,9 @@ void	compute_cylinder_cap_intersections(t_ray *ray, t_cylinder *cylinder,
 		top_cap->intersection = false;
 }
 
-<<<<<<< HEAD
 t_intersec_info	select_closest_intersection(t_intersec_info surface,
 	t_intersec_info bottom_cap, t_intersec_info top_cap,
 	t_rgb_color color)
-=======
-t_intersec_info	select_closest_intersection(
-	t_intersec_info surface, t_intersec_info bottom_cap,
-	t_intersec_info top_cap, t_rgb_color color)
->>>>>>> origin/main
 {
 	float					closest_distance;
 	t_intersec_info		closest_intersection;

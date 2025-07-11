@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:35 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/01 18:33:24 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/30 09:27:36 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,6 @@ bool	ft_isfloat(const char *str)
 	return (true);
 }
 
-float	get_float(char *str, float result)
-{
-	float	div;
-
-	div = 1.0;
-	str++;
-	while (*str >= '0' && *str <= '9')
-	{
-		div *= 10.0;
-		result = result + (*str - '0') / div;
-		str++;
-	}
-	return (result);
-}
-
 float	string_to_float(char *str)
 {
 	int		sign;
@@ -94,41 +79,14 @@ float	string_to_float(char *str)
 		str++;
 	}
 	if (*str == '.')
-		result = get_float(str, result);
+	{
+		str++;
+		while (*str >= '0' && *str <= '9')
+		{
+			div *= 10.0;
+			result = result + (*str - '0') / div;
+			str++;
+		}
+	}
 	return (result * sign);
 }
-
-// float	string_to_float(char *str)
-// {
-// 	int		sign;
-// 	float	div;
-// 	float	result;
-
-// 	div = 1.0;
-// 	sign = 1.0;
-// 	result = 0.0;
-// 	while (*str == ' ' || (*str >= 9 && *str <= 13))
-// 		str++;
-// 	if (*str == '-' || *str == '+')
-// 	{
-// 		if (*str == '-')
-// 			sign = -1.0;
-// 		str++;
-// 	}
-// 	while (*str >= '0' && *str <= '9')
-// 	{
-// 		result = result * 10.0 + (*str - '0');
-// 		str++;
-// 	}
-// 	if (*str == '.')
-// 	{
-// 		str++;
-// 		while (*str >= '0' && *str <= '9')
-// 		{
-// 			div *= 10.0;
-// 			result = result + (*str - '0') / div;
-// 			str++;
-// 		}
-// 	}
-// 	return (result * sign);
-// }
