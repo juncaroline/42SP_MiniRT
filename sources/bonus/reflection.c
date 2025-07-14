@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:40:08 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/11 17:11:43 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:08:17 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,32 @@ bool	valid_material(t_material	*m)
 
 
 
-int	main(void)
-{
-	// REFLEXAO
-	// raio incidindo em 45 graus
-	// t_vector3d	in = {1, -1, 0};
-	// t_vector3d	normal = {0, 1, 0};
+// int	main(void)
+// {
+// 	// REFLEXAO
+// 	// raio incidindo em 45 graus
+// 	// t_vector3d	in = {1, -1, 0};
+// 	// t_vector3d	normal = {0, 1, 0};
 
-	// ponto de luz escondido
-	// t_vector3d	in = {0, -1, 0};
-	// t_vector3d	normal = {(sqrt(2) / 2.0), (sqrt(2) / 2.0), 0};
-	// t_vector3d	result;
+// 	// ponto de luz escondido
+// 	// t_vector3d	in = {0, -1, 0};
+// 	// t_vector3d	normal = {(sqrt(2) / 2.0), (sqrt(2) / 2.0), 0};
+// 	// t_vector3d	result;
 	
-	// result = reflection(in, normal);
-	// printf("Vetor (%.0f, %.0f, %.0f)\n", result.x, result.y, result.z);
+// 	// result = reflection(in, normal);
+// 	// printf("Vetor (%.0f, %.0f, %.0f)\n", result.x, result.y, result.z);
 	
-	// PONTO DE LUZ
-	t_point_light	light = {{0, 0, 0}, {1, 1, 1}};
-	t_material	m;
+// 	// PONTO DE LUZ
+// 	t_point_light	light = {{0, 0, 0}, {1, 1, 1}};
+// 	t_material	m;
 
-	m.color = (t_rgb_color){1, 1, 1};
-	m.ambient = 0.1;
-	m.diffuse = 0.9;
-	m.specular = 0.9;
-	m.shininess = 200;
+// 	m.color = (t_rgb_color){1, 1, 1};
+// 	m.ambient = 0.1;
+// 	m.diffuse = 0.9;
+// 	m.specular = 0.9;
+// 	m.shininess = 200;
 	
-	// printf("Light position (%.0f, %.0f, %.0f)\n", light.position.x, light.position.y, light.position.z);
-	// printf("Light i\n");
-	return (0);
-}
+// 	// printf("Light position (%.0f, %.0f, %.0f)\n", light.position.x, light.position.y, light.position.z);
+// 	// printf("Light i\n");
+// 	return (0);
+// }

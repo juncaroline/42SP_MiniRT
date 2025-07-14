@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/14 11:03:36 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:08:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,24 @@ t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
 	return (scale_color(scene->ambient.color, (diff * scene->light.ratio)));
 }
 
-t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
+t_rgb_color	get_color(t_intersec_info hit, t_scene *scene, t_ray ray)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
 	t_rgb_color	diffuse;
 
+	prepare_point(&hit, ray);
 	if (!hit.intersection)
 	{
 		final_color = (t_rgb_color){0, 0, 0};
 		return (final_color);
-	}	
+	}
 	ambient = scale_color(hit.color, scene->ambient.ratio);
-	diffuse = diff_color(hit, scene);
-	final_color = add_color(ambient, diffuse);
+	final_color = ambient;
+	if (!in_shadow(scene, hit, &scene->light))
+	{
+		diffuse = diff_color(hit, scene);
+		final_color = add_color(ambient, diffuse);
+	}
 	return (final_color);
 }

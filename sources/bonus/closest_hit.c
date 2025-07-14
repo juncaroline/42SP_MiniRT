@@ -12,7 +12,7 @@
 
 #include "../../includes/minirt_bonus.h"
 
-t_intersec_info	intersect_object(t_ray *ray, t_object *object)
+t_intersec_info	intersect_object(t_ray *ray, t_object *object, t_scene *scene)
 {
 	t_intersec_info	result;
 	t_object_type	type;
@@ -24,7 +24,7 @@ t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 		return (result);
 	type = object->type;
 	if (type == SPHERE)
-		result = intersect_sphere(ray, (t_sphere *)object->data);
+		result = intersect_sphere(ray, (t_sphere *)object->data, scene);
 	else if (type == PLANE)
 		result = intersect_plane(ray, (t_plane *)object->data);
 	else if (type == CYLINDER)
@@ -36,7 +36,7 @@ t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 	return (result);
 }
 
-t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
+t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count, t_scene *scene)
 {
 	t_intersec_info	closest;
 	t_intersec_info	current;
@@ -50,7 +50,7 @@ t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 	i = 0;
 	while (i < count)
 	{
-		current = intersect_object(ray, &objects[i]);
+		current = intersect_object(ray, &objects[i], scene);
 		if (current.intersection && current.dist_to_intersec
 			< closest.dist_to_intersec)
 			closest = current;
@@ -68,6 +68,6 @@ t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 	closest.dist_to_intersec = INFINITY;
 	if (!ray || !scene)
 		return (closest);
-	closest = find_closest_object(ray, scene->objects, scene->object_count);
+	closest = find_closest_object(ray, scene->objects, scene->object_count, scene);
 	return (closest);
 }

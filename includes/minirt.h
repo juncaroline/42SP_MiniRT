@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 10:48:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:02:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define M_PI 3.14159265358979323846
 
-# define EPSILON 1e-6
+# define EPSILON 1e-3
 # define CLOSE_TO_ZERO_EPSILON 1e-12
 
 typedef enum e_object_type
@@ -183,7 +183,7 @@ typedef struct s_intersection_info
 	float		dist_to_intersec;
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
-
+	t_vector3d	over_point;
 	t_rgb_color	color;
 
 	t_object	*object;
@@ -264,12 +264,16 @@ t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersec_info		intersect_sphere(t_ray *ray, t_sphere *sphere);
 
+// light_shadow.c
+bool				in_shadow(t_scene *scene, t_intersec_info hit, t_light *light);
+void				prepare_point(t_intersec_info *hit, t_ray ray);
+
 // light.c
 t_rgb_color			scale_color(t_rgb_color c, float ratio);
 t_rgb_color			max_color(t_rgb_color c);
 t_rgb_color			add_color(t_rgb_color a, t_rgb_color b);
 t_rgb_color			diff_color(t_intersec_info hit, t_scene *scene);
-t_rgb_color			get_color(t_intersec_info hit, t_scene *scene);
+t_rgb_color			get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);

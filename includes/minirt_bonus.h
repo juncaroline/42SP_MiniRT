@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 18:53:34 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:04:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define M_PI 3.14159265358979323846
 
-# define EPSILON 1e-6
+# define EPSILON 1e-3
 # define CLOSE_TO_ZERO_EPSILON 1e-12
 
 typedef enum e_object_type
@@ -87,10 +87,10 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	t_vector3d	sphere_center;
-	float		diameter;
-	t_rgb_color	color;
-	bool		has_checker;
+	t_vector3d		sphere_center;
+	float			diameter;
+	t_rgb_color		color;
+	bool			has_checker;
 }	t_sphere;
 
 // quadratic equations in ray-geometry intersection calculations
@@ -236,6 +236,7 @@ typedef struct s_scene
 	int			cylinder_count;
 	t_cone		*cone;
 	int			cone_count;
+	mlx_texture_t	*bump_texture;
 }	t_scene;
 
 typedef struct s_material
@@ -253,8 +254,8 @@ t_rgb_color			object_pattern(t_vector3d point, t_object *object,
 						float scale);
 
 // closest_hit.c
-t_intersec_info		intersect_object(t_ray *ray, t_object *object);
-t_intersec_info		find_closest_object(t_ray *ray, t_object *objects, int count);
+t_intersec_info		intersect_object(t_ray *ray, t_object *object, t_scene *scene);
+t_intersec_info		find_closest_object(t_ray *ray, t_object *objects, int count, t_scene *scene);
 t_intersec_info		find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // error.c
@@ -357,25 +358,28 @@ t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
 
 // intersect_sphere.c
+void	uv_map(t_vector3d point, t_sphere *sphere, float *u, float *v);
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
-t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere);
+t_vector3d			apply_bump_mapping(t_sphere *sphere, t_vector3d point,
+						t_vector3d normal, mlx_texture_t *bump_texture);
+t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene);
 
-// // light_bonus.c
-// t_rgb_color	scale_color(t_rgb_color c, float ratio);
-// t_rgb_color	max_color(t_rgb_color c);
-// t_rgb_color	add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c);
-// t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene);
-// t_vector3d	reflection(t_intersec_info hit, t_scene *scene);
-// t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat);
-// t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
-
-// light.c
+// light_bonus.c
 t_rgb_color	scale_color(t_rgb_color c, float ratio);
 t_rgb_color	max_color(t_rgb_color c);
-t_rgb_color	add_color(t_rgb_color a, t_rgb_color b);
+t_rgb_color	add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c);
 t_rgb_color	diff_color(t_intersec_info hit, t_light *light);
+t_vector3d	reflection(t_intersec_info hit, t_light *light);
+t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_light *light, t_material mat);
 t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
+
+// // light.c
+// t_rgb_color	scale_color(t_rgb_color c, float ratio);
+// t_rgb_color	max_color(t_rgb_color c);
+// t_rgb_color	add_color(t_rgb_color a, t_rgb_color b);
+// t_rgb_color	diff_color(t_intersec_info hit, t_light *light);
+// t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
 
 
 // math.c
