@@ -15,7 +15,7 @@
 t_intersec_info	intersect_object(t_ray *ray, t_object *object)
 {
 	t_intersec_info	result;
-	t_object_type		type;
+	t_object_type	type;
 
 	result.object = NULL;
 	result.intersection = false;
@@ -38,7 +38,7 @@ t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 {
 	t_intersec_info	closest;
 	t_intersec_info	current;
-	int					i;
+	int				i;
 
 	closest.object = NULL;
 	closest.intersection = false;

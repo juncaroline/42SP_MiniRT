@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 15:40:00 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:38:19 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ int	count_tokens(char **tokens)
 bool	validate_elements(char **tokens, t_scene *scene)
 {
 	int	count;
-	t_light	*light;
+	// t_light	*light;
 
-	light = &scene->light;
+	// light = &scene->light;
 	count = count_tokens(tokens);
 	if (ft_strcmp(tokens[0], "A") == 0)
 		return (parse_ambient(tokens, count, &scene->ambient));
 	else if (ft_strcmp(tokens[0], "C") == 0)
 		return (parse_camera(tokens, count, &scene->camera));
 	else if (ft_strcmp(tokens[0], "L") == 0)
-		return (parse_light(tokens, count, light));
+		return (parse_light(tokens, count, &scene->light));
 	else if (ft_strcmp(tokens[0], "sp") == 0)
 		return (handle_sphere(tokens, scene));
 	else if (ft_strcmp(tokens[0], "pl") == 0)

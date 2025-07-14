@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/11 18:54:26 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:03:36 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
 {
 	t_vector3d	light_dir;
 	float		diff;
-	t_rgb_color	light;
 
-	light = (t_rgb_color){255, 255, 255};
 	light_dir = normalize(subtract_vectors(scene->light.light_point, \
 				hit.intersec_point));
 	diff = fmax(0.0f, dot_product(hit.normal, light_dir));
-	return (scale_color(light, (diff * scene->light.ratio)));
+	return (scale_color(scene->ambient.color, (diff * scene->light.ratio)));
 }
 
 t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)

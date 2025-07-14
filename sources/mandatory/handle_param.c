@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 15:31:52 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 15:30:28 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:14:12 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ bool	handle_sphere(char **tokens, t_scene *scene)
 		return (false);
 	if (!add_sphere(scene, &new_sphere, 1))
 		return (false);
+	add_object(scene, SPHERE, NULL);
+	rebuild_object_pointers(scene);
 	return (true);
 }
 
@@ -35,6 +37,8 @@ bool	handle_plane(char **tokens, t_scene *scene)
 		return (false);
 	if (!add_plane(scene, &new_plane, 1))
 		return (false);
+	add_object(scene, PLANE, NULL);
+	rebuild_object_pointers(scene);
 	return (true);
 }
 
@@ -48,5 +52,7 @@ bool	handle_cylinder(char **tokens, t_scene *scene)
 		return (false);
 	if (!add_cylinder(scene, &new_cylinder, 1))
 		return (false);
+	add_object(scene, CYLINDER, NULL);
+	rebuild_object_pointers(scene);
 	return (true);
 }

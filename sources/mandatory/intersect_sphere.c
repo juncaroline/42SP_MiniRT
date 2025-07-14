@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:54 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/14 10:42:50 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static bool	intersect_sphere_solution(t_sphere_quad quad, float *t)
 	return (true);
 }
 
-t_vector3d	calculate_sphere_normal(t_sphere *sphere,
-	t_vector3d point)
+t_vector3d	calculate_sphere_normal(t_sphere *sphere, t_vector3d point)
 {
 	t_vector3d	normal;
 	float		radius;
@@ -65,7 +64,7 @@ t_vector3d	calculate_sphere_normal(t_sphere *sphere,
 
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
-	t_sphere_quad		quad;
+	t_sphere_quad	quad;
 	t_intersec_info	info;
 
 	info.intersection = false;

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 17:17:44 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:48:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,17 +283,21 @@ bool				parse_ambient(char **tokens, int count, t_ambient *ambient);
 bool				parse_camera(char **tokens, int count, t_camera *camera);
 bool				parse_light(char **tokens, int count, t_light *light);
 
-// parse_objects.c
-bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
-bool				parse_plane(char **tokens, int count, t_plane *plane);
-bool				parse_cylinder(char **tokens, int count,
-						t_cylinder *cylinder);
-
 // parse_objects_add.c
 bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
 bool				add_plane(t_scene *scene, t_plane *new_plane, int count);
 bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
 						int count);
+
+// parse_objects_utils.c
+void				rebuild_object_pointers(t_scene *scene);
+
+// parse_objects.c
+bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
+bool				parse_plane(char **tokens, int count, t_plane *plane);
+bool				parse_cylinder(char **tokens, int count,
+						t_cylinder *cylinder);
+void				add_object(t_scene *scene, t_object_type type, void *data);
 
 // parse.c
 void				check_file_extension(char *extension);

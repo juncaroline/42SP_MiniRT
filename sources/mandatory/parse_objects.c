@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 14:48:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:16:20 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,27 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 		|| cylinder->height <= 0.0 || !is_rgb_color(cylinder->color))
 		return (false);
 	return (true);
+}
+
+void	add_object(t_scene *scene, t_object_type type, void *data)
+{
+	t_object	*new_array;
+	t_object	*object;
+	int			i;
+
+	new_array = malloc(sizeof(t_object) * (scene->object_count + 1));
+	if (!new_array)
+		return ;
+	i = 0;
+	while (i < scene->object_count)
+	{
+		new_array[i] = scene->objects[i];
+		i++;
+	}
+	object = &new_array[scene->object_count];
+	object->type = type;
+	object->data = data;
+	free(scene->objects);
+	scene->objects = new_array;
+	scene->object_count++;
 }

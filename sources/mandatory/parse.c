@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 15:26:12 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:27:14 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_file_extension(char *extension)
 		error_msg(1);
 }
 
-void	get_content(char	**content, int fd)
+void	get_content(char **content, int fd)
 {
 	free(*content);
 	*content = get_next_line(fd);
