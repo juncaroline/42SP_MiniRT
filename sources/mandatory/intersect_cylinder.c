@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/07 08:42:52 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:12:42 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_intersec_info	select_closest_intersection(t_intersec_info surface,
 	t_intersec_info bottom_cap, t_intersec_info top_cap,
 	t_rgb_color color)
 {
-	float					closest_distance;
+	float				closest_distance;
 	t_intersec_info		closest_intersection;
 
 	closest_intersection.intersection = false;

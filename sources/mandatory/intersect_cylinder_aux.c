@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 10:20:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:11:42 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	is_intersection_within_cap_radius(t_vector3d intersection_point,
 bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	bool is_top_cap, t_intersec_info *info)
 {
-	t_plane				plane;
+	t_plane			plane;
 	t_intersec_info	cap_info;
 
 	plane = create_cylinder_cap_plane(cylinder, is_top_cap);

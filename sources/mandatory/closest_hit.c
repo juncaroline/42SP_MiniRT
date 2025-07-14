@@ -49,7 +49,8 @@ t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count)
 	while (i < count)
 	{
 		current = intersect_object(ray, &objects[i]);
-		if (current.intersection && current.dist_to_intersec < closest.dist_to_intersec)
+		if (current.intersection && current.dist_to_intersec
+			< closest.dist_to_intersec)
 			closest = current;
 		i++;
 	}

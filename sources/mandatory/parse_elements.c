@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:51 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/11 15:42:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:12:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	parse_camera(char **tokens, int count, t_camera *camera)
 	camera->camera_direction = parse_normalized_vector(tokens[2]);
 	camera->fov = parse_fov(tokens[3]);
 	if (!is_normalized_vector(camera->camera_direction) || (camera->fov < 0.0
-		|| camera->fov > 180.0))
+			|| camera->fov > 180.0))
 		return (false);
 	return (true);
 }
