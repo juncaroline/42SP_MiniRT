@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 18:04:29 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:03:38 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ typedef struct s_sphere
 	float			diameter;
 	t_rgb_color		color;
 	bool			has_checker;
+	mlx_texture_t	*bump_texture;
+	char			*texture_path;
 }	t_sphere;
 
 // quadratic equations in ray-geometry intersection calculations
@@ -104,20 +106,24 @@ typedef struct s_sphere_quad
 
 typedef struct s_plane
 {
-	t_vector3d	plane_point;
-	t_vector3d	vector;
-	t_rgb_color	color;
-	bool		has_checker;
+	t_vector3d		plane_point;
+	t_vector3d		vector;
+	t_rgb_color		color;
+	bool			has_checker;
+	mlx_texture_t	*bump_texture;
+	char			*texture_path;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_vector3d	cylinder_center;
-	t_vector3d	vector;
-	float		diameter;
-	float		height;
-	t_rgb_color	color;
-	bool		has_checker;
+	t_vector3d		cylinder_center;
+	t_vector3d		vector;
+	float			diameter;
+	float			height;
+	t_rgb_color		color;
+	bool			has_checker;
+	mlx_texture_t	*bump_texture;
+	char			*texture_path;
 }	t_cylinder;
 
 typedef struct s_cylinder_projection
@@ -156,12 +162,14 @@ typedef struct s_cylinder_intersec
 
 typedef struct s_cone
 {
-	t_vector3d	cone_center;
-	t_vector3d	vector;
-	float		diameter;
-	float		height;
-	t_rgb_color	color;
-	bool		has_checker;
+	t_vector3d		cone_center;
+	t_vector3d		vector;
+	float			diameter;
+	float			height;
+	t_rgb_color		color;
+	bool			has_checker;
+	mlx_texture_t	*bump_texture;
+	char			*texture_path;
 }	t_cone;
 
 typedef struct s_cone_projection
@@ -236,7 +244,6 @@ typedef struct s_scene
 	int			cylinder_count;
 	t_cone		*cone;
 	int			cone_count;
-	mlx_texture_t	*bump_texture;
 }	t_scene;
 
 typedef struct s_material
@@ -248,6 +255,29 @@ typedef struct s_material
 	float		refractive_index;
 	float		shininess;
 }	t_material;
+
+typedef struct s_bumpmap
+{
+	float		u;
+	float		v;
+	int			texture_x;
+	int			texture_y;
+	int			i;
+	uint8_t		height_value;
+	float		bump_strength;
+	t_vector3d	tangent;
+	t_vector3d	bitangent;
+	t_vector3d	bump_normal;
+	float		du;
+	float		dv;
+	int			x1;
+	int			y1;
+	uint8_t		h1;
+	uint8_t		h2;
+	int			i1;
+	int			i2;
+}	t_bumpmap;
+
 
 // checkerboard.c
 t_rgb_color			object_pattern(t_vector3d point, t_object *object,
@@ -264,6 +294,7 @@ void				error_msg(int status);
 // free.c
 void				free_split(char **tokens);
 void				free_scene(t_scene *scene);
+void				free_scene_textures(t_scene *scene);
 
 // handle_param.c
 bool				handle_sphere(char **tokens, t_scene *scene);
@@ -361,7 +392,7 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
 void	uv_map(t_vector3d point, t_sphere *sphere, float *u, float *v);
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
-t_vector3d			apply_bump_mapping(t_sphere *sphere, t_vector3d point,
+t_vector3d			apply_bump_map(t_sphere *sphere, t_vector3d point,
 						t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene);
 
@@ -439,6 +470,14 @@ t_cam_basis			camera_basis(t_camera *cam);
 // t_vector3d			reflection(t_vector3d ray_in, t_vector3d normal);
 // bool				valid_material(t_material	*m);
 
+// bump_map_free.c
+void			free_object_texture(t_object *object);
+
+// bump_map.c
+mlx_texture_t	**get_bump_texture(t_object *object);
+char			**get_texture_path(t_object *object);
+bool			load_object_texture(t_object *object);
+bool			load_scene_textures(t_scene *scene);
 
 // utils.c
 int					skip_spaces(char *line);
@@ -466,5 +505,10 @@ t_vector3d			parse_coordinates(char *str);
 float				parse_fov(char *str);
 float				parse_ratio(char *str);
 float				parse_measurements(char *str);
+
+// texture_loader.c
+bool				load_sphere_texture(t_sphere *sphere);
+bool				load_scene_textures(t_scene *scene);
+void				free_scene_textures(t_scene *scene);
 
 #endif

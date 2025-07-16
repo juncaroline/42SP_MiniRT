@@ -14,7 +14,7 @@ L   -10,10,-10      1               255,255,255
 
 # Sphere
 #   position        radius          color
-sp  0,2,0           1               255,0,0
+sp  0,2,0           1               255,0,0 texture:./textures/abstract.png
 sp  0,3,0           1               0,0,255 checker
 
 # Cone

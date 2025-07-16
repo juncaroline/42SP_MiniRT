@@ -1,0 +1,28 @@
+# Exemplo de múltiplas texturas em diferentes objetos
+
+# Ambiente
+A   0.2             255,255,255
+
+# Câmera
+C   0,0,-10         0,0,1           70
+
+# Luz
+L   -10,10,-10      0.7             255,255,255
+
+# Esfera com textura
+sp  -2,2,0          2               255,0,0 texture:./textures/abstract.png
+
+# Esfera com checker
+sp  2,2,0           2               0,255,0 checker
+
+# Plano com textura
+pl  0,-2,0          0,1,0           128,128,128 texture:./textures/abstract.png
+
+# Cilindro com textura
+cy  -4,0,2          0,1,0           1.5         3       0,0,255 texture:./textures/abstract.png
+
+# Cone com checker
+cn  4,0,2           0,1,0           1.5         3       255,255,0 checker
+
+# Cone com textura
+cn  0,0,5           0,0,-1          2.0         4       255,0,255 texture:./textures/abstract.png

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 19:05:01 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:35:57 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,11 @@ int32_t	init_scene(t_scene *scene)
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 
-	scene->bump_texture = mlx_load_png("./textures/textura_teste.png");
-	if (!scene->bump_texture)
+	if (!load_scene_textures(scene))
 	{
-		printf("Error: Could not load bump texture from textures.\n");
-		scene->bump_texture = NULL;
+		printf("Error: Failed to load scene textures\n");
+		return (EXIT_FAILURE);
 	}
-	// else
-	// 	printf("Textura carregada: %dx%d\n", scene->bump_texture->width, scene->bump_texture->height);
 	mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "MiniRT", false);
 	if (!mlx)
 		return (EXIT_FAILURE);
@@ -97,6 +94,7 @@ int32_t	init_scene(t_scene *scene)
 	mlx_loop_hook(mlx, esc_command, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	free_scene_textures(scene);
 	return (EXIT_SUCCESS);
 }
 
