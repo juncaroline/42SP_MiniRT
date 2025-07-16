@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 16:14:26 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:24:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,20 @@ static bool	compute_cone_intersection(t_ray *ray, t_cone *cone,
 	return (hit_surface && validate_cone_intersec(ray, cone, quad, base));
 }
 
+t_vector3d	calculate_cone_bump_map(t_cone *cone, t_vector3d point,
+	t_vector3d normal, mlx_texture_t *bump_texture)
+{
+	t_bumpmap	bump;
+	t_object	cone_object;
+
+	init_cone_struct(&cone_object, cone);
+	if (!init_bump_mapping(&cone_object, point, bump_texture, &bump))
+		return (normal);
+	if (!calculate_bump_gradients(bump_texture, &bump))
+		return (normal);
+	return (calc_vectors_cone(normal, &bump, cone));
+}
+
 t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 	t_cone *cone, t_cone_intersec *base)
 {
@@ -89,6 +103,9 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 		info.intersec_point = add_vectors(ray->origin,
 				scalar_multiplication(quad.t_hit, ray->direction));
 		info.normal = calculate_cone_normal(cone, info.intersec_point, base);
+		if (cone->bump_texture && cone->bump_texture->pixels)
+			info.normal = calculate_cone_bump_map(cone, info.intersec_point,
+					info.normal, cone->bump_texture);
 		if (cone->has_checker)
 		{
 			init_cone_struct(&cone_object, cone);

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 15:38:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:24:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	return (true);
 }
 
+t_vector3d	calculate_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
+	t_vector3d normal, mlx_texture_t *bump_texture)
+{
+	t_bumpmap	bump;
+	t_object	cylinder_object;
+
+	init_cylinder_struct(&cylinder_object, cylinder);
+	if (!init_bump_mapping(&cylinder_object, point, bump_texture, &bump))
+		return (normal);
+	if (!calculate_bump_gradients(bump_texture, &bump))
+		return (normal);
+	return (calc_vectors_cylinder(normal, &bump, cylinder));
+}
+
 static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
 	t_cylinder_quad *quad, t_intersec_info *info)
 {
@@ -70,6 +84,9 @@ static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
 	info->intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(quad->t_hit, ray->direction));
 	info->normal = calculate_cylinder_normal(cylinder, info->intersec_point);
+	if (cylinder->bump_texture && cylinder->bump_texture->pixels)
+		info->normal = calculate_cylinder_bump_map(cylinder, info->intersec_point,
+				info->normal, cylinder->bump_texture);
 	if (cylinder->has_checker)
 	{
 		init_cylinder_struct(&cylinder_object, cylinder);

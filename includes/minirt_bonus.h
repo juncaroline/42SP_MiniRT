@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/16 17:03:38 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:28:52 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,24 @@ typedef struct s_bumpmap
 	int			i2;
 }	t_bumpmap;
 
+// bump_map_calc.c
+bool			init_bump_mapping(t_object *object, t_vector3d point,
+		mlx_texture_t *bump_texture, t_bumpmap *bump);
+bool			calculate_bump_gradients(mlx_texture_t *bump_texture, t_bumpmap *bump);
+t_vector3d		calc_vectors_sphere(t_vector3d normal, t_bumpmap *bump);
+t_vector3d	calc_vectors_plane(t_vector3d normal, t_bumpmap *bump);
+t_vector3d	calc_vectors_cylinder(t_vector3d normal, t_bumpmap *bump, t_cylinder *cylinder);
+t_vector3d	calc_vectors_cone(t_vector3d normal, t_bumpmap *bump, t_cone *cone);
+
+
+// bump_map_free.c
+void			free_object_texture(t_object *object);
+
+// bump_map.c
+mlx_texture_t	**get_bump_texture(t_object *object);
+char			**get_texture_path(t_object *object);
+bool			load_object_texture(t_object *object);
+bool			load_scene_textures(t_scene *scene);
 
 // checkerboard.c
 t_rgb_color			object_pattern(t_vector3d point, t_object *object,
@@ -311,12 +329,14 @@ void				render(t_scene *scene, mlx_image_t *img);
 int32_t				init_scene(t_scene *scene);
 
 // intersect_cone_aux.c
-bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
-	t_vector3d cap_center, float cone_diameter);
-bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
-	bool is_covered, t_intersec_info *info);
-t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
-	t_cone *cone, t_cone_intersec *base);
+bool				is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
+						t_vector3d cap_center, float cone_diameter);
+bool				ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
+						bool is_covered, t_intersec_info *info);
+t_vector3d			calculate_cone_bump_map(t_cone *cone, t_vector3d point,
+						t_vector3d normal, mlx_texture_t *bump_texture);
+t_intersec_info		ray_intersects_cone_surface(t_ray *ray,
+						t_cone *cone, t_cone_intersec *base);
 
 // intersect_cone_aux2.c
 void	init_cone_struct(t_object *object, t_cone *cone);
@@ -350,6 +370,8 @@ t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone);
 // 						t_vector3d cap_center, float cylinder_diameter);
 bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 						bool is_top_cap, t_intersec_info *info);
+t_vector3d			calculate_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
+						t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 						t_cylinder *cylinder);
 
@@ -385,14 +407,15 @@ t_intersec_info	select_closest_intersection(
 t_intersec_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 // intersect_plane.c
+t_vector3d	calculate_plane_bump_map(t_plane *plane, t_vector3d point,
+	t_vector3d normal, mlx_texture_t *bump_texture);
 t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
 
 // intersect_sphere.c
-void	uv_map(t_vector3d point, t_sphere *sphere, float *u, float *v);
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
-t_vector3d			apply_bump_map(t_sphere *sphere, t_vector3d point,
+t_vector3d			calculate_sphere_bump_map(t_sphere *sphere, t_vector3d point,
 						t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene);
 
@@ -469,15 +492,6 @@ t_cam_basis			camera_basis(t_camera *cam);
 // // reflection.c
 // t_vector3d			reflection(t_vector3d ray_in, t_vector3d normal);
 // bool				valid_material(t_material	*m);
-
-// bump_map_free.c
-void			free_object_texture(t_object *object);
-
-// bump_map.c
-mlx_texture_t	**get_bump_texture(t_object *object);
-char			**get_texture_path(t_object *object);
-bool			load_object_texture(t_object *object);
-bool			load_scene_textures(t_scene *scene);
 
 // utils.c
 int					skip_spaces(char *line);

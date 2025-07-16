@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 16:10:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:24:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ static void	verify_has_checker(t_plane *plane, t_intersec_info *info)
 		info->color = plane->color;
 }
 
+t_vector3d	calculate_plane_bump_map(t_plane *plane, t_vector3d point,
+	t_vector3d normal, mlx_texture_t *bump_texture)
+{
+	t_bumpmap	bump;
+	t_object	plane_object;
+
+	init_plane_struct(&plane_object, plane);
+	if (!init_bump_mapping(&plane_object, point, bump_texture, &bump))
+		return (normal);
+	if (!calculate_bump_gradients(bump_texture, &bump))
+		return (normal);
+	return (calc_vectors_plane(normal, &bump));
+}
+
 t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 {
 	t_intersec_info	info;
@@ -61,6 +75,9 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 	info.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_plane_normal(plane, info.intersec_point);
+	if (plane->bump_texture && plane->bump_texture->pixels)
+		info.normal = calculate_plane_bump_map(plane, info.intersec_point,
+				info.normal, plane->bump_texture);
 	verify_has_checker(plane, &info);
 	return (info);
 }
