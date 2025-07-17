@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:46:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 15:32:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:27:43 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_vector3d	calculate_cylinder_normal(t_cylinder *cylinder, t_vector3d point)
 				cylinder->vector), cylinder->vector);
 	normal = subtract_vectors(point_to_axis, axis_point);
 	length_squared = dot_product(normal, normal);
-	if (length_squared < CLOSE_TO_ZERO_EPSILON)
+	if (length_squared < EPSILON)
 	{
 		if (fabs(cylinder->vector.x) < 0.9)
 			normal = (t_vector3d){1.0f, 0.0f, 0.0f};

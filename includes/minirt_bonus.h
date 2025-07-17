@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/16 19:28:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:29:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-3
-# define CLOSE_TO_ZERO_EPSILON 1e-12
 
 typedef enum e_object_type
 {
@@ -157,9 +156,6 @@ typedef struct s_cylinder_intersec
 	float		height_projection;
 }	t_cylinder_intersec;
 
-
-
-
 typedef struct s_cone
 {
 	t_vector3d		cone_center;
@@ -204,10 +200,6 @@ typedef struct s_cone_intersec
 	t_vector3d	cone_vertex;
 }	t_cone_intersec;
 
-
-
-
-
 typedef struct s_object
 {
 	t_object_type	type;
@@ -222,7 +214,7 @@ typedef struct s_intersec_info
 	float		dist_to_intersec;
 	t_vector3d	intersec_point;
 	t_vector3d	normal;
-
+	t_vector3d	over_point;
 	t_rgb_color	color;
 
 	t_object	*object;
@@ -278,18 +270,29 @@ typedef struct s_bumpmap
 	int			i2;
 }	t_bumpmap;
 
-// bump_map_calc.c
+
+
+// bump_map_utils.c
 bool			init_bump_mapping(t_object *object, t_vector3d point,
-		mlx_texture_t *bump_texture, t_bumpmap *bump);
+					mlx_texture_t *bump_texture, t_bumpmap *bump);
 bool			calculate_bump_gradients(mlx_texture_t *bump_texture, t_bumpmap *bump);
-t_vector3d		calc_vectors_sphere(t_vector3d normal, t_bumpmap *bump);
-t_vector3d	calc_vectors_plane(t_vector3d normal, t_bumpmap *bump);
-t_vector3d	calc_vectors_cylinder(t_vector3d normal, t_bumpmap *bump, t_cylinder *cylinder);
-t_vector3d	calc_vectors_cone(t_vector3d normal, t_bumpmap *bump, t_cone *cone);
-
-
-// bump_map_free.c
+bool			get_uv_coordinates(t_object *object, t_vector3d point, float *u,
+					float *v);
 void			free_object_texture(t_object *object);
+
+// bump_map_uv.c
+void			uv_map_sphere(t_vector3d point, t_sphere *sphere, float *u,
+					float *v);
+void			uv_map_plane(t_vector3d point, t_plane *plane, float *u, float *v);
+void			uv_map_cylinder(t_vector3d point, t_cylinder *cylinder, float *u,
+					float *v);
+void			uv_map_cone(t_vector3d point, t_cone *cone, float *u, float *v);
+
+// bump_map_vectors.c
+t_vector3d		calc_vectors_sphere(t_vector3d normal, t_bumpmap *bump);
+t_vector3d		calc_vectors_plane(t_vector3d normal, t_bumpmap *bump);
+t_vector3d		calc_vectors_cylinder(t_vector3d normal, t_bumpmap *bump, t_cylinder *cylinder);
+t_vector3d		calc_vectors_cone(t_vector3d normal, t_bumpmap *bump, t_cone *cone);
 
 // bump_map.c
 mlx_texture_t	**get_bump_texture(t_object *object);
@@ -329,11 +332,9 @@ void				render(t_scene *scene, mlx_image_t *img);
 int32_t				init_scene(t_scene *scene);
 
 // intersect_cone_aux.c
-bool				is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
-						t_vector3d cap_center, float cone_diameter);
 bool				ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 						bool is_covered, t_intersec_info *info);
-t_vector3d			calculate_cone_bump_map(t_cone *cone, t_vector3d point,
+t_vector3d			insert_cone_bump_map(t_cone *cone, t_vector3d point,
 						t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info		ray_intersects_cone_surface(t_ray *ray,
 						t_cone *cone, t_cone_intersec *base);
@@ -341,7 +342,8 @@ t_intersec_info		ray_intersects_cone_surface(t_ray *ray,
 // intersect_cone_aux2.c
 void	init_cone_struct(t_object *object, t_cone *cone);
 t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base);
-
+bool				is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
+						t_vector3d cap_center, float cone_diameter);
 
 // intersect_cone_calc.c
 void	init_cone_base(t_cone *cone, t_cone_intersec *base);
@@ -365,22 +367,19 @@ t_intersec_info	select_closest_intersection_cone(
 t_intersec_info	intersect_cone(t_ray *ray, t_cone *cone);
 
 // intersect_cylinder_aux.c
-// t_plane				create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
-// bool				is_intersection_within_cap_radius(t_vector3d intersection_point,
-// 						t_vector3d cap_center, float cylinder_diameter);
 bool				ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 						bool is_top_cap, t_intersec_info *info);
-t_vector3d			calculate_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
+t_vector3d			insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 						t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 						t_cylinder *cylinder);
 
 // intersect_cylinder_aux2.c
+void				init_cylinder_struct(t_object *object, t_cylinder *cylinder);
 void				get_top_cap_coord(t_vector3d point, t_cylinder *cylinder,
 						float *coord1, float *coord2);
 void				get_bottom_cap_coord(t_vector3d point, t_cylinder *cylinder,
 						float *coord1, float *coord2);
-
 
 // intersect_cylinder_calc.c
 void				init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
@@ -391,9 +390,6 @@ bool				validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
 						t_cylinder_quad *quad);
 t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder,
 						t_vector3d point);
-
-
-
 
 // intersect_cylinder.c
 t_plane	create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap);
@@ -407,15 +403,20 @@ t_intersec_info	select_closest_intersection(
 t_intersec_info	intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 // intersect_plane.c
-t_vector3d	calculate_plane_bump_map(t_plane *plane, t_vector3d point,
+t_vector3d	insert_plane_bump_map(t_plane *plane, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture);
 t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
 
+// intersect_sphere_calc.c
+void	init_sphere_struct(t_object *object, t_sphere *sphere);
+t_sphere_quad	intersect_sphere_quad(t_ray *ray, t_sphere *sphere);
+bool	intersect_sphere_solution(t_sphere_quad quad, float *t);
+t_vector3d	calculate_sphere_normal(t_sphere *sphere,
+	t_vector3d point);
+
 // intersect_sphere.c
-t_vector3d			calculate_sphere_normal(t_sphere *sphere,
-						t_vector3d intersec_point);
-t_vector3d			calculate_sphere_bump_map(t_sphere *sphere, t_vector3d point,
+t_vector3d			insert_sphere_bump_map(t_sphere *sphere, t_vector3d point,
 						t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene);
 
@@ -425,16 +426,17 @@ t_rgb_color	max_color(t_rgb_color c);
 t_rgb_color	add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c);
 t_rgb_color	diff_color(t_intersec_info hit, t_light *light);
 t_vector3d	reflection(t_intersec_info hit, t_light *light);
-t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_light *light, t_material mat);
-t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
+t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat, \
+						t_light *light);
+t_rgb_color	evaluate_lighting_effect(t_intersec_info hit, t_scene *scene, \
+						t_light *light, t_material material);
+t_rgb_color	loop_color(t_intersec_info hit, t_scene *scene, \
+						t_rgb_color ambient, t_material material);
+t_rgb_color	get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
 
-// // light.c
-// t_rgb_color	scale_color(t_rgb_color c, float ratio);
-// t_rgb_color	max_color(t_rgb_color c);
-// t_rgb_color	add_color(t_rgb_color a, t_rgb_color b);
-// t_rgb_color	diff_color(t_intersec_info hit, t_light *light);
-// t_rgb_color	get_color(t_intersec_info hit, t_scene *scene);
-
+// light_shadow.c
+bool	in_shadow(t_scene *scene, t_intersec_info hit, t_light *light);
+void	prepare_point(t_intersec_info *hit, t_ray ray);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
@@ -459,8 +461,6 @@ bool				add_light(t_scene *scene, t_light *new_light, int count);
 // parse_objects_utils.c
 void	rebuild_object_pointers(t_scene *scene);
 
-
-
 // parse_objects.c
 bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
 bool				parse_plane(char **tokens, int count, t_plane *plane);
@@ -469,14 +469,10 @@ bool				parse_cylinder(char **tokens, int count,
 bool				parse_cone(char **tokens, int count, t_cone *cone);
 void				add_object(t_scene *scene, t_object_type type, void *data);
 
-
-
-
 // parse.c
 void				check_file_extension(char *extension);
 void	get_content(char	**content, int fd);
 int	verif_content(char *content, t_scene *scene, char ***tokens, int i);
-
 void				read_file(char *scene_file, t_scene *scene);
 
 // ray_direction.c
@@ -488,10 +484,6 @@ t_ray				generate_ray(int x, int y, t_camera *cam);
 t_vector3d			negative_vector(t_vector3d vector);
 t_vector3d			normalize(t_vector3d vector);
 t_cam_basis			camera_basis(t_camera *cam);
-
-// // reflection.c
-// t_vector3d			reflection(t_vector3d ray_in, t_vector3d normal);
-// bool				valid_material(t_material	*m);
 
 // utils.c
 int					skip_spaces(char *line);

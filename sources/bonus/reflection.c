@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:40:08 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/14 12:08:17 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:21:05 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_vector3d	reflection(t_vector3d ray_in, t_vector3d normal)
 {
-	float	nbr;
+	float		nbr;
 	t_vector3d	tmp;
 
 	nbr = 2 * dot_product(ray_in, normal);

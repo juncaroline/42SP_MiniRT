@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/17 14:18:38 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:20:16 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../includes/minirt_bonus.h"
 
 bool	in_shadow(t_scene *scene, t_intersec_info hit, t_light *light)
 {

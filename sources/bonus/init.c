@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/16 15:35:57 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:40:06 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	set_color(t_scene *scene, mlx_image_t *img, int x, int y)
 
 	ray = generate_ray(x, y, &scene->camera);
 	hit = find_closest_interesection(&ray, scene);
-	final_color = get_color(hit, scene);
+	final_color = get_color(hit, scene, ray);
 	set_pixel(img, x, y, final_color);
 }
 
@@ -97,40 +97,3 @@ int32_t	init_scene(t_scene *scene)
 	free_scene_textures(scene);
 	return (EXIT_SUCCESS);
 }
-
-// int32_t	init(void)
-// {
-// 	mlx_t		*mlx;
-// 	uint32_t	color;
-// 	uint32_t	x;
-// 	uint32_t	y;
-// 	size_t		index;
-// 	mlx_image_t	*img;
-
-// 	mlx = mlx_init(500, 500, "MiniRT", false);
-// 	if (!mlx)
-// 		return (EXIT_FAILURE);
-// 	img = mlx_new_image(mlx, 50, 50);
-// 	if (!img)
-// 	{
-// 		mlx_terminate(mlx);
-// 		return (EXIT_FAILURE);
-// 	}
-// 	color = 0xFF0000FF;
-// 	x = 10;
-// 	y = 10;
-// 	index = (y * img->width + x) * 4;
-// 	img->pixels[index + 0] = (color >> 24) & 0xFF;
-// 	img->pixels[index + 1] = (color >> 16) & 0xFF;
-// 	img->pixels[index + 2] = (color >> 8) & 0xFF;
-// 	img->pixels[index + 3] = (color >> 0) & 0xFF;
-// 	if (mlx_image_to_window(mlx, img, 0, 0) == -1)
-// 	{
-// 		mlx_terminate(mlx);
-// 		return (EXIT_FAILURE);
-// 	}
-// 	mlx_loop_hook(mlx, esc_command, mlx);
-// 	mlx_loop(mlx);
-// 	mlx_terminate(mlx);
-// 	return (EXIT_SUCCESS);
-// }

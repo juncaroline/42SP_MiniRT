@@ -6,24 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/16 19:24:29 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:50:49 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
-
-bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
-	t_vector3d cap_center, float cone_diameter)
-{
-	t_vector3d	delta;
-	float		radius;
-	float		distance_squared;
-
-	delta = subtract_vectors(intersection_point, cap_center);
-	radius = cone_diameter / 2.0f;
-	distance_squared = dot_product(delta, delta);
-	return (distance_squared <= radius * radius + EPSILON);
-}
 
 static void	verify_has_checker(t_cone *cone, t_intersec_info *info)
 {
@@ -74,7 +61,7 @@ static bool	compute_cone_intersection(t_ray *ray, t_cone *cone,
 	return (hit_surface && validate_cone_intersec(ray, cone, quad, base));
 }
 
-t_vector3d	calculate_cone_bump_map(t_cone *cone, t_vector3d point,
+t_vector3d	insert_cone_bump_map(t_cone *cone, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture)
 {
 	t_bumpmap	bump;
@@ -104,7 +91,7 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 				scalar_multiplication(quad.t_hit, ray->direction));
 		info.normal = calculate_cone_normal(cone, info.intersec_point, base);
 		if (cone->bump_texture && cone->bump_texture->pixels)
-			info.normal = calculate_cone_bump_map(cone, info.intersec_point,
+			info.normal = insert_cone_bump_map(cone, info.intersec_point,
 					info.normal, cone->bump_texture);
 		if (cone->has_checker)
 		{

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/10 13:10:34 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:31:05 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,9 @@ t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
 		final_color = (t_rgb_color){0, 0, 0};
 		return (final_color);
 	}
-	
 	// Luz ambiente
 	ambient = scale_color(hit.color, scene->ambient.ratio);
 	final_color = ambient;
-	
 	// Para cada luz na cena
 	i = 0;
 	while (i < scene->light_count)
@@ -79,6 +77,5 @@ t_rgb_color	get_color(t_intersec_info hit, t_scene *scene)
 		final_color = add_color(final_color, diffuse);
 		i++;
 	}
-	
 	return (final_color);
 }

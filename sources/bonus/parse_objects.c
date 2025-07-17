@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/16 15:27:16 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:01:30 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 		sphere->has_checker = true;
 	else if (count >= 5 && ft_strncmp(tokens[4], "texture:", 8) == 0)
 		sphere->texture_path = ft_strdup(tokens[4] + 8);
-	// if (count == 6 && ft_strncmp(tokens[5], "checker", 7) == 0)
-	// 	sphere->has_checker = true;
-	// else if (count == 6 && ft_strncmp(tokens[5], "texture:", 8) == 0)
-	// 	sphere->texture_path = ft_strdup(tokens[5] + 8);
 	return (true);
 }
 

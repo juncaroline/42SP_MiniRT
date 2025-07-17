@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 18:02:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:29:23 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-3
-# define CLOSE_TO_ZERO_EPSILON 1e-12
 
 typedef enum e_object_type
 {

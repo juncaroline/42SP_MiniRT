@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 16:12:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 16:13:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:50:48 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base)
 	plane.color = cone->color;
 	plane.has_checker = false;
 	return (plane);
+}
+
+bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
+	t_vector3d cap_center, float cone_diameter)
+{
+	t_vector3d	delta;
+	float		radius;
+	float		distance_squared;
+
+	delta = subtract_vectors(intersection_point, cap_center);
+	radius = cone_diameter / 2.0f;
+	distance_squared = dot_product(delta, delta);
+	return (distance_squared <= radius * radius + EPSILON);
 }

@@ -36,7 +36,8 @@ t_intersec_info	intersect_object(t_ray *ray, t_object *object, t_scene *scene)
 	return (result);
 }
 
-t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count, t_scene *scene)
+t_intersec_info	find_closest_object(t_ray *ray, t_object *objects, int count,
+	t_scene *scene)
 {
 	t_intersec_info	closest;
 	t_intersec_info	current;
@@ -68,6 +69,7 @@ t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene)
 	closest.dist_to_intersec = INFINITY;
 	if (!ray || !scene)
 		return (closest);
-	closest = find_closest_object(ray, scene->objects, scene->object_count, scene);
+	closest = find_closest_object(ray, scene->objects, scene->object_count,
+			scene);
 	return (closest);
 }
