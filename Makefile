@@ -12,16 +12,16 @@ SRCS_DIR := sources/mandatory/
 SRCS	:= $(addprefix $(SRCS_DIR), closest_hit.c error.c free.c handle_param.c init.c \
 				intersect_cylinder_aux.c intersect_cylinder_calc.c intersect_cylinder.c \
 				intersect_plane.c intersect_sphere.c light_shadow.c light.c main.c math.c parse_elements.c \
-				parse_objects_add.c parse_objects_utils.c parse_objects.c parse.c ray_direction.c \
-				ray_generator.c utils.c utils2.c validate_elements.c validate_param.c validate_param2.c)
+				parse_objects_add.c parse_objects_utils.c parse_objects.c parse_param.c parse_param2.c parse.c ray_direction.c \
+				ray_generator.c utils.c utils2.c validate_elements.c)
 SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), bump_map_utils.c bump_map_uv.c bump_map_vectors.c bump_map.c checkerboard.c closest_hit.c error.c free.c handle_param.c init.c \
 				intersect_cone_aux.c intersect_cone_aux2.c intersect_cone_calc.c intersect_cone.c \
 				intersect_cylinder_aux.c intersect_cylinder_aux2.c intersect_cylinder_calc.c intersect_cylinder.c \
 				intersect_plane.c intersect_sphere_calc.c intersect_sphere.c light_bonus.c light_shadow.c main.c math.c parse_elements.c \
-				parse_objects_add.c parse_objects_utils.c parse_objects.c parse.c ray_direction.c ray_generator.c \
+				parse_objects_add.c parse_objects_utils.c parse_objects.c parse_param.c parse_param2.c parse.c ray_direction.c ray_generator.c \
 				utils.c utils2.c \
-				validate_elements.c validate_param.c validate_param2.c)
+				validate_elements.c)
 DIR_OBJ	:= .objs
 DIR_OBJ_BONUS := .objs_bonus
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
