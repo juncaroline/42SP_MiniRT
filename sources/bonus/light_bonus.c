@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/17 15:22:00 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 20:00:39 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,7 @@ t_rgb_color	get_color(t_intersec_info hit, t_scene *scene, t_ray ray)
 
 	prepare_point(&hit, ray);
 	if (!hit.intersection)
-	{
 		return ((t_rgb_color){0, 0, 0});
-	}
 	material.shininess = 50.0f;
 	ambient = scale_color(hit.color, scene->ambient.ratio);
 	final_color = loop_color(hit, scene, ambient, material);
