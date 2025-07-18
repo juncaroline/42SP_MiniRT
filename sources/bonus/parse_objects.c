@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:01:30 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 14:14:36 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 	sphere->has_checker = false;
 	sphere->bump_texture = NULL;
 	sphere->texture_path = NULL;
+	sphere->bump = false;
 	if (sphere->diameter <= 0 || !is_rgb_color(sphere->color))
 		return (false);
 	if (count >= 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
 		sphere->has_checker = true;
 	else if (count >= 5 && ft_strncmp(tokens[4], "texture:", 8) == 0)
 		sphere->texture_path = ft_strdup(tokens[4] + 8);
+	else if (count >= 5 && ft_strncmp(tokens[4], "bump", 4) == 0)
+		sphere->bump = true;
 	return (true);
 }
 
@@ -47,12 +50,15 @@ bool	parse_plane(char **tokens, int count, t_plane *plane)
 	plane->has_checker = false;
 	plane->bump_texture = NULL;
 	plane->texture_path = NULL;
+	plane->bump = false;
 	if (!is_normalized_vector(plane->vector) || !is_rgb_color(plane->color))
 		return (false);
 	if (count == 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
 		plane->has_checker = true;
 	else if (count == 5 && ft_strncmp(tokens[4], "texture:", 8) == 0)
 		plane->texture_path = ft_strdup(tokens[4] + 8);
+	else if (count == 5 && ft_strncmp(tokens[4], "bump", 4) == 0)
+		plane->bump = true;
 	return (true);
 }
 
@@ -71,6 +77,7 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 	cylinder->has_checker = false;
 	cylinder->bump_texture = NULL;
 	cylinder->texture_path = NULL;
+	cylinder->bump = false;
 	if (!is_normalized_vector(cylinder->vector) || cylinder->diameter <= 0.0
 		|| cylinder->height <= 0.0 || !is_rgb_color(cylinder->color))
 		return (false);
@@ -78,6 +85,8 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 		cylinder->has_checker = true;
 	else if (count == 7 && ft_strncmp(tokens[6], "texture:", 8) == 0)
 		cylinder->texture_path = ft_strdup(tokens[6] + 8);
+	else if (count == 7 && ft_strncmp(tokens[6], "bump", 4) == 0)
+		cylinder->bump = true;
 	return (true);
 }
 
@@ -96,6 +105,7 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 	cone->has_checker = false;
 	cone->bump_texture = NULL;
 	cone->texture_path = NULL;
+	cone->bump = false;
 	if (!is_normalized_vector(cone->vector) || cone->diameter <= 0.0
 		|| cone->height <= 0.0 || !is_rgb_color(cone->color))
 		return (false);
@@ -103,6 +113,8 @@ bool	parse_cone(char **tokens, int count, t_cone *cone)
 		cone->has_checker = true;
 	else if (count == 7 && ft_strncmp(tokens[6], "texture:", 8) == 0)
 		cone->texture_path = ft_strdup(tokens[6] + 8);
+	else if (count == 7 && ft_strncmp(tokens[6], "bump", 4) == 0)
+		cone->bump = true;
 	return (true);
 }
 

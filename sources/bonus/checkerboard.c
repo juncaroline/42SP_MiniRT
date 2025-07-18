@@ -12,92 +12,131 @@
 
 #include "../../includes/minirt_bonus.h"
 
-static t_rgb_color	checkerboard_pattern(float coord1, float coord2,
+static t_rgb_color	checkerboard_pattern(float u, float v,
 	float scale, t_object *object)
 {
 	int	x;
 	int	y;
 
-	x = floor(coord1 * scale);
-	y = floor(coord2 * scale);
+	x = floor(u * scale);
+	y = floor(v * scale);
 	if ((x + y) % 2 == 0)
 		return (object->white);
 	else
 		return (object->black);
 }
 
-static void	get_sphere_coordinates(t_vector3d point, t_sphere *sphere,
-	float *coord1, float *coord2)
+void	get_sphere_coordinates(t_vector3d point, t_sphere *sphere,
+	float *u, float *v)
 {
 	t_vector3d	local;
+	float		theta;
+	float		phi;
 
 	local = normalize(subtract_vectors(point, sphere->sphere_center));
-	*coord1 = 0.5f + atan2(local.z, local.x) / (2 * M_PI);
-	*coord2 = 0.5f - asin(local.y) / M_PI;
+	theta = atan2f(local.z, local.x);
+	phi = asinf(local.y);
+	*u = (theta + M_PI) / (2.0f * M_PI);
+	*v = (phi + M_PI / 2.0f) / M_PI;
+	if (*u < 0.0f)
+		*u += 1.0f;
+	if (*u > 1.0f)
+		*u -= 1.0f;
+	if (*v < 0.0f)
+		*v = 0.0f;
+	if (*v > 1.0f)
+		*v = 1.0f;
 }
 
-static void	get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
-	float *coord1, float *coord2)
+void	get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
+	float *u, float *v)
 {
-	t_vector3d	center_to_intersection;
-	float		height;
-	t_vector3d	radial;
-	float		radial_length;
+	t_vector3d			axis;
+	t_vector3d			radial;
+	t_surface_mapping	mapping;
+	t_vector3d			center_to_intersection;
+	float				radial_length;
 
+	axis = normalize(cylinder->vector);
 	center_to_intersection = subtract_vectors(point, cylinder->cylinder_center);
-	height = dot_product(center_to_intersection, cylinder->vector);
+	mapping.height = dot_product(center_to_intersection, axis);
 	radial = subtract_vectors(center_to_intersection,
-			scalar_multiplication(height, cylinder->vector));
+			scalar_multiplication(mapping.height, axis));
 	radial_length = sqrtf(dot_product(radial, radial));
-	if (radial_length < EPSILON)
-		*coord1 = 0.0f;
+	mapping.local = radial;
+	mapping.du = radial_length;
+	if (fabsf(axis.y) < 0.9f)
+		mapping.tangent = normalize(cross_product(axis,
+			(t_vector3d){0, 1, 0}));
 	else
-	{
-		radial = scalar_multiplication(1.0f / radial_length, radial);
-		*coord1 = 0.5f + atan2(radial.z, radial.x) / (2 * M_PI);
-	}
-	*coord2 = height / cylinder->height;
+		mapping.tangent = normalize(cross_product(axis,
+			(t_vector3d){1, 0, 0}));
+	mapping.bitangent = cross_product(axis, mapping.tangent);
+	*u = compute_cylinder_u_coord(mapping);
+	*v = compute_cylinder_v_coord(mapping, cylinder);
 }
 
-static void	get_cone_coordinates(t_vector3d point, t_cone *cone, float *coord1,
-	float *coord2)
+void	get_cone_coordinates(t_vector3d point, t_cone *cone, float *u,
+	float *v)
 {
-	t_vector3d	center_to_intersection;
-	float		height;
-	t_vector3d	radial;
+	t_surface_mapping	checker;
+	t_vector3d			center_to_intersection;
+	t_vector3d			radial;
+	t_vector3d			axis;
+	float				radial_length;
 
+	axis = normalize(cone->vector);
 	center_to_intersection = subtract_vectors(point, cone->cone_center);
-	height = dot_product(center_to_intersection, cone->vector);
+	checker.height = dot_product(center_to_intersection, axis);
 	radial = subtract_vectors(center_to_intersection,
-			scalar_multiplication(height, cone->vector));
-	radial = normalize(radial);
-	*coord1 = 0.5f + atan2(radial.z, radial.x) / (2 * M_PI);
-	*coord2 = height / cone->height;
+			scalar_multiplication(checker.height, axis));
+	radial_length = sqrtf(dot_product(radial, radial));
+	checker.local = radial;
+	checker.du = radial_length;
+	*u = compute_cone_u_coord(checker, axis);
+	*v = compute_cone_v_coord(checker, cone);
+}
+
+void	get_plane_coordinates(t_vector3d point, t_plane *plane,
+	float *u, float *v)
+{
+	t_surface_mapping	checker;
+	t_vector3d			temp;
+	float				scale_factor;
+
+	checker.normal = normalize(plane->vector);
+	if (fabsf(checker.normal.y) < 0.9f)
+		temp = (t_vector3d){0, 1, 0};
+	else
+		temp = (t_vector3d){1, 0, 0};
+	checker.tangent = normalize(cross_product(temp, checker.normal));
+	checker.bitangent = cross_product(checker.normal, checker.tangent);
+	checker.local = subtract_vectors(point, plane->plane_point);
+	*u = dot_product(checker.local, checker.tangent);
+	*v = dot_product(checker.local, checker.bitangent);
+	scale_factor = 0.5f;
+	*u = *u * scale_factor;
+	*v = *v * scale_factor;
 }
 
 t_rgb_color	object_pattern(t_vector3d point, t_object *object,
 	float scale)
 {
-	float	coord1;
-	float	coord2;
+	float	u;
+	float	v;
 
 	if (object->type == SPHERE)
-		get_sphere_coordinates(point, (t_sphere *)object->data, &coord1,
-			&coord2);
+		get_sphere_coordinates(point, (t_sphere *)object->data, &u, &v);
 	else if (object->type == PLANE)
-	{
-		coord1 = point.x;
-		coord2 = point.z;
-	}
+		get_plane_coordinates(point, (t_plane *)object->data, &u, &v);
 	else if (object->type == CYLINDER)
-		get_cylinder_coordinates(point, (t_cylinder *)object->data, &coord1,
-			&coord2);
+		get_cylinder_coordinates(point, (t_cylinder *)object->data, &u, &v);
 	else if (object->type == CONE)
-		get_cone_coordinates(point, (t_cone *)object->data, &coord1, &coord2);
+		get_cone_coordinates(point, (t_cone *)object->data, &u, &v);
 	else
 	{
-		coord1 = point.x;
-		coord2 = point.z;
+		u = point.x;
+		v = point.z;
 	}
-	return (checkerboard_pattern(coord1, coord2, scale, object));
+	return (checkerboard_pattern(u, v, scale, object));
 }

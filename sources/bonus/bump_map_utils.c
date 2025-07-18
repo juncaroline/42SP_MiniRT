@@ -6,14 +6,14 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:44:17 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:46:54 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:19:41 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt_bonus.h"
 
 bool	init_bump_mapping(t_object *object, t_vector3d point,
-	mlx_texture_t *bump_texture, t_bumpmap *bump)
+	mlx_texture_t *bump_texture, t_surface_mapping *bump)
 {
 	if (!object || !bump_texture || !bump_texture->pixels)
 		return (false);
@@ -35,7 +35,8 @@ bool	init_bump_mapping(t_object *object, t_vector3d point,
 	return (true);
 }
 
-bool	calculate_bump_gradients(mlx_texture_t *bump_texture, t_bumpmap *bump)
+bool	calculate_bump_gradients(mlx_texture_t *bump_texture,
+	t_surface_mapping *bump)
 {
 	bump->x1 = bump->texture_x + 1;
 	bump->y1 = bump->texture_y + 1;

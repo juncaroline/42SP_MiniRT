@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:39:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:19:08 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 t_vector3d	insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture)
 {
-	t_bumpmap	bump;
-	t_object	cylinder_object;
+	t_surface_mapping	bump;
+	t_object			cylinder_object;
 
 	init_cylinder_struct(&cylinder_object, cylinder);
 	if (!init_bump_mapping(&cylinder_object, point, bump_texture, &bump))
@@ -87,6 +87,8 @@ static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
 	}
 	else
 		info->color = cylinder->color;
+	if (cylinder->bump)
+		info->normal = apply_bump_map(*info);
 }
 
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,

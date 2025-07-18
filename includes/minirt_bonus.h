@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 16:02:27 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:09:22 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_sphere
 	bool			has_checker;
 	mlx_texture_t	*bump_texture;
 	char			*texture_path;
+	bool			bump;
 }	t_sphere;
 
 // quadratic equations in ray-geometry intersection calculations
@@ -111,6 +112,7 @@ typedef struct s_plane
 	bool			has_checker;
 	mlx_texture_t	*bump_texture;
 	char			*texture_path;
+	bool			bump;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -123,6 +125,7 @@ typedef struct s_cylinder
 	bool			has_checker;
 	mlx_texture_t	*bump_texture;
 	char			*texture_path;
+	bool			bump;
 }	t_cylinder;
 
 typedef struct s_cylinder_projection
@@ -166,6 +169,7 @@ typedef struct s_cone
 	bool			has_checker;
 	mlx_texture_t	*bump_texture;
 	char			*texture_path;
+	bool			bump;
 }	t_cone;
 
 typedef struct s_cone_projection
@@ -248,7 +252,7 @@ typedef struct s_material
 	float		shininess;
 }	t_material;
 
-typedef struct s_bumpmap
+typedef struct s_surface_mapping
 {
 	float		u;
 	float		v;
@@ -259,7 +263,8 @@ typedef struct s_bumpmap
 	float		bump_strength;
 	t_vector3d	tangent;
 	t_vector3d	bitangent;
-	t_vector3d	bump_normal;
+	t_vector3d	local;
+	t_vector3d	normal;
 	float		du;
 	float		dv;
 	int			x1;
@@ -268,16 +273,27 @@ typedef struct s_bumpmap
 	uint8_t		h2;
 	int			i1;
 	int			i2;
-}	t_bumpmap;
+	float		theta;
+	float		height;
+}	t_surface_mapping;
+
+// bump_map_generic.c
+t_vector3d	apply_bump_map(t_intersec_info hit);
 
 // bump_map_utils.c
 bool			init_bump_mapping(t_object *object, t_vector3d point,
-					mlx_texture_t *bump_texture, t_bumpmap *bump);
+					mlx_texture_t *bump_texture, t_surface_mapping *bump);
 bool			calculate_bump_gradients(mlx_texture_t *bump_texture,
-					t_bumpmap *bump);
+					t_surface_mapping *bump);
 bool			get_uv_coordinates(t_object *object, t_vector3d point, float *u,
 					float *v);
 void			free_object_texture(t_object *object);
+
+// bump_map_uv_calc.c
+void			calculate_plane_uv(t_vector3d point, t_plane *plane, t_surface_mapping *bump);
+void			calculate_cylinder_uv(t_vector3d point, t_cylinder *cylinder,
+					t_surface_mapping *bump);
+void			calculate_cone_uv(t_vector3d point, t_cone *cone, t_surface_mapping *bump);
 
 // bump_map_uv.c
 void			uv_map_sphere(t_vector3d point, t_sphere *sphere, float *u,
@@ -289,11 +305,11 @@ void			uv_map_cylinder(t_vector3d point, t_cylinder *cylinder,
 void			uv_map_cone(t_vector3d point, t_cone *cone, float *u, float *v);
 
 // bump_map_vectors.c
-t_vector3d		calc_vectors_sphere(t_vector3d normal, t_bumpmap *bump);
-t_vector3d		calc_vectors_plane(t_vector3d normal, t_bumpmap *bump);
-t_vector3d		calc_vectors_cylinder(t_vector3d normal, t_bumpmap *bump,
+t_vector3d		calc_vectors_sphere(t_vector3d normal, t_surface_mapping *bump);
+t_vector3d		calc_vectors_plane(t_vector3d normal, t_surface_mapping *bump);
+t_vector3d		calc_vectors_cylinder(t_vector3d normal, t_surface_mapping *bump,
 					t_cylinder *cylinder);
-t_vector3d		calc_vectors_cone(t_vector3d normal, t_bumpmap *bump,
+t_vector3d		calc_vectors_cone(t_vector3d normal, t_surface_mapping *bump,
 					t_cone *cone);
 
 // bump_map.c
@@ -305,6 +321,13 @@ bool			load_scene_textures(t_scene *scene);
 // checkerboard.c
 t_rgb_color		object_pattern(t_vector3d point, t_object *object,
 					float scale);
+
+// checkerboard_calc.c
+float			compute_cylinder_u_coord(t_surface_mapping mapping);
+float			compute_cylinder_v_coord(t_surface_mapping mapping,
+					t_cylinder *cylinder);
+float			compute_cone_u_coord(t_surface_mapping mapping, t_vector3d axis);
+float			compute_cone_v_coord(t_surface_mapping mapping, t_cone *cone);
 
 // closest_hit.c
 t_intersec_info	intersect_object(t_ray *ray, t_object *object, t_scene *scene);

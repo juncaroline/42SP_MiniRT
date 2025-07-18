@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:36:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:18:20 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 t_vector3d	insert_sphere_bump_map(t_sphere *sphere, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture)
 {
-	t_bumpmap	bump;
-	t_object	sphere_object;
+	t_surface_mapping	bump;
+	t_object			sphere_object;
 
 	init_sphere_struct(&sphere_object, sphere);
 	if (!init_bump_mapping(&sphere_object, point, bump_texture, &bump))
@@ -52,5 +52,7 @@ t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene)
 	}
 	else
 		info.color = sphere->color;
+	if (sphere->bump)
+		info.normal = apply_bump_map(info);
 	return (info);
 }

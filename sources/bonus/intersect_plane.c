@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:41:12 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:20:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void	verify_has_checker(t_plane *plane, t_intersec_info *info)
 t_vector3d	insert_plane_bump_map(t_plane *plane, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture)
 {
-	t_bumpmap	bump;
-	t_object	plane_object;
+	t_surface_mapping	bump;
+	t_object			plane_object;
 
 	init_plane_struct(&plane_object, plane);
 	if (!init_bump_mapping(&plane_object, point, bump_texture, &bump))
@@ -79,5 +79,7 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 		info.normal = insert_plane_bump_map(plane, info.intersec_point,
 				info.normal, plane->bump_texture);
 	verify_has_checker(plane, &info);
+	if (plane->bump)
+		info.normal = apply_bump_map(info);
 	return (info);
 }

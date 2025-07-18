@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:50:49 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/18 16:21:12 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static bool	compute_cone_intersection(t_ray *ray, t_cone *cone,
 t_vector3d	insert_cone_bump_map(t_cone *cone, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture)
 {
-	t_bumpmap	bump;
+	t_surface_mapping	bump;
 	t_object	cone_object;
 
 	init_cone_struct(&cone_object, cone);
@@ -101,6 +101,8 @@ t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 		}
 		else
 			info.color = cone->color;
+		if (cone->bump)
+			info.normal = apply_bump_map(info);
 	}
 	return (info);
 }
