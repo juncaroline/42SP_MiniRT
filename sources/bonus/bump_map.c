@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:37:33 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:49:24 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:04:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ mlx_texture_t	**get_bump_texture(t_object *object)
 		return (NULL);
 	data = object->data;
 	if (object->type == SPHERE)
-		return (&((t_sphere *)data)->bump_texture);
+		return (&((t_sphere *)data)->surface.bump_texture);
 	else if (object->type == PLANE)
-		return (&((t_plane *)data)->bump_texture);
+		return (&((t_plane *)data)->surface.bump_texture);
 	else if (object->type == CYLINDER)
-		return (&((t_cylinder *)data)->bump_texture);
+		return (&((t_cylinder *)data)->surface.bump_texture);
 	else if (object->type == CONE)
-		return (&((t_cone *)data)->bump_texture);
+		return (&((t_cone *)data)->surface.bump_texture);
 	return (NULL);
 }
 
@@ -38,13 +38,13 @@ char	**get_texture_path(t_object *object)
 		return (NULL);
 	data = object->data;
 	if (object->type == SPHERE)
-		return (&((t_sphere *)data)->texture_path);
+		return (&((t_sphere *)data)->surface.texture_path);
 	else if (object->type == PLANE)
-		return (&((t_plane *)data)->texture_path);
+		return (&((t_plane *)data)->surface.texture_path);
 	else if (object->type == CYLINDER)
-		return (&((t_cylinder *)data)->texture_path);
+		return (&((t_cylinder *)data)->surface.texture_path);
 	else if (object->type == CONE)
-		return (&((t_cone *)data)->texture_path);
+		return (&((t_cone *)data)->surface.texture_path);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 11:11:42 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:50:35 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 	t_cylinder *cylinder)
 {
 	t_cylinder_projection	proj;
-	t_cylinder_quad			quad;
+	t_quadratic				quad;
 	t_intersec_info			info;
 	bool					hit_surface;
 

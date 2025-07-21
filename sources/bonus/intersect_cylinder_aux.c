@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:19:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:20:41 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 			plane.plane_point, cylinder->diameter))
 		return (false);
 	*info = cap_info;
-	if (cylinder->has_checker)
+	if (cylinder->surface.has_checker)
 		verify_has_checker(cylinder, is_top_cap, info);
 	else
 		info->color = cylinder->color;
@@ -67,7 +67,7 @@ t_vector3d	insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 }
 
 static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
-	t_cylinder_quad *quad, t_intersec_info *info)
+	t_quadratic *quad, t_intersec_info *info)
 {
 	t_object				cylinder_object;
 
@@ -76,10 +76,12 @@ static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
 	info->intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(quad->t_hit, ray->direction));
 	info->normal = calculate_cylinder_normal(cylinder, info->intersec_point);
-	if (cylinder->bump_texture && cylinder->bump_texture->pixels)
+	if (cylinder->surface.bump_texture
+		&& cylinder->surface.bump_texture->pixels)
 		info->normal = insert_cylinder_bump_map(cylinder,
-				info->intersec_point, info->normal, cylinder->bump_texture);
-	if (cylinder->has_checker)
+				info->intersec_point, info->normal,
+				cylinder->surface.bump_texture);
+	if (cylinder->surface.has_checker)
 	{
 		init_cylinder_struct(&cylinder_object, cylinder);
 		info->color = object_pattern(info->intersec_point,
@@ -87,7 +89,7 @@ static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
 	}
 	else
 		info->color = cylinder->color;
-	if (cylinder->bump)
+	if (cylinder->surface.bump)
 		info->normal = apply_bump_map(*info);
 }
 
@@ -95,7 +97,7 @@ t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 	t_cylinder *cylinder)
 {
 	t_cylinder_projection	proj;
-	t_cylinder_quad			quad;
+	t_quadratic				quad;
 	t_intersec_info			info;
 	bool					hit_surface;
 

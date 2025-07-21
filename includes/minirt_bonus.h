@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:09:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:40:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,35 +84,43 @@ typedef struct s_light
 	t_rgb_color	color;
 }	t_light;
 
+typedef struct s_surface
+{
+	bool			has_checker;
+	mlx_texture_t	*bump_texture;
+	char			*texture_path;
+	bool			bump;
+}	t_surface;
+
+// quadratic equations in ray-geometry intersection calculations
+typedef struct s_quadratic
+{
+	float	radius;
+	float	cos_squared;
+	float	a;
+	float	b;
+	float	c;
+	float	discriminant;
+	float	sqrt_discriminant;
+	float	nearest;
+	float	farther;
+	float	t_hit;
+}	t_quadratic;
+
 typedef struct s_sphere
 {
 	t_vector3d		sphere_center;
 	float			diameter;
 	t_rgb_color		color;
-	bool			has_checker;
-	mlx_texture_t	*bump_texture;
-	char			*texture_path;
-	bool			bump;
+	t_surface		surface;
 }	t_sphere;
-
-// quadratic equations in ray-geometry intersection calculations
-typedef struct s_sphere_quad
-{
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-}	t_sphere_quad;
 
 typedef struct s_plane
 {
 	t_vector3d		plane_point;
 	t_vector3d		vector;
 	t_rgb_color		color;
-	bool			has_checker;
-	mlx_texture_t	*bump_texture;
-	char			*texture_path;
-	bool			bump;
+	t_surface		surface;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -122,10 +130,7 @@ typedef struct s_cylinder
 	float			diameter;
 	float			height;
 	t_rgb_color		color;
-	bool			has_checker;
-	mlx_texture_t	*bump_texture;
-	char			*texture_path;
-	bool			bump;
+	t_surface		surface;
 }	t_cylinder;
 
 typedef struct s_cylinder_projection
@@ -137,20 +142,6 @@ typedef struct s_cylinder_projection
 	t_vector3d	projected_d;
 	t_vector3d	d_perpendicular;
 }	t_cylinder_projection;
-
-// quadratic equations in ray-geometry intersection calculations
-typedef struct s_cylinder_quad
-{
-	float	radius;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-	float	sqrt_discriminant;
-	float	nearest;
-	float	farther;
-	float	t_hit;
-}	t_cylinder_quad;
 
 typedef struct s_cylinder_intersec
 {
@@ -166,10 +157,7 @@ typedef struct s_cone
 	float			diameter;
 	float			height;
 	t_rgb_color		color;
-	bool			has_checker;
-	mlx_texture_t	*bump_texture;
-	char			*texture_path;
-	bool			bump;
+	t_surface		surface;
 }	t_cone;
 
 typedef struct s_cone_projection
@@ -179,21 +167,6 @@ typedef struct s_cone_projection
 	float		v_dot_d;
 	float		oc_dot_d;
 }	t_cone_projection;
-
-// quadratic equations in ray-geometry intersection calculations
-typedef struct s_cone_quad
-{
-	float	radius;
-	float	cos_squared;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-	float	sqrt_discriminant;
-	float	nearest;
-	float	farther;
-	float	t_hit;
-}	t_cone_quad;
 
 typedef struct s_cone_intersec
 {
@@ -319,6 +292,8 @@ bool			load_object_texture(t_object *object);
 bool			load_scene_textures(t_scene *scene);
 
 // checkerboard.c
+void			get_plane_coordinates(t_vector3d point, t_plane *plane,
+					float *u, float *v);
 t_rgb_color		object_pattern(t_vector3d point, t_object *object,
 					float scale);
 
@@ -328,6 +303,17 @@ float			compute_cylinder_v_coord(t_surface_mapping mapping,
 					t_cylinder *cylinder);
 float			compute_cone_u_coord(t_surface_mapping mapping, t_vector3d axis);
 float			compute_cone_v_coord(t_surface_mapping mapping, t_cone *cone);
+
+// checkerboard_map.c
+t_rgb_color		checkerboard_pattern(float u, float v, float scale,
+					t_object *object);
+void			get_sphere_coordinates(t_vector3d point, t_sphere *sphere,
+					float *u, float *v);
+void			get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
+					float *u, float *v);
+void			get_cone_coordinates(t_vector3d point, t_cone *cone, float *u,
+					float *v);
+
 
 // closest_hit.c
 t_intersec_info	intersect_object(t_ray *ray, t_object *object, t_scene *scene);
@@ -378,11 +364,11 @@ void			init_cone_base(t_cone *cone, t_cone_intersec *base);
 void			init_cone_projection(t_ray *ray, t_cone *cone,
 					t_cone_projection *proj, t_cone_intersec *base);
 void			calculate_equation(t_cone_projection *proj, t_cone *cone,
-					t_cone_quad *quad, t_ray *ray);
+					t_quadratic *quad, t_ray *ray);
 bool			solve_cone_quadratic(t_cone_projection *proj,
-					t_cone *cone, t_cone_quad *quad, t_ray *ray);
+					t_cone *cone, t_quadratic *quad, t_ray *ray);
 bool			validate_cone_intersec(t_ray *ray, t_cone *cone,
-					t_cone_quad *quad, t_cone_intersec *base);
+					t_quadratic *quad, t_cone_intersec *base);
 
 // intersect_cone.c
 t_vector3d		calculate_cone_normal(t_cone *cone, t_vector3d point,
@@ -413,9 +399,9 @@ void			get_bottom_cap_coord(t_vector3d point, t_cylinder *cylinder,
 void			init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
 					t_cylinder_projection *proj);
 bool			solve_cylinder_quadratic(t_cylinder_projection *proj,
-					t_cylinder *cylinder, t_cylinder_quad *quad);
+					t_cylinder *cylinder, t_quadratic *quad);
 bool			validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
-					t_cylinder_quad *quad);
+					t_quadratic *quad);
 t_vector3d		calculate_cylinder_normal(t_cylinder *cylinder,
 					t_vector3d point);
 
@@ -438,10 +424,13 @@ t_vector3d		insert_plane_bump_map(t_plane *plane, t_vector3d point,
 t_vector3d		calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane);
 
+// intersect_quadratic.c
+bool	solve_quadratic_equation(t_quadratic *quad);
+
 // intersect_sphere_calc.c
 void			init_sphere_struct(t_object *object, t_sphere *sphere);
-t_sphere_quad	intersect_sphere_quad(t_ray *ray, t_sphere *sphere);
-bool			intersect_sphere_solution(t_sphere_quad quad, float *t);
+t_quadratic		intersect_sphere_quad(t_ray *ray, t_sphere *sphere);
+bool			intersect_sphere_solution(t_quadratic quad, float *t);
 t_vector3d		calculate_sphere_normal(t_sphere *sphere,
 					t_vector3d point);
 

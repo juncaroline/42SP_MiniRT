@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:34:51 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 12:36:14 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:17:56 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,52 +20,26 @@ void	init_sphere_struct(t_object *object, t_sphere *sphere)
 	object->black = (t_rgb_color){0, 0, 0};
 }
 
-t_sphere_quad	intersect_sphere_quad(t_ray *ray, t_sphere *sphere)
+t_quadratic	intersect_sphere_quad(t_ray *ray, t_sphere *sphere)
 {
-	t_vector3d		l;
-	t_sphere_quad	quad;
+	t_vector3d	l;
+	t_quadratic	quad;
 
-	if (!ray || !sphere)
-	{
-		ft_bzero(&quad, sizeof(t_sphere_quad));
-		quad.discriminant = -1.0f;
-		return (quad);
-	}
 	l = subtract_vectors(ray->origin, sphere->sphere_center);
 	quad.a = dot_product(ray->direction, ray->direction);
 	quad.b = 2.0f * dot_product(ray->direction, l);
 	quad.c = dot_product(l, l)
 		- (sphere->diameter * sphere->diameter) / 4.0f;
-	quad.discriminant = quad.b * quad.b - 4.0f * quad.a * quad.c;
 	return (quad);
 }
 
-bool	intersect_sphere_solution(t_sphere_quad quad, float *t)
+bool	intersect_sphere_solution(t_quadratic quad, float *t)
 {
-	float	nearest;
-	float	farther;
-
 	if (!t)
 		return (false);
-	if (quad.discriminant < 0.0f)
+	if (!solve_quadratic_equation(&quad))
 		return (false);
-	if (quad.a == 0.0f || quad.discriminant < 0.0f || isnan(quad.discriminant))
-		return (false);
-	nearest = (-quad.b - sqrtf(quad.discriminant)) / (2.0f * quad.a);
-	farther = (-quad.b + sqrtf(quad.discriminant)) / (2.0f * quad.a);
-	if (nearest < 0.0f && farther < 0.0f)
-		return (false);
-	else if (nearest < 0.0f)
-		*t = farther;
-	else if (farther < 0.0f)
-		*t = nearest;
-	else
-	{
-		if (nearest < farther)
-			*t = nearest;
-		else
-			*t = farther;
-	}
+	*t = quad.t_hit;
 	return (true);
 }
 

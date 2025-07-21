@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 16:01:34 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:47:00 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,21 @@ typedef struct s_light
 	float		ratio;
 }	t_light;
 
+// quadratic equations in ray-geometry intersection calculations
+typedef struct s_quadratic
+{
+	float	radius;
+	float	cos_squared;
+	float	a;
+	float	b;
+	float	c;
+	float	discriminant;
+	float	sqrt_discriminant;
+	float	nearest;
+	float	farther;
+	float	t_hit;
+}	t_quadratic;
+
 typedef struct s_material
 {
 	t_rgb_color	color;
@@ -106,15 +121,6 @@ typedef struct s_sphere
 	t_material	material;
 
 }	t_sphere;
-
-// quadratic equations in ray-geometry intersection calculations
-typedef struct s_sphere_quad
-{
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-}	t_sphere_quad;
 
 typedef struct s_plane
 {
@@ -141,20 +147,6 @@ typedef struct s_cylinder_projection
 	t_vector3d	projected_d;
 	t_vector3d	d_perpendicular;
 }	t_cylinder_projection;
-
-// quadratic equations in ray-geometry intersection calculations
-typedef struct s_cylinder_quad
-{
-	float	radius;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-	float	sqrt_discriminant;
-	float	nearest;
-	float	farther;
-	float	t_hit;
-}	t_cylinder_quad;
 
 typedef struct s_cylinder_intersec
 {
@@ -237,9 +229,9 @@ t_intersec_info		ray_intersects_cylinder_surface(t_ray *ray,
 void				init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
 						t_cylinder_projection *proj);
 bool				solve_cylinder_quadratic(t_cylinder_projection *proj,
-						t_cylinder *cylinder, t_cylinder_quad *quad);
+						t_cylinder *cylinder, t_quadratic *quad);
 bool				validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
-						t_cylinder_quad *quad);
+						t_quadratic *quad);
 t_vector3d			calculate_cylinder_normal(t_cylinder *cylinder,
 						t_vector3d point);
 
@@ -255,6 +247,9 @@ t_intersec_info		intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 // intersect_plane.c
 t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersec_info		intersect_plane(t_ray *ray, t_plane *plane);
+
+// intersect_quadratic.c
+bool	solve_quadratic_equation(t_quadratic *quad);
 
 // intersect_sphere.c
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,

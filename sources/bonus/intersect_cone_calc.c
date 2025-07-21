@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 15:25:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:36:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_cone_projection(t_ray *ray, t_cone *cone,
 }
 
 void	calculate_equation(t_cone_projection *proj, t_cone *cone,
-	t_cone_quad *quad, t_ray *ray)
+	t_quadratic *quad, t_ray *ray)
 {
 	quad->radius = cone->diameter / 2.0f;
 	quad->cos_squared = (cone->height * cone->height)
@@ -47,31 +47,16 @@ void	calculate_equation(t_cone_projection *proj, t_cone *cone,
 }
 
 bool	solve_cone_quadratic(t_cone_projection *proj,
-	t_cone *cone, t_cone_quad *quad, t_ray *ray)
+	t_cone *cone, t_quadratic *quad, t_ray *ray)
 {
 	if (!proj || !cone || !quad || !ray)
 		return (false);
 	calculate_equation(proj, cone, quad, ray);
-	quad->discriminant = quad->b * quad->b - 4.0f * quad->a * quad->c;
-	if (quad->discriminant < EPSILON)
-		return (false);
-	if (fabs(quad->a) < EPSILON)
-		return (false);
-	quad->sqrt_discriminant = sqrtf(quad->discriminant);
-	quad->nearest = (-quad->b - quad->sqrt_discriminant) / (2.0f * quad->a);
-	quad->farther = (-quad->b + quad->sqrt_discriminant) / (2.0f * quad->a);
-	quad->t_hit = -1.0f;
-	if (quad->nearest > EPSILON)
-		quad->t_hit = quad->nearest;
-	else if (quad->farther > EPSILON)
-		quad->t_hit = quad->farther;
-	else
-		return (false);
-	return (true);
+	return (solve_quadratic_equation(quad));
 }
 
 bool	validate_cone_intersec(t_ray *ray, t_cone *cone,
-	t_cone_quad *quad, t_cone_intersec *base)
+	t_quadratic *quad, t_cone_intersec *base)
 {
 	t_cone_intersec	intersec;
 	t_vector3d		vector_from_vertex;
