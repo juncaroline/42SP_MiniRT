@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:57:49 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 15:30:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:36:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_vector3d	calculate_cone_normal(t_cone *cone, t_vector3d point,
 {
 	t_vector3d		normal;
 	t_cone_intersec	intersec;
-	t_cone_quad		quad;
+	t_quadratic		quad;
 	t_vector3d		axis_component;
 	t_vector3d		radial_component;
 

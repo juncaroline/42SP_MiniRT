@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 14:57:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:05:49 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_plane	create_cylinder_cap_plane(t_cylinder *cylinder, bool is_top_cap)
 	plane.plane_point = center;
 	plane.vector = normal;
 	plane.color = cylinder->color;
-	plane.has_checker = false;
+	plane.surface.has_checker = false;
 	return (plane);
 }
 

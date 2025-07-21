@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:46:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 15:26:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:36:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,18 @@ void	init_cylinder_projection(t_ray *ray, t_cylinder *cylinder,
 }
 
 bool	solve_cylinder_quadratic(t_cylinder_projection *proj,
-	t_cylinder *cylinder, t_cylinder_quad *quad)
+	t_cylinder *cylinder, t_quadratic *quad)
 {
 	quad->radius = cylinder->diameter / 2.0f;
 	quad->a = dot_product(proj->d_perpendicular, proj->d_perpendicular);
 	quad->b = 2.0f * dot_product(proj->d_perpendicular, proj->oc_perpendicular);
 	quad->c = dot_product(proj->oc_perpendicular, proj->oc_perpendicular)
 		- quad->radius * quad->radius;
-	quad->discriminant = quad->b * quad->b - 4.0f * quad->a * quad->c;
-	if (quad->discriminant < EPSILON)
-		return (false);
-	if (fabs(quad->a) < EPSILON)
-		return (false);
-	quad->sqrt_discriminant = sqrtf(quad->discriminant);
-	quad->nearest = (-quad->b - quad->sqrt_discriminant) / (2.0f * quad->a);
-	quad->farther = (-quad->b + quad->sqrt_discriminant) / (2.0f * quad->a);
-	quad->t_hit = -1.0f;
-	if (quad->nearest > EPSILON)
-		quad->t_hit = quad->nearest;
-	else if (quad->farther > EPSILON)
-		quad->t_hit = quad->farther;
-	else
-		return (false);
-	return (true);
+	return (solve_quadratic_equation(quad));
 }
 
 bool	validate_cylinder_intersec(t_ray *ray, t_cylinder *cylinder,
-	t_cylinder_quad *quad)
+	t_quadratic *quad)
 {
 	t_cylinder_intersec	intersec;
 

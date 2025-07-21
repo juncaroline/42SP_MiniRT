@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:18:20 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:30:09 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,30 @@ t_vector3d	insert_sphere_bump_map(t_sphere *sphere, t_vector3d point,
 	return (calc_vectors_sphere(normal, &bump));
 }
 
+static void	apply_sphere_surface_effects(t_sphere *sphere,
+	t_intersec_info *info)
+{
+	t_object	sphere_object;
+
+	if (sphere->surface.bump_texture && sphere->surface.bump_texture->pixels)
+		info->normal = insert_sphere_bump_map(sphere, info->intersec_point,
+				info->normal, sphere->surface.bump_texture);
+	if (sphere->surface.has_checker)
+	{
+		init_sphere_struct(&sphere_object, sphere);
+		info->color = object_pattern(info->intersec_point, &sphere_object,
+				10.0f);
+	}
+	else
+		info->color = sphere->color;
+	if (sphere->surface.bump)
+		info->normal = apply_bump_map(*info);
+}
+
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene)
 {
-	t_sphere_quad	quad;
+	t_quadratic		quad;
 	t_intersec_info	info;
-	t_object		sphere_object;
 
 	ft_bzero(&info, sizeof(t_intersec_info));
 	if (!ray || !sphere)
@@ -42,17 +61,6 @@ t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene)
 	info.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_sphere_normal(sphere, info.intersec_point);
-	if (sphere->bump_texture && sphere->bump_texture->pixels)
-		info.normal = insert_sphere_bump_map(sphere, info.intersec_point,
-				info.normal, sphere->bump_texture);
-	if (sphere->has_checker)
-	{
-		init_sphere_struct(&sphere_object, sphere);
-		info.color = object_pattern(info.intersec_point, &sphere_object, 10.0f);
-	}
-	else
-		info.color = sphere->color;
-	if (sphere->bump)
-		info.normal = apply_bump_map(info);
+	apply_sphere_surface_effects(sphere, &info);
 	return (info);
 }

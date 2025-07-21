@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:20:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:43:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ static void	init_plane_struct(t_object *object, t_plane *plane)
 	object->black = (t_rgb_color){0, 0, 0};
 }
 
-static void	verify_has_checker(t_plane *plane, t_intersec_info *info)
+static void	apply_plane_surface_effects(t_plane *plane, t_intersec_info *info)
 {
 	t_object	plane_object;
 
-	if (plane->has_checker)
+	if (plane->surface.bump_texture && plane->surface.bump_texture->pixels)
+		info->normal = insert_plane_bump_map(plane, info->intersec_point,
+				info->normal, plane->surface.bump_texture);
+	if (plane->surface.has_checker)
 	{
 		init_plane_struct(&plane_object, plane);
 		info->color = object_pattern(info->intersec_point,
@@ -38,6 +41,8 @@ static void	verify_has_checker(t_plane *plane, t_intersec_info *info)
 	}
 	else
 		info->color = plane->color;
+	if (plane->surface.bump)
+		info->normal = apply_bump_map(*info);
 }
 
 t_vector3d	insert_plane_bump_map(t_plane *plane, t_vector3d point,
@@ -75,11 +80,6 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 	info.intersec_point = add_vectors(ray->origin,
 			scalar_multiplication(info.dist_to_intersec, ray->direction));
 	info.normal = calculate_plane_normal(plane, info.intersec_point);
-	if (plane->bump_texture && plane->bump_texture->pixels)
-		info.normal = insert_plane_bump_map(plane, info.intersec_point,
-				info.normal, plane->bump_texture);
-	verify_has_checker(plane, &info);
-	if (plane->bump)
-		info.normal = apply_bump_map(info);
+	apply_plane_surface_effects(plane, &info);
 	return (info);
 }

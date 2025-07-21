@@ -6,16 +6,16 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 10:42:50 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:15:03 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-static t_sphere_quad	intersect_sphere_quad(t_ray *ray, t_sphere *sphere)
+static t_quadratic	intersect_sphere_quad(t_ray *ray, t_sphere *sphere)
 {
 	t_vector3d		l;
-	t_sphere_quad	quad;
+	t_quadratic		quad;
 
 	l = subtract_vectors(ray->origin, sphere->sphere_center);
 	quad.a = dot_product(ray->direction, ray->direction);
@@ -26,28 +26,13 @@ static t_sphere_quad	intersect_sphere_quad(t_ray *ray, t_sphere *sphere)
 	return (quad);
 }
 
-static bool	intersect_sphere_solution(t_sphere_quad quad, float *t)
+static bool	intersect_sphere_solution(t_quadratic quad, float *t)
 {
-	float	nearest;
-	float	farther;
-
-	if (quad.discriminant < 0.0f)
+	if (!t)
 		return (false);
-	nearest = (-quad.b - sqrtf(quad.discriminant)) / (2.0f * quad.a);
-	farther = (-quad.b + sqrtf(quad.discriminant)) / (2.0f * quad.a);
-	if (nearest < 0.0f && farther < 0.0f)
+	if (!solve_quadratic_equation(&quad))
 		return (false);
-	else if (nearest < 0.0f)
-		*t = farther;
-	else if (farther < 0.0f)
-		*t = nearest;
-	else
-	{
-		if (nearest < farther)
-			*t = nearest;
-		else
-			*t = farther;
-	}
+	*t = quad.t_hit;
 	return (true);
 }
 
@@ -56,6 +41,8 @@ t_vector3d	calculate_sphere_normal(t_sphere *sphere, t_vector3d point)
 	t_vector3d	normal;
 	float		radius;
 
+	if (!sphere)
+		return ((t_vector3d){0.0f, 0.0f, 0.0f});
 	radius = sphere->diameter / 2.0f;
 	normal = subtract_vectors(point, sphere->sphere_center);
 	normal = scalar_multiplication(1.0f / radius, normal);
@@ -64,7 +51,7 @@ t_vector3d	calculate_sphere_normal(t_sphere *sphere, t_vector3d point)
 
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
-	t_sphere_quad	quad;
+	t_quadratic		quad;
 	t_intersec_info	info;
 
 	info.intersection = false;
