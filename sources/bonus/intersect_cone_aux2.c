@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 16:12:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:31:30 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:20:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_plane	create_cone_plane(t_cone *cone, bool is_covered, t_cone_intersec *base)
 	plane.plane_point = center;
 	plane.vector = normal;
 	plane.color = cone->color;
-	plane.surface.has_checker = false;
+	plane.surface = cone->surface;
 	return (plane);
 }
 
