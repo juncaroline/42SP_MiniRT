@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:44:17 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:19:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:48:14 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 bool	init_bump_mapping(t_object *object, t_vector3d point,
 	mlx_texture_t *bump_texture, t_surface_mapping *bump)

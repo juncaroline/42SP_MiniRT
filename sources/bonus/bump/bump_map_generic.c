@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 14:05:24 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:48:50 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 t_vector3d	apply_bump_map(t_intersec_info hit)
 {

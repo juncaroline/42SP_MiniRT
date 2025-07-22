@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:37:33 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 11:04:02 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:48:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 mlx_texture_t	**get_bump_texture(t_object *object)
 {
