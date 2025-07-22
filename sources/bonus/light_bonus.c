@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/18 20:00:39 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:45:23 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_rgb_color	color_without_shadow(t_intersec_info hit, t_scene *scene,
 	return (final_color);
 }
 
-t_rgb_color	get_color(t_intersec_info hit, t_scene *scene, t_ray ray)
+t_rgb_color	apply_light(t_intersec_info hit, t_scene *scene, t_ray ray)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
