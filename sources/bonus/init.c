@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/22 14:03:38 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:24:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	set_color(t_scene *scene, mlx_image_t *img, int x, int y)
 	t_intersec_info	hit;
 	t_rgb_color		final_color;
 
+	ft_bzero(&hit, sizeof(t_intersec_info));
 	ray = generate_ray(x, y, &scene->camera);
 	hit = find_closest_interesection(&ray, scene);
 	final_color = apply_light(hit, scene, ray);

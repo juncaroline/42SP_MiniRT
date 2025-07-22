@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/22 14:20:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:22:19 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ void	prepare_point(t_intersec_info *hit, t_ray ray)
 	if (dot_product(hit->normal, eyev) < 0)
 		hit->normal = scalar_multiplication(-1, hit->normal);
 	hit->over_point = add_vectors(hit->intersec_point, \
-		scalar_multiplication(1e-1, hit->normal));
+		scalar_multiplication(EPSILON, hit->normal));
 }
