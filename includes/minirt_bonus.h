@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:40:29 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:45:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,7 +451,7 @@ t_rgb_color		evaluate_lighting_effect(t_intersec_info hit, t_scene *scene, \
 					t_light *light, t_material material);
 t_rgb_color		loop_color(t_intersec_info hit, t_scene *scene, \
 					t_rgb_color ambient, t_material material);
-t_rgb_color		get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
+t_rgb_color		apply_light(t_intersec_info hit, t_scene *scene, t_ray ray);
 
 // light_shadow.c
 bool			in_shadow(t_scene *scene, t_intersec_info hit, t_light *light);
