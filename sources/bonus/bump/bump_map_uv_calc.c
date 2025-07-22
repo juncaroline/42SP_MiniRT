@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:00:54 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:21:48 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:48:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 void	calculate_plane_uv(t_vector3d point, t_plane *plane,
 	t_surface_mapping *bump)

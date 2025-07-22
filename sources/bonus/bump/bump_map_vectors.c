@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:43:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:19:23 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:48:20 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 t_vector3d	calc_vectors_sphere(t_vector3d normal, t_surface_mapping *bump)
 {

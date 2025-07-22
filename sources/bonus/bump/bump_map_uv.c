@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:44:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/18 18:19:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:48:19 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 void	uv_map_sphere(t_vector3d point, t_sphere *sphere, float *u,
 	float *v)
