@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 11:12:59 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:05:54 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_intersec_info	intersect_plane(t_ray *ray, t_plane *plane)
 	info.dist_to_intersec = 0.0f;
 	info.intersec_point = (t_vector3d){0.0f, 0.0f, 0.0f};
 	info.normal = (t_vector3d){0.0f, 0.0f, 0.0f};
+	info.over_point = (t_vector3d){0.0f, 0.0f, 0.0f};
 	diff = subtract_vectors(plane->plane_point, ray->origin);
 	denominator = dot_product(ray->direction, plane->vector);
 	if (fabs(denominator) < EPSILON)

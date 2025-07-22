@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 11:47:00 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:02:47 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ t_rgb_color			scale_color(t_rgb_color c, float ratio);
 t_rgb_color			max_color(t_rgb_color c);
 t_rgb_color			add_color(t_rgb_color a, t_rgb_color b);
 t_rgb_color			diff_color(t_intersec_info hit, t_scene *scene);
-t_rgb_color			get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
+t_rgb_color			apply_light(t_intersec_info hit, t_scene *scene, t_ray ray);
 
 // math.c
 t_vector3d			add_vectors(t_vector3d a, t_vector3d b);

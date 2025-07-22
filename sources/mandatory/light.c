@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/14 14:08:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:18:03 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
 	return (scale_color(scene->ambient.color, (diff * scene->light.ratio)));
 }
 
-t_rgb_color	get_color(t_intersec_info hit, t_scene *scene, t_ray ray)
+t_rgb_color	apply_light(t_intersec_info hit, t_scene *scene, t_ray ray)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
