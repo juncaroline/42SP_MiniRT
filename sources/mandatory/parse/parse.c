@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 10:27:14 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:17:54 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt.h"
 
 void	check_file_extension(char *extension)
 {

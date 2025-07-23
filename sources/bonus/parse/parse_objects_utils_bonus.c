@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_objects_utils.c                              :+:      :+:    :+:   */
+/*   parse_objects_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 14:48:07 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/10 14:49:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:12:01 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 static void	assign_object_data(t_object *object, t_scene *scene, int *index)
 {

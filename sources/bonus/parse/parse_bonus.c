@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/16 12:20:25 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:11:40 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 void	check_file_extension(char *extension)
 {

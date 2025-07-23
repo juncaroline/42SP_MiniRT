@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:39 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/17 16:02:47 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:17:57 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt.h"
 
 bool	is_rgb_color(t_rgb_color color_value)
 {

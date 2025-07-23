@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 10:16:20 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:17:58 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt.h"
 
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {

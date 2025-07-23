@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 10:15:03 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 10:45:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:18:00 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt.h"
 
 static void	assign_object_data(t_object *object, t_scene *scene, int *index)
 {

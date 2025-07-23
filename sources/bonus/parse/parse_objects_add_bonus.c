@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_objects_add.c                                :+:      :+:    :+:   */
+/*   parse_objects_add_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:20:29 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 15:49:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:11:49 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 bool	add_sphere(t_scene *scene, t_sphere *new_sphere, int count)
 {

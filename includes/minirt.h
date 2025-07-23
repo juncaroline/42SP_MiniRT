@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:50:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:21:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,48 @@ t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersec_info		intersect_sphere(t_ray *ray, t_sphere *sphere);
 
+/* -------------------- parse --------------------- */
+
+// parse_elements.c
+bool				parse_ambient(char **tokens, int count, t_ambient *ambient);
+bool				parse_camera(char **tokens, int count, t_camera *camera);
+bool				parse_light(char **tokens, int count, t_light *light);
+
+// parse_objects_add.c
+bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
+bool				add_plane(t_scene *scene, t_plane *new_plane, int count);
+bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
+						int count);
+
+// parse_objects_utils.c
+void				rebuild_object_pointers(t_scene *scene);
+
+// parse_objects.c
+bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
+bool				parse_plane(char **tokens, int count, t_plane *plane);
+bool				parse_cylinder(char **tokens, int count,
+						t_cylinder *cylinder);
+void				add_object(t_scene *scene, t_object_type type, void *data);
+
+// parse_param.c
+bool				is_rgb_color(t_rgb_color color_value);
+t_rgb_color			parse_rgb(char *str);
+bool				is_normalized_vector(t_vector3d vector_value);
+t_vector3d			parse_normalized_vector(char *str);
+
+// parse_param2.c
+t_vector3d			parse_coordinates(char *str);
+float				parse_fov(char *str);
+float				parse_ratio(char *str);
+float				parse_measurements(char *str);
+
+// parse.c
+void				check_file_extension(char *extension);
+void				get_content(char	**content, int fd);
+int					verif_content(char *content, t_scene *scene, char ***tokens,
+						int i);
+void				read_file(char *scene_file, t_scene *scene);
+
 /* -------------------- ray --------------------- */
 
 // ray_direction.c
@@ -308,44 +350,6 @@ t_rgb_color			add_color(t_rgb_color a, t_rgb_color b);
 t_rgb_color			diff_color(t_intersec_info hit, t_scene *scene);
 t_rgb_color			get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
 
-// parse_elements.c
-bool				parse_ambient(char **tokens, int count, t_ambient *ambient);
-bool				parse_camera(char **tokens, int count, t_camera *camera);
-bool				parse_light(char **tokens, int count, t_light *light);
 
-// parse_objects_add.c
-bool				add_sphere(t_scene *scene, t_sphere *new_sphere, int count);
-bool				add_plane(t_scene *scene, t_plane *new_plane, int count);
-bool				add_cylinder(t_scene *scene, t_cylinder *new_cylinder,
-						int count);
-
-// parse_objects_utils.c
-void				rebuild_object_pointers(t_scene *scene);
-
-// parse_objects.c
-bool				parse_sphere(char **tokens, int count, t_sphere *sphere);
-bool				parse_plane(char **tokens, int count, t_plane *plane);
-bool				parse_cylinder(char **tokens, int count,
-						t_cylinder *cylinder);
-void				add_object(t_scene *scene, t_object_type type, void *data);
-
-// parse.c
-void				check_file_extension(char *extension);
-void				get_content(char	**content, int fd);
-int					verif_content(char *content, t_scene *scene, char ***tokens,
-						int i);
-void				read_file(char *scene_file, t_scene *scene);
-
-// parse_param.c
-bool				is_rgb_color(t_rgb_color color_value);
-t_rgb_color			parse_rgb(char *str);
-bool				is_normalized_vector(t_vector3d vector_value);
-t_vector3d			parse_normalized_vector(char *str);
-
-// parse_param2.c
-t_vector3d			parse_coordinates(char *str);
-float				parse_fov(char *str);
-float				parse_ratio(char *str);
-float				parse_measurements(char *str);
 
 #endif

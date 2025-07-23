@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:51 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/14 11:12:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:18:03 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt.h"
 
 bool	parse_ambient(char **tokens, int count, t_ambient *ambient)
 {

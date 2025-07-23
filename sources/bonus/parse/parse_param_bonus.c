@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_param.c                                   :+:      :+:    :+:   */
+/*   parse_param.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:39 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 16:15:38 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:12:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt_bonus.h"
 
 bool	is_rgb_color(t_rgb_color color_value)
 {
