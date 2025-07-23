@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/17 14:18:38 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:20:06 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	prepare_point(t_intersec_info *hit, t_ray ray)
 {
 	t_vector3d	eyev;
 
+	if (!hit || !hit->intersection)
+		return ;
 	eyev = scalar_multiplication(-1, ray.direction);
 	if (dot_product(hit->normal, eyev) < 0)
 		hit->normal = scalar_multiplication(-1, hit->normal);
