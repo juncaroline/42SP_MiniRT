@@ -1,0 +1,16 @@
+# Ambient
+#   ratio           color
+A   0.1             255,255,255
+
+# Camera
+#   position        direction       fov
+C   0,2,10        0,-0.2,-1           70
+
+# Light
+#   position        intensity       color
+L   -8,8,8         0.7             245,2,2
+L   0,8,-8          0.5             5,5,245
+
+pl  0,-2,0           0,1,0           80,80,80
+
+sp -2,0,0 2 255,255,255

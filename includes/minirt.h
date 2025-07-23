@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 11:47:00 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:50:18 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,18 +188,7 @@ typedef struct s_scene
 	int			cylinder_count;
 }	t_scene;
 
-// closest_hit.c
-t_intersec_info		intersect_object(t_ray *ray, t_object *object);
-t_intersec_info		find_closest_object(t_ray *ray, t_object *objects,
-						int count);
-t_intersec_info		find_closest_interesection(t_ray *ray, t_scene *scene);
-
-// error.c
-void				error_msg(int status);
-
-// free.c
-void				free_split(char **tokens);
-void				free_scene(t_scene *scene);
+/* -------------------- init --------------------- */
 
 // handle_param.c
 bool				handle_sphere(char **tokens, t_scene *scene);
@@ -212,6 +201,19 @@ void				set_pixel(mlx_image_t *img, int x, int y, t_rgb_color c);
 void				set_color(t_scene *scene, mlx_image_t *img, int x, int y);
 void				render(t_scene *scene, mlx_image_t *img);
 int32_t				init_scene(t_scene *scene);
+
+// validate_elements.c
+void				verify_elements(char *content, int i);
+int					count_tokens(char **tokens);
+bool				validate_elements(char **tokens, t_scene *scene);
+
+/* -------------------- intersection --------------------- */
+
+// closest_hit.c
+t_intersec_info		intersect_object(t_ray *ray, t_object *object);
+t_intersec_info		find_closest_object(t_ray *ray, t_object *objects,
+						int count);
+t_intersec_info		find_closest_interesection(t_ray *ray, t_scene *scene);
 
 // intersect_cylinder_aux.c
 t_plane				create_cylinder_cap_plane(t_cylinder *cylinder,
@@ -249,12 +251,50 @@ t_vector3d			calculate_plane_normal(t_plane *plane, t_vector3d point);
 t_intersec_info		intersect_plane(t_ray *ray, t_plane *plane);
 
 // intersect_quadratic.c
-bool	solve_quadratic_equation(t_quadratic *quad);
+bool				solve_quadratic_equation(t_quadratic *quad);
 
 // intersect_sphere.c
 t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersec_info		intersect_sphere(t_ray *ray, t_sphere *sphere);
+
+/* -------------------- ray --------------------- */
+
+// ray_direction.c
+t_vector3d			get_ray_direction(int x, int y, t_camera *cam,
+						t_cam_basis basis);
+t_ray				generate_ray(int x, int y, t_camera *cam);
+
+// ray_generator.c
+t_vector3d			negative_vector(t_vector3d vector);
+t_vector3d			normalize(t_vector3d vector);
+t_cam_basis			camera_basis(t_camera *cam);
+
+/* -------------------- utils --------------------- */
+
+// error.c
+void				error_msg(int status);
+
+// free.c
+void				free_split(char **tokens);
+void				free_scene(t_scene *scene);
+
+// math.c
+t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
+t_vector3d			cross_product(t_vector3d a, t_vector3d b);
+t_vector3d			subtract_vectors(t_vector3d a, t_vector3d b);
+t_vector3d			scalar_multiplication(float k, t_vector3d vector);
+float				dot_product(t_vector3d a, t_vector3d b);
+
+// utils.c
+int					skip_spaces(char *line);
+void				replace_with_spaces(char *line);
+char				**split_line(char *line);
+
+// utils2.c
+bool				ft_isnumber(char *str);
+bool				ft_isfloat(const char *str);
+float				string_to_float(char *str);
 
 // light_shadow.c
 bool				in_shadow(t_scene *scene, t_intersec_info hit,
@@ -267,13 +307,6 @@ t_rgb_color			max_color(t_rgb_color c);
 t_rgb_color			add_color(t_rgb_color a, t_rgb_color b);
 t_rgb_color			diff_color(t_intersec_info hit, t_scene *scene);
 t_rgb_color			get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
-
-// math.c
-t_vector3d			add_vectors(t_vector3d a, t_vector3d b);
-t_vector3d			cross_product(t_vector3d a, t_vector3d b);
-t_vector3d			subtract_vectors(t_vector3d a, t_vector3d b);
-t_vector3d			scalar_multiplication(float k, t_vector3d vector);
-float				dot_product(t_vector3d a, t_vector3d b);
 
 // parse_elements.c
 bool				parse_ambient(char **tokens, int count, t_ambient *ambient);
@@ -302,31 +335,6 @@ void				get_content(char	**content, int fd);
 int					verif_content(char *content, t_scene *scene, char ***tokens,
 						int i);
 void				read_file(char *scene_file, t_scene *scene);
-
-// ray_direction.c
-t_vector3d			get_ray_direction(int x, int y, t_camera *cam,
-						t_cam_basis basis);
-t_ray				generate_ray(int x, int y, t_camera *cam);
-
-// ray_generator.c
-t_vector3d			negative_vector(t_vector3d vector);
-t_vector3d			normalize(t_vector3d vector);
-t_cam_basis			camera_basis(t_camera *cam);
-
-// utils.c
-int					skip_spaces(char *line);
-void				replace_with_spaces(char *line);
-char				**split_line(char *line);
-
-// utils2.c
-bool				ft_isnumber(char *str);
-bool				ft_isfloat(const char *str);
-float				string_to_float(char *str);
-
-// validate_elements.c
-void				verify_elements(char *content, int i);
-int					count_tokens(char **tokens);
-bool				validate_elements(char **tokens, t_scene *scene);
 
 // parse_param.c
 bool				is_rgb_color(t_rgb_color color_value);

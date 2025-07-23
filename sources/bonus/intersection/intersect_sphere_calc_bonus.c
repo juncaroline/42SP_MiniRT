@@ -1,0 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect_sphere_calc_bonus.c                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/17 12:34:51 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/07/23 14:30:17 by cabo-ram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../includes/minirt_bonus.h"
+
+void	init_sphere_struct(t_object *object, t_sphere *sphere)
+{
+	object->type = SPHERE;
+	object->data = (void *)sphere;
+	object->white = (t_rgb_color){255, 255, 255};
+	object->black = (t_rgb_color){0, 0, 0};
+}
+
+t_quadratic	intersect_sphere_quad(t_ray *ray, t_sphere *sphere)
+{
+	t_vector3d	l;
+	t_quadratic	quad;
+
+	l = subtract_vectors(ray->origin, sphere->sphere_center);
+	quad.a = dot_product(ray->direction, ray->direction);
+	quad.b = 2.0f * dot_product(ray->direction, l);
+	quad.c = dot_product(l, l)
+		- (sphere->diameter * sphere->diameter) / 4.0f;
+	return (quad);
+}
+
+bool	intersect_sphere_solution(t_quadratic quad, float *t)
+{
+	if (!t)
+		return (false);
+	if (!solve_quadratic_equation(&quad))
+		return (false);
+	*t = quad.t_hit;
+	return (true);
+}
+
+t_vector3d	calculate_sphere_normal(t_sphere *sphere,
+	t_vector3d point)
+{
+	t_vector3d	normal;
+	float		radius;
+
+	if (!sphere)
+		return ((t_vector3d){0.0f, 0.0f, 0.0f});
+	radius = sphere->diameter / 2.0f;
+	normal = subtract_vectors(point, sphere->sphere_center);
+	normal = scalar_multiplication(1.0f / radius, normal);
+	return (normal);
+}

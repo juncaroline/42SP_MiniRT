@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/22 18:58:25 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 11:20:26 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ t_rgb_color	apply_light(t_intersec_info hit, t_scene *scene, t_ray ray)
 	t_rgb_color	ambient;
 	t_material	material;
 
-	ft_bzero(&material, sizeof(t_material));
 	prepare_point(&hit, ray);
 	if (!hit.intersection)
 		return ((t_rgb_color){0, 0, 0});
