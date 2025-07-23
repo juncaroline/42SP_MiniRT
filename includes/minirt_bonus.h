@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:46:20 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:41:24 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 
 # define M_PI 3.14159265358979323846
 
-# define EPSILON 1e-3
+# define EPSILON 1e-6
+# define EPSILON_SHADOW 1e-3
 
 typedef enum e_object_type
 {
@@ -214,16 +215,6 @@ typedef struct s_scene
 	t_cone		*cone;
 	int			cone_count;
 }	t_scene;
-
-typedef struct s_material
-{
-	char		*type;
-	t_rgb_color	color;
-	float		reflective;
-	float		transparency;
-	float		refractive_index;
-	float		shininess;
-}	t_material;
 
 typedef struct s_surface_mapping
 {
@@ -488,15 +479,14 @@ float			string_to_float(char *str);
 // light_bonus.c
 t_rgb_color		scale_color(t_rgb_color c, float ratio);
 t_rgb_color		max_color(t_rgb_color c);
-t_rgb_color		add_color(t_rgb_color a, t_rgb_color b, t_rgb_color c);
+t_rgb_color		add_color(t_rgb_color a, t_rgb_color b);
 t_rgb_color		diff_color(t_intersec_info hit, t_light *light);
 t_vector3d		reflection(t_intersec_info hit, t_light *light);
-t_rgb_color		spec_color(t_intersec_info hit, t_scene *scene, t_material mat, \
-					t_light *light);
+t_rgb_color		spec_color(t_intersec_info hit, t_scene *scene, t_light *light);
 t_rgb_color		evaluate_lighting_effect(t_intersec_info hit, t_scene *scene, \
-					t_light *light, t_material material);
+					t_light *light);
 t_rgb_color		loop_color(t_intersec_info hit, t_scene *scene, \
-					t_rgb_color ambient, t_material material);
+					t_rgb_color ambient);
 t_rgb_color		apply_light(t_intersec_info hit, t_scene *scene, t_ray ray);
 
 // light_shadow.c

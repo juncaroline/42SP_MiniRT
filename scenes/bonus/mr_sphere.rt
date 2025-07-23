@@ -14,7 +14,7 @@ L   0,20,-10        1               255,255,255
 
 # Plane             normal
 #   position        direction       color
-pl  0,0,0           0,1,0           255,0,0                 default         pattern
+pl  0,-1,0           0,1,0           255,0,0                 default         pattern
 
 # Sphere
 #   position            radius          color

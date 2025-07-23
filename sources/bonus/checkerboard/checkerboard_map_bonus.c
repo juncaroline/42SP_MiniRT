@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkerboard_map_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:36:16 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 12:11:19 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:06:02 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,34 @@
 t_rgb_color	checkerboard_pattern(float u, float v, float scale,
 	t_object *object)
 {
-	int	x;
-	int	y;
+	float	x;
+	float	y;
+	int		sum_of_coordinates;
+	int		color_color;
 
-	x = floor(u * scale);
-	y = floor(v * scale);
-	if ((x + y) % 2 == 0)
+	x = u * scale;
+	y = v * scale;
+	sum_of_coordinates = (int)x + (int)y;
+
+	if (sum_of_coordinates % 2 == 0)
+		color_color = 0;
+	else
+		color_color = 1;
+	
+	if (y < 0)
+		color_color = !color_color;
+	if (x < 0)
+		color_color = !color_color;
+	
+	if (color_color)
 		return (object->white);
 	else
 		return (object->black);
+	
+	// if ((x + y) % 2 == 0)
+	// 	return (object->white);
+	// else
+	// 	return (object->black);
 }
 
 void	get_sphere_coordinates(t_vector3d point, t_sphere *sphere,

@@ -24,7 +24,7 @@ SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), bump/bump_map_bonus.c bump/bump_map_generic_bonus.c bump/bump_map_utils_bonus.c \
 				bump/bump_map_uv_bonus.c bump/bump_map_uv_calc_bonus.c bump/bump_map_vectors_bonus.c  \
 				checkerboard/checkerboard_bonus.c checkerboard/checkerboard_calc_bonus.c checkerboard/checkerboard_map_bonus.c \
-				init/handle_param_bonus.c init/init_bonus.c init/main.c init/validate_elements.c \
+				init/handle_param_bonus.c init/init_bonus.c init/main.c init/validate_elements_bonus.c \
 				intersection/closest_hit_bonus.c intersection/intersect_cone_aux_bonus.c intersection/intersect_cone_aux2_bonus.c \
 				intersection/intersect_cone_bonus.c intersection/intersect_cone_calc_bonus.c \
 				intersection/intersect_cylinder_aux_bonus.c intersection/intersect_cylinder_aux2_bonus.c \
@@ -33,7 +33,7 @@ SRCS_BONUS :=$(addprefix $(SRCS_BONUS), bump/bump_map_bonus.c bump/bump_map_gene
 				intersection/intersect_sphere_bonus.c intersection/intersect_sphere_calc_bonus.c \
 				ray/ray_direction_bonus.c ray/ray_generator_bonus.c \
 				utils/error_bonus.c utils/free_bonus.c utils/math_bonus.c utils/utils_bonus.c utils/utils2_bonus.c \
-				light_bonus.c light_shadow.c main.c  parse_elements.c \
+				light_bonus.c light_shadow.c parse_elements.c \
 				parse_objects_add.c parse_objects_utils.c parse_objects.c parse_param.c parse_param2.c parse.c)
 DIR_OBJ	:= .objs
 DIR_OBJ_BONUS := .objs_bonus
