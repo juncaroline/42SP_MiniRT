@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:29:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 16:03:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 10:27:23 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 float	compute_cylinder_u_coord(t_surface_mapping mapping)
 {

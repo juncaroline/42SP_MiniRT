@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:32:49 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:26:27 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_vector3d	insert_cone_bump_map(t_cone *cone, t_vector3d point,
 	t_surface_mapping	bump;
 	t_object			cone_object;
 
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	init_cone_struct(&cone_object, cone);
 	if (!init_bump_mapping(&cone_object, point, bump_texture, &bump))
 		return (normal);

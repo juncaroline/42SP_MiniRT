@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 void	get_plane_coordinates(t_vector3d point, t_plane *plane,
 	float *u, float *v)

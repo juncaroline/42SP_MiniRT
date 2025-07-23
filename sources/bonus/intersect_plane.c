@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:43:31 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:26:34 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_vector3d	insert_plane_bump_map(t_plane *plane, t_vector3d point,
 	t_surface_mapping	bump;
 	t_object			plane_object;
 
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	init_plane_struct(&plane_object, plane);
 	if (!init_bump_mapping(&plane_object, point, bump_texture, &bump))
 		return (normal);
