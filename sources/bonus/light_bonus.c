@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/23 11:20:26 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:00:35 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ t_vector3d	reflection(t_intersec_info hit, t_light *light)
 	return (subtract_vectors(result, light_dir));
 }
 
-t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat, \
-						t_light *light)
+t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_light *light)
 {
 	t_vector3d	v_refle;
 	t_vector3d	v_cam;
@@ -79,23 +78,23 @@ t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_material mat, \
 	v_cam = normalize(subtract_vectors(scene->camera.camera_position, \
 				hit.intersec_point));
 	max_value = fmax(0.0f, dot_product(v_refle, v_cam));
-	spec_intensity = pow(max_value, mat.shininess);
+	spec_intensity = pow(max_value, 10.0f);
 	return (scale_color(light->color, spec_intensity * light->ratio));
 }
 
 t_rgb_color	evaluate_lighting_effect(t_intersec_info hit, t_scene *scene,
-	t_light *light, t_material material)
+	t_light *light)
 {
 	t_rgb_color	diffuse;
 	t_rgb_color	specular;
 
 	diffuse = diff_color(hit, light);
-	specular = spec_color(hit, scene, material, light);
+	specular = spec_color(hit, scene, light);
 	return (add_color(diffuse, specular, (t_rgb_color){0, 0, 0}));
 }
 
 t_rgb_color	loop_color(t_intersec_info hit, t_scene *scene, \
-						t_rgb_color ambient, t_material material)
+						t_rgb_color ambient)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	light_contribution;
@@ -110,7 +109,7 @@ t_rgb_color	loop_color(t_intersec_info hit, t_scene *scene, \
 		if (!in_shadow(scene, hit, light))
 		{
 			light_contribution = evaluate_lighting_effect(hit, scene,
-					light, material);
+					light);
 			final_color = add_color(final_color, light_contribution,
 					(t_rgb_color){0, 0, 0});
 		}
@@ -119,31 +118,31 @@ t_rgb_color	loop_color(t_intersec_info hit, t_scene *scene, \
 	return (final_color);
 }
 
-t_rgb_color	color_without_shadow(t_intersec_info hit, t_scene *scene,
-	t_material material, t_light *light)
-{
-	t_rgb_color	final_color;
-	t_rgb_color	diffuse;
-	t_rgb_color	specular;
+// t_rgb_color	color_without_shadow(t_intersec_info hit, t_scene *scene,
+// 	t_material material, t_light *light)
+// {
+// 	t_rgb_color	final_color;
+// 	t_rgb_color	diffuse;
+// 	t_rgb_color	specular;
 
-	diffuse = diff_color(hit, light);
-	material.shininess = 50;
-	specular = spec_color(hit, scene, material, light);
-	final_color = add_color(diffuse, specular, (t_rgb_color){0, 0, 0});
-	return (final_color);
-}
+// 	diffuse = diff_color(hit, light);
+// 	material.shininess = 50;
+// 	specular = spec_color(hit, scene, material, light);
+// 	final_color = add_color(diffuse, specular, (t_rgb_color){0, 0, 0});
+// 	return (final_color);
+// }
 
 t_rgb_color	apply_light(t_intersec_info hit, t_scene *scene, t_ray ray)
 {
 	t_rgb_color	final_color;
 	t_rgb_color	ambient;
-	t_material	material;
+	// t_material	material;
 
 	prepare_point(&hit, ray);
 	if (!hit.intersection)
 		return ((t_rgb_color){0, 0, 0});
-	material.shininess = 50.0f;
+	// material.shininess = 50.0f;
 	ambient = scale_color(hit.color, scene->ambient.ratio);
-	final_color = loop_color(hit, scene, ambient, material);
+	final_color = loop_color(hit, scene, ambient);
 	return (final_color);
 }

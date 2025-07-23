@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_param2.c                                  :+:      :+:    :+:   */
+/*   parse_param2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/06/30 16:16:20 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:12:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt_bonus.h"
 
 t_vector3d	parse_coordinates(char *str)
 {

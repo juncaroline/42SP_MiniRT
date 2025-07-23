@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_objects.c                                    :+:      :+:    :+:   */
+/*   parse_objects_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 11:02:05 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:12:12 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {
