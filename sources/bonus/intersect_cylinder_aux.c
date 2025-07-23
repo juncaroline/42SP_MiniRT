@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:20:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:26:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_vector3d	insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 	t_surface_mapping	bump;
 	t_object			cylinder_object;
 
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	init_cylinder_struct(&cylinder_object, cylinder);
 	if (!init_bump_mapping(&cylinder_object, point, bump_texture, &bump))
 		return (normal);

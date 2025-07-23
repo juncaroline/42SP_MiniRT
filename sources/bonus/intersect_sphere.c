@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:30:09 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:26:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_vector3d	insert_sphere_bump_map(t_sphere *sphere, t_vector3d point,
 	t_surface_mapping	bump;
 	t_object			sphere_object;
 
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	init_sphere_struct(&sphere_object, sphere);
 	if (!init_bump_mapping(&sphere_object, point, bump_texture, &bump))
 		return (normal);

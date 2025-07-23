@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:36:16 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/21 12:39:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 10:27:24 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt_bonus.h"
+#include "../../../includes/minirt_bonus.h"
 
 t_rgb_color	checkerboard_pattern(float u, float v, float scale,
 	t_object *object)
@@ -57,6 +57,7 @@ void	get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
 	t_vector3d			center_to_intersection;
 	float				radial_length;
 
+	ft_bzero(&mapping, sizeof(t_surface_mapping));
 	axis = normalize(cylinder->vector);
 	center_to_intersection = subtract_vectors(point, cylinder->cylinder_center);
 	mapping.height = dot_product(center_to_intersection, axis);
@@ -85,6 +86,7 @@ void	get_cone_coordinates(t_vector3d point, t_cone *cone, float *u,
 	t_vector3d			axis;
 	float				radial_length;
 
+	ft_bzero(&checker, sizeof(t_surface_mapping));
 	axis = normalize(cone->vector);
 	center_to_intersection = subtract_vectors(point, cone->cone_center);
 	checker.height = dot_product(center_to_intersection, axis);

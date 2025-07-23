@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:44:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/22 17:48:19 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:26:30 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	uv_map_plane(t_vector3d point, t_plane *plane, float *u, float *v)
 
 	if (!plane || !u || !v)
 		return ;
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	calculate_plane_uv(point, plane, &bump);
 	*u = dot_product(bump.local, bump.tangent);
 	*v = dot_product(bump.local, bump.bitangent);
@@ -64,6 +65,7 @@ void	uv_map_cylinder(t_vector3d point, t_cylinder *cylinder, float *u,
 
 	if (!cylinder || !u || !v)
 		return ;
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	calculate_cylinder_uv(point, cylinder, &bump);
 	*u = (bump.theta + M_PI) / (2.0f * M_PI);
 	if (*u < 0.0f)
@@ -83,6 +85,7 @@ void	uv_map_cone(t_vector3d point, t_cone *cone, float *u, float *v)
 
 	if (!cone || !u || !v)
 		return ;
+	ft_bzero(&bump, sizeof(t_surface_mapping));
 	calculate_cone_uv(point, cone, &bump);
 	*u = (bump.theta + M_PI) / (2.0f * M_PI);
 	if (*u < 0.0f)

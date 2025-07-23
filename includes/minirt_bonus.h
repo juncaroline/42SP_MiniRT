@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/22 16:45:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/23 10:43:03 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,8 @@ typedef struct s_surface_mapping
 	float		height;
 }	t_surface_mapping;
 
+/* -------------------- bump --------------------- */
+
 // bump_map_generic.c
 t_vector3d	apply_bump_map(t_intersec_info hit);
 
@@ -291,6 +293,8 @@ char			**get_texture_path(t_object *object);
 bool			load_object_texture(t_object *object);
 bool			load_scene_textures(t_scene *scene);
 
+/* -------------------- checkerboard --------------------- */
+
 // checkerboard.c
 void			get_plane_coordinates(t_vector3d point, t_plane *plane,
 					float *u, float *v);
@@ -313,7 +317,6 @@ void			get_cylinder_coordinates(t_vector3d point, t_cylinder *cylinder,
 					float *u, float *v);
 void			get_cone_coordinates(t_vector3d point, t_cone *cone, float *u,
 					float *v);
-
 
 // closest_hit.c
 t_intersec_info	intersect_object(t_ray *ray, t_object *object, t_scene *scene);
