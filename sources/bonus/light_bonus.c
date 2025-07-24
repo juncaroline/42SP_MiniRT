@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/23 18:00:35 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:00:26 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_rgb_color	spec_color(t_intersec_info hit, t_scene *scene, t_light *light)
 	v_cam = normalize(subtract_vectors(scene->camera.camera_position, \
 				hit.intersec_point));
 	max_value = fmax(0.0f, dot_product(v_refle, v_cam));
-	spec_intensity = pow(max_value, 10.0f);
+	spec_intensity = pow(max_value, 200.0f);
 	return (scale_color(light->color, spec_intensity * light->ratio));
 }
 

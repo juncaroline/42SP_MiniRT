@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 14:30:20 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 11:13:23 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ static void	apply_sphere_surface_effects(t_sphere *sphere,
 	t_intersec_info *info)
 {
 	t_object	sphere_object;
+	t_vector3d	original_normal;
 
-	if (sphere->surface.bump_texture && sphere->surface.bump_texture->pixels)
-		info->normal = insert_sphere_bump_map(sphere, info->intersec_point,
-				info->normal, sphere->surface.bump_texture);
+	original_normal = info->normal;
 	if (sphere->surface.has_checker)
 	{
 		init_sphere_struct(&sphere_object, sphere);
@@ -43,9 +42,32 @@ static void	apply_sphere_surface_effects(t_sphere *sphere,
 	}
 	else
 		info->color = sphere->color;
+	if (sphere->surface.bump_texture && sphere->surface.bump_texture->pixels)
+		info->normal = insert_sphere_bump_map(sphere, info->intersec_point,
+				info->normal, sphere->surface.bump_texture);
 	if (sphere->surface.bump)
 		info->normal = apply_bump_map(*info);
 }
+
+// static void	apply_sphere_surface_effects(t_sphere *sphere,
+// 	t_intersec_info *info)
+// {
+// 	t_object	sphere_object;
+
+// 	if (sphere->surface.bump_texture && sphere->surface.bump_texture->pixels)
+// 		info->normal = insert_sphere_bump_map(sphere, info->intersec_point,
+// 				info->normal, sphere->surface.bump_texture);
+// 	if (sphere->surface.has_checker)
+// 	{
+// 		init_sphere_struct(&sphere_object, sphere);
+// 		info->color = object_pattern(info->intersec_point, &sphere_object,
+// 				10.0f);
+// 	}
+// 	else
+// 		info->color = sphere->color;
+// 	if (sphere->surface.bump)
+// 		info->normal = apply_bump_map(*info);
+// }
 
 t_intersec_info	intersect_sphere(t_ray *ray, t_sphere *sphere, t_scene *scene)
 {

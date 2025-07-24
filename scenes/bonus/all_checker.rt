@@ -2,7 +2,7 @@
 
 # Ambient Light
 # <intensity: 0-1> <color: red, green, blue>
-A                            0.1         255,255,255
+A                            0.25         255,255,255
 
 # Camera
 # <coordinates of camera position: x,y,z> <camera view: x,y,z> <pov:x,y,z>
@@ -10,9 +10,9 @@ C   0,1.5,-6         0,0,1   70
 
 # Light
 # <coordinates: x,y,z> <brightness: 0-1> <color:red,green,blue>
-L  -10,10,-10                0.5         255,255,255
-L   10,10,-10                0.5         255,255,255
-L   0,10,-10                 0.5         255,255,255
+L  -10,10,-10                0.2         255,255,255
+L   10,10,-10                0.2         255,255,255
+L   0,10,-10                 0.2         255,255,255
 
 # Pattern
 #   name            type            color_a         color_b         scale           rotation        translation

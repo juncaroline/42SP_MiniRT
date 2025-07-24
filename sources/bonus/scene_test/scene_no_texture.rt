@@ -1,0 +1,22 @@
+# Teste scene.rt sem texturas - apenas checkerboard
+
+# Ambient
+A   0.1             255,255,255
+
+# Camera
+C   0,1.5,-6        0,0,1           70
+
+# Light (uma luz com intensidade alta - como original)
+L   -10,10,-10      1               255,255,255
+
+# Sphere
+sp  0,2,0           1               255,0,0 checker
+
+# Cone SEM textura - apenas checkerboard
+cn  2,0,-2           0,1,0          1.0        2.0       0,255,0 checker
+
+# Plane
+pl  0,0,0           0,1,0           200,200,200 checker
+
+# Cylinder SEM textura - apenas checkerboard  
+cy  6,0,2    1,0,0    4    5    0,255,0 checker
