@@ -1,0 +1,37 @@
+#-   MODEL   -#
+
+
+## SCENE - Only one of with ##
+
+# AMBIENT LIGHTING 
+# id | ratio      | color
+#    | [0.0, 1.0] | [0, 255]
+  A    0.2          255,255,255
+
+# CAMERA
+# id | viewpoint coord. | normal vector     | FOV
+#    | (x, y, z)        | (x, y, z) [-1, 1] | angle [0,180]
+  C    -50.0,0,20         0.0,0.0,1.0         70
+
+# LIGHT
+# id | light coord.   | ratio      | 
+#    | (x, y, z)      | [0.0, 1.0] |
+  L    -40.0,50.0,0.0   0.6
+
+
+## OBJECTS ##
+
+# PLANE
+# id | position      | normal vector (direction) | color
+#    | (x, y, z)     | (x, y, z) [-1, 1]         | [0, 255]
+  pl   0.0,0.0,-10.0    0.0,1.0,0.0                0,0,225
+
+# SPHERE
+# id | center position | diameter | color
+#    | (x, y, z)       |          | [0, 255]
+  sp   0.0,0.0,20.6      12.6       10,0,255
+
+# CYLINDER
+# id | center position | normal vector (direction) | diameter | height | color
+#    | (x, y, z)       | (x, y, z) [-1, 1]         |          |        | [0, 255]
+  cy   50.0,0.0,20.6     0.0,0.0,1.0                 14.2       21.42    10,0,225
