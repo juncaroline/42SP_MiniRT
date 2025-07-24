@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:29:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 12:11:15 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:40:07 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ float	compute_cylinder_v_coord(t_surface_mapping mapping,
 {
 	float	v;
 
-	v = (mapping.height + cylinder->height / 2.0f) / cylinder->height;
+	v = mapping.height / cylinder->height;
 	if (v < 0.0f)
 		v = 0.0f;
 	if (v > 1.0f)

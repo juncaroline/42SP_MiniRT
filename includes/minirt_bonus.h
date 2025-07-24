@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 11:50:42 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:08:40 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,10 +354,10 @@ t_intersec_info	find_closest_interesection(t_ray *ray, t_scene *scene);
 // intersect_cone_aux_bonus.c
 t_vector3d		insert_cone_bump_map(t_cone *cone, t_vector3d point,
 					t_vector3d normal, mlx_texture_t *bump_texture);
+void			apply_cone_surface_effects(t_cone *cone,
+					t_intersec_info *info);
 t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 					t_cone *cone, t_cone_intersec *base);
-void	apply_cone_surface_effects(t_cone *cone,
-	t_intersec_info *info);
 
 // intersect_cone_aux2_bonus.c
 void			init_cone_struct(t_object *object, t_cone *cone);
@@ -391,14 +391,15 @@ bool			validate_cone_intersec(t_ray *ray, t_cone *cone,
 					t_quadratic *quad, t_cone_intersec *base);
 
 // intersect_cylinder_aux_bonus.c
-bool			ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
-					bool is_top_cap, t_intersec_info *info);
 t_vector3d		insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 					t_vector3d normal, mlx_texture_t *bump_texture);
-void			apply_cylinder_cap_effects(t_cylinder *cylinder,
-					t_intersec_info *info, bool is_top_cap);
 void			apply_cylinder_surface_effects(t_cylinder *cylinder,
 					t_intersec_info *info);
+t_vector3d		calculate_cap_uv_coordinates(t_cylinder *cylinder,
+					t_intersec_info *info, bool is_top_cap);
+t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
+					t_cylinder *cylinder);
+
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 					t_cylinder *cylinder);
 
@@ -408,6 +409,10 @@ void			get_top_cap_coord(t_vector3d point, t_cylinder *cylinder,
 					float *coord1, float *coord2);
 void			get_bottom_cap_coord(t_vector3d point, t_cylinder *cylinder,
 					float *coord1, float *coord2);
+void			apply_cylinder_cap_effects(t_cylinder *cylinder,
+					t_intersec_info *info, bool is_top_cap);
+bool			ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
+					bool is_top_cap, t_intersec_info *info);
 
 // intersect_cylinder_bonus.c
 t_plane			create_cylinder_cap_plane(t_cylinder *cylinder,
