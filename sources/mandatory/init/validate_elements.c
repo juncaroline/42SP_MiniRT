@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_elements.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 15:02:55 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:03:00 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,5 @@ bool	validate_elements(char **tokens, t_scene *scene)
 		return (handle_plane(tokens, scene));
 	else if (ft_strcmp(tokens[0], "cy") == 0)
 		return (handle_cylinder(tokens, scene));
-	else
-	{
-		printf("Unknown element '%s'\n", tokens[0]);
-		return (false);
-	}
 	return (true);
 }
