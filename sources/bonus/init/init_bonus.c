@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:43:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:39:52 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,34 +66,25 @@ void	render(t_scene *scene, mlx_image_t *img)
 	}
 }
 
-int32_t	init_scene(t_scene *scene)
+mlx_t	*open_window(t_scene *scene)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 
-	if (!load_scene_textures(scene))
-	{
-		printf("Error: Failed to load scene textures\n");
-		return (EXIT_FAILURE);
-	}
 	mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "miniRT_bonus", false);
 	if (!mlx)
-		return (EXIT_FAILURE);
+		return (NULL);
 	img = mlx_new_image(mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!img)
 	{
 		mlx_terminate(mlx);
-		return (EXIT_FAILURE);
+		return (NULL);
 	}
 	render(scene, img);
 	if (mlx_image_to_window(mlx, img, 0, 0) == -1)
 	{
 		mlx_terminate(mlx);
-		return (EXIT_FAILURE);
+		return (NULL);
 	}
-	mlx_loop_hook(mlx, esc_command, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	free_scene_textures(scene);
-	return (EXIT_SUCCESS);
+	return (mlx);
 }

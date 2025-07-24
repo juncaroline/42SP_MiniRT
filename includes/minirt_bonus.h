@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 14:08:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:19:16 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct s_surface
 	bool			bump;
 }	t_surface;
 
-// quadratic equations in ray-geometry intersection calculations
 typedef struct s_quadratic
 {
 	float	radius;
@@ -326,10 +325,12 @@ void			esc_command(void *param);
 void			set_pixel(mlx_image_t *img, int x, int y, t_rgb_color c);
 void			set_color(t_scene *scene, mlx_image_t *img, int x, int y);
 void			render(t_scene *scene, mlx_image_t *img);
+mlx_t			*open_window(t_scene *scene);
+
+// main.c
 int32_t			init_scene(t_scene *scene);
 
-// validate_elements.c
-void			verify_elements(char *content, int i);
+// validate_elements_bonus.c
 int				count_tokens(char **tokens);
 bool			validate_elements(char **tokens, t_scene *scene);
 

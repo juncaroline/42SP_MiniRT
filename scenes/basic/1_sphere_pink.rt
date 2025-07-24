@@ -10,7 +10,7 @@ C   1.5,1.5,-5      0,0,1           50
 
 # Light
 #   position        intensity       color
-L   10,12,-5        1               255,255,255
+L   10,12,-5        1
 
 # Sphere
 #   position        radius          color

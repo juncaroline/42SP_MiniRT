@@ -6,11 +6,30 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:43:23 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:07:06 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minirt_bonus.h"
+
+int32_t	init_scene(t_scene *scene)
+{
+	mlx_t		*mlx;
+
+	if (!load_scene_textures(scene))
+	{
+		printf("Error: Failed to load scene textures\n");
+		return (EXIT_FAILURE);
+	}
+	mlx = open_window(scene);
+	if (!mlx)
+		return (EXIT_FAILURE);
+	mlx_loop_hook(mlx, esc_command, mlx);
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
+	free_scene_textures(scene);
+	return (EXIT_SUCCESS);
+}
 
 int	main(int ac, char **av)
 {
@@ -31,7 +50,3 @@ int	main(int ac, char **av)
 	free(scene);
 	return (EXIT_SUCCESS);
 }
-
-// ./minirt ./sources/mandatory/scene.rt
-
-// valgrind --leak-check=full --suppressions=suppress_mlx_error.sup

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:47:48 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:16:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,3 @@ int	main(int ac, char **av)
 	free(scene);
 	return (EXIT_SUCCESS);
 }
-
-// ./minirt ./sources/mandatory/scene.rt
-
-// valgrind --leak-check=full --suppressions=suppress_mlx_error.sup

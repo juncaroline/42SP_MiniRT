@@ -6,31 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:47:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:02:55 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minirt.h"
-
-void	verify_elements(char *content, int i)
-{
-	if (ft_strncmp(content + i, "A", 1) == 0)
-		printf("Detected ambient light\n");
-	else if (ft_strncmp(content + i, "C", 1) == 0)
-		printf("Detected camera\n");
-	else if (ft_strncmp(content + i, "L", 1) == 0)
-		printf("Detected light source\n");
-	else if (ft_strncmp(content + i, "sp", 2) == 0)
-		printf("Detected sphere\n");
-	else if (ft_strncmp(content + i, "pl", 2) == 0)
-		printf("Detected plane\n");
-	else if (ft_strncmp(content + i, "cy", 2) == 0)
-		printf("Detected cylinder\n");
-	else if (ft_strncmp(content + i, "cn", 2) == 0)
-		printf("Detected cone\n");
-	else
-		printf("Unknown element: %s\n", content);
-}
 
 int	count_tokens(char **tokens)
 {

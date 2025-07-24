@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 12:46:38 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:19:11 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_light
 	float		ratio;
 }	t_light;
 
-// quadratic equations in ray-geometry intersection calculations
 typedef struct s_quadratic
 {
 	float	radius;
@@ -190,7 +189,6 @@ void				render(t_scene *scene, mlx_image_t *img);
 int32_t				init_scene(t_scene *scene);
 
 // validate_elements.c
-void				verify_elements(char *content, int i);
 int					count_tokens(char **tokens);
 bool				validate_elements(char **tokens, t_scene *scene);
 

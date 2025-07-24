@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 18:11:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:03:34 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	if (!*tokens || !*tokens[0])
 	{
 		printf("Error splitting line into tokens\n");
+		return (1);
+	}
+	if (ft_strcmp((*tokens)[0], "#") == 0)
+	{
+		free_split(*tokens);
 		return (1);
 	}
 	if (!validate_elements(*tokens, scene))
@@ -68,7 +73,6 @@ void	read_file(char *scene_file, t_scene *scene)
 			get_content(&content, fd);
 			continue ;
 		}
-		verify_elements(content, i);
 		free_split(tokens);
 		get_content(&content, fd);
 	}
