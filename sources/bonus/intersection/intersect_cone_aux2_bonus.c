@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 16:12:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 14:30:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 10:21:42 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,19 @@ bool	is_intersection_within_cone_cap_radius(t_vector3d intersection_point,
 	return (distance_squared <= radius * radius + EPSILON);
 }
 
-static void	verify_has_checker(t_cone *cone, t_intersec_info *info)
-{
-	t_object		cone_object;
+// static void	verify_has_checker(t_cone *cone, t_intersec_info *info)
+// {
+// 	t_object		cone_object;
 
-	if (cone->surface.has_checker)
-	{
-		init_cone_struct(&cone_object, cone);
-		info->color = object_pattern(info->intersec_point,
-				&cone_object, 10.0f);
-	}
-	else
-		info->color = cone->color;
-}
+// 	if (cone->surface.has_checker)
+// 	{
+// 		init_cone_struct(&cone_object, cone);
+// 		info->color = object_pattern(info->intersec_point,
+// 				&cone_object, 10.0f);
+// 	}
+// 	else
+// 		info->color = cone->color;
+// }
 
 bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 	bool is_covered, t_intersec_info *info)
@@ -93,6 +93,7 @@ bool	ray_intersects_cone_cap(t_ray *ray, t_cone *cone,
 			cap_center, cone->diameter))
 		return (false);
 	*info = cap_info;
-	verify_has_checker(cone, info);
+	apply_cone_surface_effects(cone, info);
+	// verify_has_checker(cone, info);
 	return (true);
 }

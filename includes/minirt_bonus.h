@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 18:17:16 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 11:50:42 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-3
+# define SHADOW_EPSILON 1e-2
 
 typedef enum e_object_type
 {
@@ -355,6 +356,8 @@ t_vector3d		insert_cone_bump_map(t_cone *cone, t_vector3d point,
 					t_vector3d normal, mlx_texture_t *bump_texture);
 t_intersec_info	ray_intersects_cone_surface(t_ray *ray,
 					t_cone *cone, t_cone_intersec *base);
+void	apply_cone_surface_effects(t_cone *cone,
+	t_intersec_info *info);
 
 // intersect_cone_aux2_bonus.c
 void			init_cone_struct(t_object *object, t_cone *cone);
@@ -392,6 +395,10 @@ bool			ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 					bool is_top_cap, t_intersec_info *info);
 t_vector3d		insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 					t_vector3d normal, mlx_texture_t *bump_texture);
+void			apply_cylinder_cap_effects(t_cylinder *cylinder,
+					t_intersec_info *info, bool is_top_cap);
+void			apply_cylinder_surface_effects(t_cylinder *cylinder,
+					t_intersec_info *info);
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
 					t_cylinder *cylinder);
 

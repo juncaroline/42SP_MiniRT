@@ -6,30 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 14:30:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:06:04 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minirt_bonus.h"
-
-static void	verify_has_checker(t_cylinder *cylinder, bool is_top_cap,
-	t_intersec_info *info)
-{
-	t_object		cylinder_object;
-	t_intersec_info	cap_info;
-	float			coord1;
-	float			coord2;
-
-	init_cylinder_struct(&cylinder_object, cylinder);
-	if (is_top_cap)
-		get_top_cap_coord(info->intersec_point, cylinder,
-			&coord1, &coord2);
-	else
-		get_bottom_cap_coord(info->intersec_point, cylinder,
-			&coord1, &coord2);
-	info->color = object_pattern(info->intersec_point,
-			&cylinder_object, 10.0f);
-}
 
 bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 	bool is_top_cap, t_intersec_info *info)
@@ -45,10 +26,7 @@ bool	ray_intersects_cylinder_cap(t_ray *ray, t_cylinder *cylinder,
 			plane.plane_point, cylinder->diameter))
 		return (false);
 	*info = cap_info;
-	if (cylinder->surface.has_checker)
-		verify_has_checker(cylinder, is_top_cap, info);
-	else
-		info->color = cylinder->color;
+	apply_cylinder_cap_effects(cylinder, info, is_top_cap);
 	return (true);
 }
 
@@ -67,31 +45,87 @@ t_vector3d	insert_cylinder_bump_map(t_cylinder *cylinder, t_vector3d point,
 	return (calc_vectors_cylinder(normal, &bump, cylinder));
 }
 
-static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
-	t_quadratic *quad, t_intersec_info *info)
+void	apply_cylinder_surface_effects(t_cylinder *cylinder,
+	t_intersec_info *info)
 {
-	t_object				cylinder_object;
+	t_object	cylinder_object;
+	t_vector3d	original_normal;
 
-	info->intersection = true;
-	info->dist_to_intersec = quad->t_hit;
-	info->intersec_point = add_vectors(ray->origin,
-			scalar_multiplication(quad->t_hit, ray->direction));
-	info->normal = calculate_cylinder_normal(cylinder, info->intersec_point);
+	// Salva a normal original antes de qualquer modificação
+	original_normal = info->normal;
+	
+	// Aplica primeiro o checkerboard com a normal original
+	if (cylinder->surface.has_checker)
+	{
+		init_cylinder_struct(&cylinder_object, cylinder);
+		info->color = object_pattern(info->intersec_point, &cylinder_object,
+				10.0f);
+	}
+	else
+		info->color = cylinder->color;
+	
+	// Depois aplica os efeitos de bump mapping
+	if (cylinder->surface.bump_texture && cylinder->surface.bump_texture->pixels)
+		info->normal = insert_cylinder_bump_map(cylinder, info->intersec_point,
+				info->normal, cylinder->surface.bump_texture);
+	if (cylinder->surface.bump)
+		info->normal = apply_bump_map(*info);
+}
+
+void	apply_cylinder_cap_effects(t_cylinder *cylinder, t_intersec_info *info,
+	bool is_top_cap)
+{
+	t_object	cylinder_object;
+	t_vector3d	center;
+	t_vector3d	local;
+	float		u, v, radius, distance, angle;
+
+	// Aplica primeiro o checkerboard usando coordenadas polares para a base
+	if (cylinder->surface.has_checker)
+	{
+		init_cylinder_struct(&cylinder_object, cylinder);
+		
+		// Calcula o centro da base
+		if (is_top_cap)
+			center = add_vectors(cylinder->cylinder_center,
+					scalar_multiplication(cylinder->height, cylinder->vector));
+		else
+			center = cylinder->cylinder_center;
+		
+		// Converte para coordenadas polares
+		local = subtract_vectors(info->intersec_point, center);
+		radius = cylinder->diameter / 2.0f;
+		distance = sqrtf(local.x * local.x + local.z * local.z) / radius;
+		angle = atan2f(local.z, local.x);
+		
+		u = distance;
+		v = (angle + M_PI) / (2.0f * M_PI);
+		
+		// Aplica checkerboard com as coordenadas polares
+		info->color = checkerboard_pattern(u, v, 10.0f, &cylinder_object);
+	}
+	else
+		info->color = cylinder->color;
+	
+	// Depois aplica os efeitos de bump mapping
 	if (cylinder->surface.bump_texture
 		&& cylinder->surface.bump_texture->pixels)
 		info->normal = insert_cylinder_bump_map(cylinder,
 				info->intersec_point, info->normal,
 				cylinder->surface.bump_texture);
-	if (cylinder->surface.has_checker)
-	{
-		init_cylinder_struct(&cylinder_object, cylinder);
-		info->color = object_pattern(info->intersec_point,
-				&cylinder_object, 10.0f);
-	}
-	else
-		info->color = cylinder->color;
 	if (cylinder->surface.bump)
 		info->normal = apply_bump_map(*info);
+}
+
+static void	verify_intersection(t_ray *ray, t_cylinder *cylinder,
+	t_quadratic *quad, t_intersec_info *info)
+{
+	info->intersection = true;
+	info->dist_to_intersec = quad->t_hit;
+	info->intersec_point = add_vectors(ray->origin,
+			scalar_multiplication(quad->t_hit, ray->direction));
+	info->normal = calculate_cylinder_normal(cylinder, info->intersec_point);
+	apply_cylinder_surface_effects(cylinder, info);
 }
 
 t_intersec_info	ray_intersects_cylinder_surface(t_ray *ray,
