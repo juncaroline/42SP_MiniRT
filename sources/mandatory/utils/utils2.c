@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:35 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 15:08:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:03:25 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,17 @@ float	string_to_float(char *str)
 	float	result;
 	float	div;
 	char	*dec_pos;
+	int		sign;
 
+	sign = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+	str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = sign * -1;
+		str++;
+	}
 	result = (float)ft_atoi(str);
 	dec_pos = str;
 	while (*dec_pos && *dec_pos != '.')
@@ -77,5 +87,5 @@ float	string_to_float(char *str)
 			dec_pos++;
 		}
 	}
-	return (result);
+	return (result * sign);
 }
