@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 18:21:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:46:38 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,6 @@ typedef struct s_quadratic
 	float	t_hit;
 }	t_quadratic;
 
-typedef struct s_material
-{
-	t_rgb_color	color;
-	float		ambient;
-	float		diffuse;
-	float		specular;
-	float		shininess;
-}	t_material;
-
 typedef struct s_point_light
 {
 	t_vector3d	position;
@@ -117,9 +108,6 @@ typedef struct s_sphere
 	t_vector3d	sphere_center;
 	float		diameter;
 	t_rgb_color	color;
-
-	t_material	material;
-
 }	t_sphere;
 
 typedef struct s_plane
@@ -169,7 +157,6 @@ typedef struct s_intersection_info
 	t_vector3d	normal;
 	t_vector3d	over_point;
 	t_rgb_color	color;
-
 	t_object	*object;
 }	t_intersec_info;
 
@@ -258,6 +245,15 @@ t_vector3d			calculate_sphere_normal(t_sphere *sphere,
 						t_vector3d intersec_point);
 t_intersec_info		intersect_sphere(t_ray *ray, t_sphere *sphere);
 
+/* -------------------- light --------------------- */
+
+// light.c
+t_rgb_color			apply_light(t_intersec_info hit, t_scene *scene, t_ray ray);
+
+// light_color.c
+t_rgb_color			scale_color(t_rgb_color c, float ratio);
+t_rgb_color			add_color(t_rgb_color a, t_rgb_color b);
+
 /* -------------------- parse --------------------- */
 
 // parse_elements.c
@@ -337,19 +333,5 @@ char				**split_line(char *line);
 bool				ft_isnumber(char *str);
 bool				ft_isfloat(const char *str);
 float				string_to_float(char *str);
-
-// light_shadow.c
-bool				in_shadow(t_scene *scene, t_intersec_info hit,
-						t_light *light);
-void				prepare_point(t_intersec_info *hit, t_ray ray);
-
-// light.c
-t_rgb_color			scale_color(t_rgb_color c, float ratio);
-t_rgb_color			max_color(t_rgb_color c);
-t_rgb_color			add_color(t_rgb_color a, t_rgb_color b);
-t_rgb_color			diff_color(t_intersec_info hit, t_scene *scene);
-t_rgb_color			get_color(t_intersec_info hit, t_scene *scene, t_ray ray);
-
-
 
 #endif

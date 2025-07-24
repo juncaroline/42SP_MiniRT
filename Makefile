@@ -11,13 +11,13 @@ LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -lreadline -ldl -lglfw -pthr
 SRCS_DIR := sources/mandatory/
 SRCS	:= $(addprefix $(SRCS_DIR), init/handle_param.c init/init.c init/main.c init/validate_elements.c \
 				intersection/closest_hit.c intersection/intersect_cylinder_aux.c \
-				intersection/intersect_cylinder_calc.c intersection/intersect_cylinder.c intersection/intersect_plane.c \
-				intersection/intersect_quadratic.c intersection/intersect_sphere.c \
+				intersection/intersect_cylinder_calc.c intersection/intersect_cylinder.c \
+				intersection/intersect_plane.c intersection/intersect_quadratic.c intersection/intersect_sphere.c \
+				light/light.c light/light_color.c \
 				parse/parse_elements.c parse/parse_objects_add.c parse/parse_objects_utils.c parse/parse_objects.c \
 				parse/parse_param.c parse/parse_param2.c parse/parse.c \
 				ray/ray_direction.c ray/ray_generator.c \
-				utils/error.c utils/free.c utils/math.c utils/utils.c utils/utils2.c \
-				light_shadow.c light.c)
+				utils/error.c utils/free.c utils/math.c utils/utils.c utils/utils2.c)
 SRCS_BONUS := sources/bonus/
 SRCS_BONUS :=$(addprefix $(SRCS_BONUS), bump/bump_map_bonus.c bump/bump_map_generic_bonus.c bump/bump_map_utils_bonus.c \
 				bump/bump_map_uv_bonus.c bump/bump_map_uv_calc_bonus.c bump/bump_map_vectors_bonus.c  \
@@ -29,11 +29,11 @@ SRCS_BONUS :=$(addprefix $(SRCS_BONUS), bump/bump_map_bonus.c bump/bump_map_gene
 				intersection/intersect_cylinder_bonus.c intersection/intersect_cylinder_calc_bonus.c \
 				intersection/intersect_plane_bonus.c intersection/intersect_quadratic_bonus.c \
 				intersection/intersect_sphere_bonus.c intersection/intersect_sphere_calc_bonus.c \
+				light/light_bonus.c light/light_color_bonus.c light/light_in_shadow_bonus.c \
 				parse/parse_bonus.c parse/parse_elements_bonus.c parse/parse_objects_add_bonus.c parse/parse_objects_bonus.c \
 				parse/parse_objects_utils_bonus.c parse/parse_param_bonus.c parse/parse_param2_bonus.c \
 				ray/ray_direction_bonus.c ray/ray_generator_bonus.c \
-				utils/error_bonus.c utils/free_bonus.c utils/math_bonus.c utils/utils_bonus.c utils/utils2_bonus.c \
-				light_bonus.c light_shadow.c)
+				utils/error_bonus.c utils/free_bonus.c utils/math_bonus.c utils/utils_bonus.c utils/utils2_bonus.c)
 DIR_OBJ	:= .objs
 DIR_OBJ_BONUS := .objs_bonus
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
