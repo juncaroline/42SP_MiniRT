@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:15 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 11:13:23 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:45:01 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,6 @@ static void	apply_plane_surface_effects(t_plane *plane, t_intersec_info *info)
 	if (plane->surface.bump)
 		info->normal = apply_bump_map(*info);
 }
-
-// static void	apply_plane_surface_effects(t_plane *plane, t_intersec_info *info)
-// {
-// 	t_object	plane_object;
-//
-// 	if (plane->surface.bump_texture && plane->surface.bump_texture->pixels)
-// 		info->normal = insert_plane_bump_map(plane, info->intersec_point,
-// 				info->normal, plane->surface.bump_texture);
-// 	if (plane->surface.has_checker)
-// 	{
-// 		init_plane_struct(&plane_object, plane);
-// 		info->color = object_pattern(info->intersec_point,
-// 				&plane_object, 1.0f);
-// 	}
-// 	else
-// 		info->color = plane->color;
-// 	if (plane->surface.bump)
-// 		info->normal = apply_bump_map(*info);
-// }
 
 t_vector3d	insert_plane_bump_map(t_plane *plane, t_vector3d point,
 	t_vector3d normal, mlx_texture_t *bump_texture)

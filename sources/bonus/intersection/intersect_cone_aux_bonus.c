@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:14:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 11:13:36 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:43:17 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ void	apply_cone_surface_effects(t_cone *cone,
 	t_object	cone_object;
 	t_vector3d	original_normal;
 
-	// Salva a normal original antes de qualquer modificação
 	original_normal = info->normal;
-	
-	// Aplica primeiro o checkerboard com a normal original
 	if (cone->surface.has_checker)
 	{
 		init_cone_struct(&cone_object, cone);
@@ -56,8 +53,6 @@ void	apply_cone_surface_effects(t_cone *cone,
 	}
 	else
 		info->color = cone->color;
-	
-	// Depois aplica os efeitos de bump mapping
 	if (cone->surface.bump_texture && cone->surface.bump_texture->pixels)
 		info->normal = insert_cone_bump_map(cone, info->intersec_point,
 				info->normal, cone->surface.bump_texture);
