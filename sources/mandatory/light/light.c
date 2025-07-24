@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_shadow.c                                     :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:31 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/07/23 14:20:06 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:29:47 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minirt.h"
+#include "../../../includes/minirt.h"
 
-bool	in_shadow(t_scene *scene, t_intersec_info hit, t_light *light)
+static t_rgb_color	diff_color(t_intersec_info hit, t_scene *scene)
+{
+	t_vector3d	light_dir;
+	float		diff;
+
+	light_dir = normalize(subtract_vectors(scene->light.light_point, \
+				hit.intersec_point));
+	diff = fmax(0.0f, dot_product(hit.normal, light_dir));
+	return (scale_color(scene->ambient.color, (diff * scene->light.ratio)));
+}
+
+static bool	in_shadow(t_scene *scene, t_intersec_info hit, t_light *light)
 {
 	t_ray			shadow_ray;
 	t_intersec_info	shadow_hit;
@@ -30,7 +41,7 @@ bool	in_shadow(t_scene *scene, t_intersec_info hit, t_light *light)
 	return (false);
 }
 
-void	prepare_point(t_intersec_info *hit, t_ray ray)
+static void	prepare_point(t_intersec_info *hit, t_ray ray)
 {
 	t_vector3d	eyev;
 
@@ -41,4 +52,23 @@ void	prepare_point(t_intersec_info *hit, t_ray ray)
 		hit->normal = scalar_multiplication(-1, hit->normal);
 	hit->over_point = add_vectors(hit->intersec_point, \
 		scalar_multiplication(EPSILON, hit->normal));
+}
+
+t_rgb_color	apply_light(t_intersec_info hit, t_scene *scene, t_ray ray)
+{
+	t_rgb_color	final_color;
+	t_rgb_color	ambient;
+	t_rgb_color	diffuse;
+
+	prepare_point(&hit, ray);
+	if (!hit.intersection)
+		return ((t_rgb_color){0, 0, 0});
+	ambient = scale_color(hit.color, scene->ambient.ratio);
+	final_color = ambient;
+	if (!in_shadow(scene, hit, &scene->light))
+	{
+		diffuse = diff_color(hit, scene);
+		final_color = add_color(ambient, diffuse);
+	}
+	return (final_color);
 }
