@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 15:03:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:51:38 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_file_extension(char *extension)
 	len = ft_strlen(extension);
 	if (len < 3 || extension[len - 3] != '.' || extension[len - 2] != 'r'
 		|| extension[len - 1] != 't')
-		error_msg(1);
+		printf("Invalid file extension.\n");
 }
 
 void	get_content(char **content, int fd)
@@ -31,7 +31,7 @@ void	get_content(char **content, int fd)
 int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 {
 	if (content[i] == '\n')
-		return (1);
+		return (2);
 	*tokens = split_line(content);
 	if (!*tokens || !*tokens[0])
 	{
@@ -41,7 +41,7 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	if (ft_strcmp((*tokens)[0], "#") == 0)
 	{
 		free_split(*tokens);
-		return (1);
+		return (2);
 	}
 	if (!validate_elements(*tokens, scene))
 	{
@@ -51,30 +51,47 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	return (0);
 }
 
-void	read_file(char *scene_file, t_scene *scene)
+bool	process_file_content(int fd, t_scene *scene)
 {
-	int		fd;
 	char	*content;
 	int		i;
 	char	**tokens;
+	bool	error;
+	int		result;
 
-	check_file_extension(scene_file);
-	fd = open(scene_file, O_RDONLY);
-	if (fd < 0)
-		error_msg(2);
 	content = get_next_line(fd);
 	if (content == NULL)
-		error_msg(3);
+		return (parse_error("Empty file!"));
+	error = false;
 	while (content)
 	{
 		i = skip_spaces(content);
-		if (verif_content(content, scene, &tokens, i))
+		result = verif_content(content, scene, &tokens, i);
+		if (result)
 		{
+			if (result == 1)
+				error = true;
 			get_content(&content, fd);
 			continue ;
 		}
 		free_split(tokens);
 		get_content(&content, fd);
 	}
+	get_next_line(-1);
+	return (!error);
+}
+
+bool	read_file(char *scene_file, t_scene *scene)
+{
+	int		fd;
+	bool	success;
+
+	check_file_extension(scene_file);
+	fd = open(scene_file, O_RDONLY);
+	if (fd < 0)
+		printf("Error opening file.\n");
+	success = process_file_content(fd, scene);
+	get_next_line(-1);
 	close(fd);
+	return (success);
 }
