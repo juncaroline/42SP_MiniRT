@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 15:19:11 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:51:26 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 # include <stdlib.h>
 # include <stddef.h>
 
-# define WINDOW_WIDTH 1600
-# define WINDOW_HEIGHT 900
+// # define WINDOW_WIDTH 1600
+// # define WINDOW_HEIGHT 900
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 450
 
 # define M_PI 3.14159265358979323846
 
