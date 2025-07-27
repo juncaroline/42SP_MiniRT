@@ -41,3 +41,18 @@ bool	validate_elements(char **tokens, t_scene *scene)
 		return (handle_cylinder(tokens, scene));
 	return (true);
 }
+
+bool    parse_line(char **tokens, int count, t_scene *scene)
+{
+    if (tokens[0][0] == 'A')
+    {
+        if (scene->has_ambient)
+            return (parse_error("Only one 'A' is allowed"));
+        scene->has_ambient = true;
+        return (parse_ambient(tokens, count, &scene->ambient));
+    }
+    // ... outros tipos
+}
+
+
+Substitui validate_elements
