@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 14:46:31 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:52:47 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ float				parse_measurements(char *str);
 t_vector3d			parse_normalized_vector(char *str);
 
 // parse.c
-void				check_file_extension(char *extension);
+bool				check_file_extension(char *extension);
 int					verif_content(char *content, t_scene *scene, char ***tokens,
 						int i);
 bool				process_single_line(char *content, t_scene *scene,

@@ -6,32 +6,27 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 15:03:34 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:35:42 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minirt_bonus.h"
 
-void	check_file_extension(char *extension)
+bool	check_file_extension(char *extension)
 {
 	int	len;
 
 	len = ft_strlen(extension);
 	if (len < 3 || extension[len - 3] != '.' || extension[len - 2] != 'r'
 		|| extension[len - 1] != 't')
-		error_msg(1);
-}
-
-void	get_content(char	**content, int fd)
-{
-	free(*content);
-	*content = get_next_line(fd);
+		return (parse_error("Invalid file extension."));
+	return (true);
 }
 
 int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 {
 	if (content[i] == '\n')
-		return (1);
+		return (2);
 	*tokens = split_line(content);
 	if (!*tokens || !*tokens[0])
 	{
@@ -41,9 +36,9 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	if (ft_strcmp((*tokens)[0], "#") == 0)
 	{
 		free_split(*tokens);
-		return (1);
+		return (2);
 	}
-	if (!validate_elements(*tokens, scene))
+	if (!validate_line(*tokens, scene))
 	{
 		free_split(*tokens);
 		return (1);
@@ -51,30 +46,58 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	return (0);
 }
 
-void	read_file(char *scene_file, t_scene *scene)
+bool	process_single_line(char *content, t_scene *scene, char **tokens)
 {
-	int		fd;
+	int	i;
+	int	result;
+
+	i = skip_spaces(content);
+	result = verif_content(content, scene, &tokens, i);
+	if (result)
+	{
+		if (result == 1)
+			return (false);
+		return (true);
+	}
+	free_split(tokens);
+	return (true);
+}
+
+bool	process_file_content(int fd, t_scene *scene)
+{
 	char	*content;
-	int		i;
 	char	**tokens;
 
-	check_file_extension(scene_file);
-	fd = open(scene_file, O_RDONLY);
-	if (fd < 0)
-		error_msg(2);
+	tokens = NULL;
 	content = get_next_line(fd);
 	if (content == NULL)
-		error_msg(3);
+		return (parse_error("Empty file!"));
 	while (content)
 	{
-		i = skip_spaces(content);
-		if (verif_content(content, scene, &tokens, i))
+		if (!process_single_line(content, scene, tokens))
 		{
-			get_content(&content, fd);
-			continue ;
+			get_next_line(-1);
+			return (false);
 		}
-		free_split(tokens);
-		get_content(&content, fd);
+		free(content);
+		content = get_next_line(fd);
 	}
+	get_next_line(-1);
+	return (true);
+}
+
+bool	read_file(char *scene_file, t_scene *scene)
+{
+	int		fd;
+	bool	success;
+
+	if (!check_file_extension(scene_file))
+		return (false);
+	fd = open(scene_file, O_RDONLY);
+	if (fd < 0)
+		parse_error("Error opening file.");
+	success = process_file_content(fd, scene);
+	get_next_line(-1);
 	close(fd);
+	return (success);
 }
