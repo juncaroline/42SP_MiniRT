@@ -1,0 +1,49 @@
+#-   BONUS MODEL   -#
+
+
+## SCENE - Only one of with ##
+
+# AMBIENT LIGHTING 
+# id | ratio      | color
+#    | [0.0, 1.0] | [0, 255]
+  A    0.2          255,255,255
+
+# CAMERA
+# id | viewpoint coord. | normal vector     | FOV
+#    | (x, y, z)        | (x, y, z) [-1, 1] | angle [0,180]
+  C    -50.0,0,20         0.0,0.0,1.0         70
+
+# LIGHT
+# id | light coord.   | ratio      | color
+#    | (x, y, z)      | [0.0, 1.0] | [0, 255]
+  L    -40.0,50.0,0.0   0.6          255,255,255
+
+
+## OBJECTS ##
+
+## Extras information for optional area##
+# Checkboard -> checker
+# Generic Bump -> bump
+# Texture Bump -> texture (.png) path
+# NONE -> <blank>
+
+# PLANE
+# id | position      | normal vector (direction) | color    | checkboard or texture (opt)
+#    | (x, y, z)     | (x, y, z) [-1, 1]         | [0, 255] | checker | bump or texture path
+  pl   0.0,0.0,-10.0    0.0,1.0,0.0                0,0,225    checker
+
+# SPHERE
+# id | center position | diameter | color    | checkboard or texture (opt)
+#    | (x, y, z)       |          | [0, 255] | checker | bump or texture path
+  sp   0.0,0.0,20.6      12.6       10,0,255   bump
+
+# CYLINDER
+# id | center position | normal vector (direction) | diameter | height | color    | checkboard or texture (opt)
+#    | (x, y, z)       | (x, y, z) [-1, 1]         |          |        | [0, 255] | checker | bump or texture path
+  cy   50.0,0.0,20.6     0.0,0.0,1.0                 14.2       21.42    10,0,225   texture:./textures/bw.png
+
+
+# CONE
+# id | center position | normal vector (direction) | diameter | height | color    | checkboard or texture (opt)
+#    | (x, y, z)       | (x, y, z) [-1, 1]         |          |        | [0, 255] | checker | bump or texture path
+  cn   50.0,0.0,20.6     0.0,0.0,1.0                 10         20.5     255,0,225

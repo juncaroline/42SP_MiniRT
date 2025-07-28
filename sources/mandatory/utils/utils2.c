@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:35 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 10:44:39 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:47:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,23 @@ static float	verify_decimal(char *str)
 {
 	float	div;
 	char	*dec_pos;
+<<<<<<< HEAD
+	int		sign;
+
+	sign = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+	str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = sign * -1;
+		str++;
+	}
+	result = (float)ft_atoi(str);
+=======
 	float	result;
 
+>>>>>>> origin
 	dec_pos = str;
 	div = 1.0;
 	result = 0.0;
@@ -99,6 +114,10 @@ static float	verify_decimal(char *str)
 			dec_pos++;
 		}
 	}
+<<<<<<< HEAD
+	return (result * sign);
+}
+=======
 	return (result);
 }
 
@@ -120,3 +139,4 @@ float	string_to_float(char *str)
 	result += verify_decimal(str);
 	return (result * sign);
 }
+>>>>>>> origin
