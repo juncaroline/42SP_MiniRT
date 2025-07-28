@@ -30,7 +30,7 @@ SRCS_BONUS :=$(addprefix $(SRCS_BONUS), bump/bump_map_bonus.c bump/bump_map_gene
 				intersection/intersect_sphere_bonus.c intersection/intersect_sphere_calc_bonus.c \
 				light/light_bonus.c light/light_color_bonus.c light/light_in_shadow_bonus.c \
 				parse/parse_bonus.c parse/parse_elements_bonus.c parse/parse_objects_add_bonus.c parse/parse_objects_bonus.c \
-				parse/parse_objects_utils_bonus.c parse/parse_param_bonus.c parse/parse_param2_bonus.c \
+				parse/parse_objects_utils_bonus.c parse/parse_param_bonus.c parse/parse_param2_bonus.c parse/parse_param3_bonus.c \
 				ray/ray_direction_bonus.c ray/ray_generator_bonus.c \
 				utils/error_bonus.c utils/free_bonus.c utils/math_bonus.c utils/utils_bonus.c utils/utils2_bonus.c)
 DIR_OBJ	:= .objs

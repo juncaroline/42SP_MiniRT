@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/24 15:19:16 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:38:14 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,8 @@ typedef struct s_scene
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		*light;
+	bool		has_ambient;
+	bool		has_camera;
 	int			light_count;
 	t_object	*objects;
 	int			object_count;
@@ -332,7 +334,9 @@ int32_t			init_scene(t_scene *scene);
 
 // validate_elements_bonus.c
 int				count_tokens(char **tokens);
-bool			validate_elements(char **tokens, t_scene *scene);
+bool			validate_scene_objects(char **tokens, t_scene *scene);
+bool			count_scene_elements(char **tokens, int count, t_scene *scene);
+bool			validate_line(char **tokens, t_scene *scene);
 
 /* -------------------- intersection --------------------- */
 
@@ -466,11 +470,13 @@ t_rgb_color		evaluate_lighting_effect(t_intersec_info hit, t_scene *scene, \
 /* -------------------- parse --------------------- */
 
 // parse_bonus.c
-void			check_file_extension(char *extension);
-void			get_content(char	**content, int fd);
+bool			check_file_extension(char *extension);
 int				verif_content(char *content, t_scene *scene, char ***tokens,
 					int i);
-void			read_file(char *scene_file, t_scene *scene);
+bool			process_single_line(char *content, t_scene *scene,
+					char **tokens);
+bool			process_file_content(int fd, t_scene *scene);
+bool			read_file(char *scene_file, t_scene *scene);
 
 // parse_elements_bonus.c
 bool			parse_ambient(char **tokens, int count, t_ambient *ambient);
@@ -497,16 +503,17 @@ void			add_object(t_scene *scene, t_object_type type, void *data);
 void			rebuild_object_pointers(t_scene *scene);
 
 // parse_param_bonus.c
-bool			is_rgb_color(t_rgb_color color_value);
-t_rgb_color		parse_rgb(char *str);
+bool			parse_rgb(char *str, t_rgb_color *color_value);
 bool			is_normalized_vector(t_vector3d vector_value);
-t_vector3d		parse_normalized_vector(char *str);
 
 // parse_param2_bonus.c
 t_vector3d		parse_coordinates(char *str);
 float			parse_fov(char *str);
-float			parse_ratio(char *str);
+bool			parse_ratio(char *str, float *ratio);
 float			parse_measurements(char *str);
+
+// parse_param3_bonus.c
+t_vector3d		parse_normalized_vector(char *str);
 
 /* -------------------- ray --------------------- */
 
@@ -523,7 +530,7 @@ t_cam_basis		camera_basis(t_camera *cam);
 /* -------------------- utils --------------------- */
 
 // error_bonus.c
-void			error_msg(int status);
+bool			parse_error(const char *str);
 
 // free_bonus.c
 void			free_split(char **tokens);
@@ -539,6 +546,7 @@ float			dot_product(t_vector3d a, t_vector3d b);
 
 // utils_bonus.c
 int				skip_spaces(char *line);
+void			ignore_end_spaces(char *line);
 void			replace_with_spaces(char *line);
 char			**split_line(char *line);
 

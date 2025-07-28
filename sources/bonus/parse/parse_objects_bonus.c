@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/23 18:12:12 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:39:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 {
 	if (count != 4 && count != 5)
-	{
-		printf("Error: 'sp'expects 3-5 parameters, received %d\n", count - 1);
-		return (false);
-	}
+		return (parse_error("'sp' expects 3 or 4 parameters"));
 	sphere->sphere_center = parse_coordinates(tokens[1]);
 	sphere->diameter = parse_measurements(tokens[2]);
-	sphere->color = parse_rgb(tokens[3]);
 	sphere->surface.has_checker = false;
 	sphere->surface.bump_texture = NULL;
 	sphere->surface.texture_path = NULL;
 	sphere->surface.bump = false;
-	if (sphere->diameter <= 0 || !is_rgb_color(sphere->color))
+	if (!parse_rgb(tokens[3], &sphere->color))
+		return (false);
+	if (sphere->diameter <= 0)
 		return (false);
 	if (count >= 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
 		sphere->surface.has_checker = true;
@@ -40,18 +38,16 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 bool	parse_plane(char **tokens, int count, t_plane *plane)
 {
 	if (count != 4 && count != 5)
-	{
-		printf("Error: 'pl' expects 3 parameters, received %d\n", count - 1);
-		return (false);
-	}
+		return (parse_error("'pl' expects 3 or 4 parameters"));
 	plane->plane_point = parse_coordinates(tokens[1]);
 	plane->vector = parse_normalized_vector(tokens[2]);
-	plane->color = parse_rgb(tokens[3]);
 	plane->surface.has_checker = false;
 	plane->surface.bump_texture = NULL;
 	plane->surface.texture_path = NULL;
 	plane->surface.bump = false;
-	if (!is_normalized_vector(plane->vector) || !is_rgb_color(plane->color))
+	if (!parse_rgb(tokens[3], &plane->color))
+		return (false);
+	if (!is_normalized_vector(plane->vector))
 		return (false);
 	if (count == 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
 		plane->surface.has_checker = true;
@@ -65,21 +61,19 @@ bool	parse_plane(char **tokens, int count, t_plane *plane)
 bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 {
 	if (count != 6 && count != 7)
-	{
-		printf("Error: 'cy' expects 5 parameters, received %d\n", count - 1);
-		return (false);
-	}
+		return (parse_error("'cy' expects 5 or 6 parameters"));
 	cylinder->cylinder_center = parse_coordinates(tokens[1]);
 	cylinder->vector = parse_normalized_vector(tokens[2]);
 	cylinder->diameter = parse_measurements(tokens[3]);
 	cylinder->height = parse_measurements(tokens[4]);
-	cylinder->color = parse_rgb(tokens[5]);
 	cylinder->surface.has_checker = false;
 	cylinder->surface.bump_texture = NULL;
 	cylinder->surface.texture_path = NULL;
 	cylinder->surface.bump = false;
+	if (!parse_rgb(tokens[5], &cylinder->color))
+		return (false);
 	if (!is_normalized_vector(cylinder->vector) || cylinder->diameter <= 0.0
-		|| cylinder->height <= 0.0 || !is_rgb_color(cylinder->color))
+		|| cylinder->height <= 0.0)
 		return (false);
 	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
 		cylinder->surface.has_checker = true;
@@ -93,21 +87,19 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 bool	parse_cone(char **tokens, int count, t_cone *cone)
 {
 	if (count != 6 && count != 7)
-	{
-		printf("Erro: 'cn' espera 5 parâmetros, recebeu %d\n", count - 1);
-		return (false);
-	}
+		return (parse_error("'cn' expects 5 or 6 parameters"));
 	cone->cone_center = parse_coordinates(tokens[1]);
 	cone->vector = parse_normalized_vector(tokens[2]);
 	cone->diameter = parse_measurements(tokens[3]);
 	cone->height = parse_measurements(tokens[4]);
-	cone->color = parse_rgb(tokens[5]);
 	cone->surface.has_checker = false;
 	cone->surface.bump_texture = NULL;
 	cone->surface.texture_path = NULL;
 	cone->surface.bump = false;
+	if (!parse_rgb(tokens[5], &cone->color))
+		return (false);
 	if (!is_normalized_vector(cone->vector) || cone->diameter <= 0.0
-		|| cone->height <= 0.0 || !is_rgb_color(cone->color))
+		|| cone->height <= 0.0)
 		return (false);
 	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
 		cone->surface.has_checker = true;
