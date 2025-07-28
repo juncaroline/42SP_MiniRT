@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 14:22:24 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:12:03 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ bool	validate_scene_objects(char **tokens, t_scene *scene)
 		return (handle_plane(tokens, scene));
 	else if (ft_strcmp(tokens[0], "cy") == 0)
 		return (handle_cylinder(tokens, scene));
+	else if (ft_strcmp(tokens[0], "cn") == 0)
+		return (handle_cone(tokens, scene));
 	return (true);
 }
 
@@ -54,7 +56,7 @@ bool	count_scene_elements(char **tokens, int count, t_scene *scene)
 	}
 	else if (ft_strcmp(tokens[0], "L") == 0)
 		return (handle_light(tokens, scene));
-	return (parse_error("Invalid scene element"));
+	return (true);
 }
 
 bool	validate_line(char **tokens, t_scene *scene)
@@ -66,7 +68,7 @@ bool	validate_line(char **tokens, t_scene *scene)
 		|| ft_strcmp(tokens[0], "L") == 0)
 		return (count_scene_elements(tokens, count, scene));
 	else if (ft_strcmp(tokens[0], "sp") == 0 || ft_strcmp(tokens[0], "pl") == 0
-		|| ft_strcmp(tokens[0], "cy") == 0)
+		|| ft_strcmp(tokens[0], "cy") == 0 || ft_strcmp(tokens[0], "cn") == 0)
 		return (validate_scene_objects(tokens, scene));
 	else
 		return (parse_error("Invalid scene element"));

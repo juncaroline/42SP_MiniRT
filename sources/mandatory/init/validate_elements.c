@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_elements.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 14:46:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:23:35 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	count_scene_elements(char **tokens, int count, t_scene *scene)
 		scene->has_light = true;
 		return (parse_light(tokens, count, &scene->light));
 	}
-	return (parse_error("Invalid scene element"));
+	return (true);
 }
 
 bool	validate_line(char **tokens, t_scene *scene)
