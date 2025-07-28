@@ -6,20 +6,21 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 12:45:43 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:35:54 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minirt.h"
 
-void	check_file_extension(char *extension)
+bool	check_file_extension(char *extension)
 {
 	int	len;
 
 	len = ft_strlen(extension);
 	if (len < 3 || extension[len - 3] != '.' || extension[len - 2] != 'r'
 		|| extension[len - 1] != 't')
-		printf("Invalid file extension.\n");
+		return (parse_error("Invalid file extension."));
+	return (true);
 }
 
 int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
@@ -90,10 +91,11 @@ bool	read_file(char *scene_file, t_scene *scene)
 	int		fd;
 	bool	success;
 
-	check_file_extension(scene_file);
+	if (!check_file_extension(scene_file))
+		return (false);
 	fd = open(scene_file, O_RDONLY);
 	if (fd < 0)
-		printf("Error opening file.\n");
+		parse_error("Error opening file.");
 	success = process_file_content(fd, scene);
 	get_next_line(-1);
 	close(fd);

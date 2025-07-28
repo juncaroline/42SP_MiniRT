@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 14:07:11 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:28:47 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,7 +295,7 @@ float				parse_measurements(char *str);
 t_vector3d			parse_normalized_vector(char *str);
 
 // parse.c
-void				check_file_extension(char *extension);
+bool				check_file_extension(char *extension);
 int					verif_content(char *content, t_scene *scene, char ***tokens,
 						int i);
 bool				process_single_line(char *content, t_scene *scene,
