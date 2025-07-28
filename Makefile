@@ -14,7 +14,7 @@ SRCS	:= $(addprefix $(SRCS_DIR), init/handle_param.c init/init.c init/main.c ini
 				intersection/intersect_plane.c intersection/intersect_quadratic.c intersection/intersect_sphere.c \
 				light/light.c light/light_color.c \
 				parse/parse_elements.c parse/parse_objects_add.c parse/parse_objects_utils.c parse/parse_objects.c \
-				parse/parse_param.c parse/parse_param2.c parse/parse.c \
+				parse/parse_param.c parse/parse_param2.c parse/parse_param3.c parse/parse.c \
 				ray/ray_direction.c ray/ray_generator.c \
 				utils/error.c utils/free.c utils/math.c utils/utils.c utils/utils2.c)
 SRCS_BONUS := sources/bonus/
