@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/25 15:06:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 11:04:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,14 @@ float	parse_fov(char *str)
 	return ((float)fov_value);
 }
 
-float	parse_ratio(char *str)
+bool	parse_ratio(char *str, float *ratio)
 {
-	float	ratio;
-
 	if (!ft_isfloat(str))
 		return (parse_error("Invalid ratio format."));
-	ratio = string_to_float(str);
-	if (ratio < 0.0 || ratio > 1.0)
+	*ratio = string_to_float(str);
+	if (*ratio < 0.0 || *ratio > 1.0)
 		return (parse_error("Invalid ratio value."));
-	return (ratio);
+	return (true);
 }
 
 float	parse_measurements(char *str)

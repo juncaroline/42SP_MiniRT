@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 16:20:39 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/25 16:22:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:22:20 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static bool	validate_and_parse_vector(char **vector, t_vector3d *vector_value)
 	vector_value->z = string_to_float(vector[2]);
 	if (vector_value->x == 0.0 && vector_value->y == 0.0
 		&& vector_value->z == 0.0)
-	{
-		parse_error("Vector cannot be zero vector.");
 		return (false);
-	}
 	return (true);
 }
 

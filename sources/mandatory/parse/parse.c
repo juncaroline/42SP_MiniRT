@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:27:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/25 18:51:38 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:45:43 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ void	check_file_extension(char *extension)
 	if (len < 3 || extension[len - 3] != '.' || extension[len - 2] != 'r'
 		|| extension[len - 1] != 't')
 		printf("Invalid file extension.\n");
-}
-
-void	get_content(char **content, int fd)
-{
-	free(*content);
-	*content = get_next_line(fd);
 }
 
 int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
@@ -43,7 +37,7 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 		free_split(*tokens);
 		return (2);
 	}
-	if (!validate_elements(*tokens, scene))
+	if (!validate_line(*tokens, scene))
 	{
 		free_split(*tokens);
 		return (1);
@@ -51,34 +45,44 @@ int	verif_content(char *content, t_scene *scene, char ***tokens, int i)
 	return (0);
 }
 
+bool	process_single_line(char *content, t_scene *scene, char **tokens)
+{
+	int	i;
+	int	result;
+
+	i = skip_spaces(content);
+	result = verif_content(content, scene, &tokens, i);
+	if (result)
+	{
+		if (result == 1)
+			return (false);
+		return (true);
+	}
+	free_split(tokens);
+	return (true);
+}
+
 bool	process_file_content(int fd, t_scene *scene)
 {
 	char	*content;
-	int		i;
 	char	**tokens;
-	bool	error;
-	int		result;
 
+	tokens = NULL;
 	content = get_next_line(fd);
 	if (content == NULL)
 		return (parse_error("Empty file!"));
-	error = false;
 	while (content)
 	{
-		i = skip_spaces(content);
-		result = verif_content(content, scene, &tokens, i);
-		if (result)
+		if (!process_single_line(content, scene, tokens))
 		{
-			if (result == 1)
-				error = true;
-			get_content(&content, fd);
-			continue ;
+			get_next_line(-1);
+			return (false);
 		}
-		free_split(tokens);
-		get_content(&content, fd);
+		free(content);
+		content = get_next_line(fd);
 	}
 	get_next_line(-1);
-	return (!error);
+	return (true);
 }
 
 bool	read_file(char *scene_file, t_scene *scene)

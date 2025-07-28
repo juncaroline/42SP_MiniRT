@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:06:46 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/25 18:02:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:42:30 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,9 @@ typedef struct s_scene
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
+	bool		has_ambient;
+	bool		has_camera;
+	bool		has_light;
 	t_object	*objects;
 	int			object_count;
 	t_sphere	*sphere;
@@ -190,7 +193,9 @@ int32_t				init_scene(t_scene *scene);
 
 // validate_elements.c
 int					count_tokens(char **tokens);
-bool				validate_elements(char **tokens, t_scene *scene);
+bool				validate_scene_objects(char **tokens, t_scene *scene);
+bool	validate_line(char **tokens, t_scene *scene);
+bool	count_scene_elements(char **tokens, int count, t_scene *scene);
 
 /* -------------------- intersection --------------------- */
 
@@ -276,14 +281,13 @@ bool				parse_cylinder(char **tokens, int count,
 void				add_object(t_scene *scene, t_object_type type, void *data);
 
 // parse_param.c
-bool				is_rgb_color(t_rgb_color color_value);
-t_rgb_color			parse_rgb(char *str);
+bool				parse_rgb(char *str, t_rgb_color *color_value);
 bool				is_normalized_vector(t_vector3d vector_value);
 
 // parse_param2.c
 t_vector3d			parse_coordinates(char *str);
 float				parse_fov(char *str);
-float				parse_ratio(char *str);
+bool				parse_ratio(char *str, float *ratio);
 float				parse_measurements(char *str);
 
 // parse_param3.c
@@ -291,9 +295,11 @@ t_vector3d	parse_normalized_vector(char *str);
 
 // parse.c
 void				check_file_extension(char *extension);
-void				get_content(char	**content, int fd);
+// void				get_content(char	**content, int fd);
 int					verif_content(char *content, t_scene *scene, char ***tokens,
 						int i);
+bool				process_single_line(char *content, t_scene *scene,
+						char **tokens);
 bool				process_file_content(int fd, t_scene *scene);
 bool				read_file(char *scene_file, t_scene *scene);
 
