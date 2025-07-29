@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:26:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 15:39:31 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:03:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ bool	parse_sphere(char **tokens, int count, t_sphere *sphere)
 		return (false);
 	if (sphere->diameter <= 0)
 		return (false);
-	if (count >= 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
+	if (count == 5 && ft_strncmp(tokens[4], "checker", 7) == 0)
 		sphere->surface.has_checker = true;
-	else if (count >= 5 && ft_strncmp(tokens[4], "texture:", 8) == 0)
+	else if (count == 5 && ft_strncmp(tokens[4], "texture:", 8) == 0)
 		sphere->surface.texture_path = ft_strdup(tokens[4] + 8);
-	else if (count >= 5 && ft_strncmp(tokens[4], "bump", 4) == 0)
+	else if (count == 5 && ft_strncmp(tokens[4], "bump", 4) == 0)
 		sphere->surface.bump = true;
+	else if (count == 5 && ft_strncmp(tokens[4], "checker", 7) != 0
+		&& ft_strncmp(tokens[4], "texture:", 8) != 0
+		&& ft_strncmp(tokens[4], "bump", 4) != 0)
+		return (parse_error("Invalid sphere bonus parameter"));
 	return (true);
 }
 
@@ -55,6 +59,29 @@ bool	parse_plane(char **tokens, int count, t_plane *plane)
 		plane->surface.texture_path = ft_strdup(tokens[4] + 8);
 	else if (count == 5 && ft_strncmp(tokens[4], "bump", 4) == 0)
 		plane->surface.bump = true;
+	else if (count == 5 && ft_strncmp(tokens[4], "checker", 7) != 0
+		&& ft_strncmp(tokens[4], "texture:", 8) != 0
+		&& ft_strncmp(tokens[4], "bump", 4) != 0)
+		return (parse_error("Invalid plane bonus parameter"));
+	return (true);
+}
+
+static bool	parse_cylinder_bonus(t_cylinder *cylinder, char **tokens, int count)
+{
+	cylinder->surface.has_checker = false;
+	cylinder->surface.bump_texture = NULL;
+	cylinder->surface.texture_path = NULL;
+	cylinder->surface.bump = false;
+	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
+		cylinder->surface.has_checker = true;
+	else if (count == 7 && ft_strncmp(tokens[6], "texture:", 8) == 0)
+		cylinder->surface.texture_path = ft_strdup(tokens[6] + 8);
+	else if (count == 7 && ft_strncmp(tokens[6], "bump", 4) == 0)
+		cylinder->surface.bump = true;
+	else if (count == 7 && ft_strncmp(tokens[6], "checker", 7) != 0
+		&& ft_strncmp(tokens[6], "texture:", 8) != 0
+		&& ft_strncmp(tokens[6], "bump", 4) != 0)
+		return (parse_error("Invalid cylinder bonus parameter"));
 	return (true);
 }
 
@@ -66,71 +93,10 @@ bool	parse_cylinder(char **tokens, int count, t_cylinder *cylinder)
 	cylinder->vector = parse_normalized_vector(tokens[2]);
 	cylinder->diameter = parse_measurements(tokens[3]);
 	cylinder->height = parse_measurements(tokens[4]);
-	cylinder->surface.has_checker = false;
-	cylinder->surface.bump_texture = NULL;
-	cylinder->surface.texture_path = NULL;
-	cylinder->surface.bump = false;
 	if (!parse_rgb(tokens[5], &cylinder->color))
 		return (false);
 	if (!is_normalized_vector(cylinder->vector) || cylinder->diameter <= 0.0
 		|| cylinder->height <= 0.0)
 		return (false);
-	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
-		cylinder->surface.has_checker = true;
-	else if (count == 7 && ft_strncmp(tokens[6], "texture:", 8) == 0)
-		cylinder->surface.texture_path = ft_strdup(tokens[6] + 8);
-	else if (count == 7 && ft_strncmp(tokens[6], "bump", 4) == 0)
-		cylinder->surface.bump = true;
-	return (true);
-}
-
-bool	parse_cone(char **tokens, int count, t_cone *cone)
-{
-	if (count != 6 && count != 7)
-		return (parse_error("'cn' expects 5 or 6 parameters"));
-	cone->cone_center = parse_coordinates(tokens[1]);
-	cone->vector = parse_normalized_vector(tokens[2]);
-	cone->diameter = parse_measurements(tokens[3]);
-	cone->height = parse_measurements(tokens[4]);
-	cone->surface.has_checker = false;
-	cone->surface.bump_texture = NULL;
-	cone->surface.texture_path = NULL;
-	cone->surface.bump = false;
-	if (!parse_rgb(tokens[5], &cone->color))
-		return (false);
-	if (!is_normalized_vector(cone->vector) || cone->diameter <= 0.0
-		|| cone->height <= 0.0)
-		return (false);
-	if (count == 7 && ft_strncmp(tokens[6], "checker", 7) == 0)
-		cone->surface.has_checker = true;
-	else if (count == 7 && ft_strncmp(tokens[6], "texture:", 8) == 0)
-		cone->surface.texture_path = ft_strdup(tokens[6] + 8);
-	else if (count == 7 && ft_strncmp(tokens[6], "bump", 4) == 0)
-		cone->surface.bump = true;
-	return (true);
-}
-
-void	add_object(t_scene *scene, t_object_type type, void *data)
-{
-	t_object	*new_array;
-	t_object	*object;
-	int			i;
-
-	new_array = malloc(sizeof(t_object) * (scene->object_count + 1));
-	if (!new_array)
-		return ;
-	i = 0;
-	while (i < scene->object_count)
-	{
-		new_array[i] = scene->objects[i];
-		i++;
-	}
-	object = &new_array[scene->object_count];
-	object->type = type;
-	object->data = data;
-	object->white = (t_rgb_color){255, 255, 255};
-	object->black = (t_rgb_color){0, 0, 0};
-	free(scene->objects);
-	scene->objects = new_array;
-	scene->object_count++;
+	return (parse_cylinder_bonus(cylinder, tokens, count));
 }

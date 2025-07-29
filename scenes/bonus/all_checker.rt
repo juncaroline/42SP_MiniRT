@@ -16,7 +16,7 @@ L   0,10,-10                 0.2         255,255,255
 
 # Pattern
 #   name            type            color_a         color_b         scale           rotation        translation
-p   checker       checker        0,0,0           255,255,255     1,1,1           0,0,0           0,0,0
+# p   checker       checker        0,0,0           255,255,255     1,1,1           0,0,0           0,0,0
 
 
 # Sphere

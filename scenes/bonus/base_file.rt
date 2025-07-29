@@ -27,9 +27,9 @@ L   0,4.0,3.0       1               255,255,255
 # name | type | color_a in RGB [0,255]) | color_b in RGB [0,255]) | scale (x,y,z) [0,1.0] | rotation em graus (x,y,z) | translation (x,y,z)
 # type names: stripe, checkers, ring, gradient
 #   name            type            color_a         color_b         scale           rotation        translation
-p   gradient        gradient        127,127,127     178,178,178     0.1,0.1,0.1     0,45,0          0,0,0
-p   ring            ring            127,127,127     178,178,178     0.1,0.1,0.1     0,45,0          0,0,1
-p   checkers        checkers        127,127,127     178,178,178     0.1,0.1,0.1     0,0,0           0,0,1
+# p   gradient        gradient        127,127,127     178,178,178     0.1,0.1,0.1     0,45,0          0,0,0
+# p   ring            ring            127,127,127     178,178,178     0.1,0.1,0.1     0,45,0          0,0,1
+# p   checkers        checkers        127,127,127     178,178,178     0.1,0.1,0.1     0,0,0           0,0,1
 # p   stripe          stripe          127,127,127     178,178,178     0.1,0.1,0.1     0,0,0           0,0,1
 
 ## SPHERE

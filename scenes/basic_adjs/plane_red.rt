@@ -10,7 +10,7 @@ C   0,0.5,-50       0,0,1           100
 
 # Light
 #   position        intensity       color
-L   10,12,-5        1               255,0,0
+L   10,12,-5        1            
 
 # Plane             normal
 #   position        direction       color

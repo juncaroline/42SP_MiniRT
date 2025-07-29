@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:10:47 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/07/28 15:53:02 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:19:07 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -498,10 +498,10 @@ bool			parse_sphere(char **tokens, int count, t_sphere *sphere);
 bool			parse_plane(char **tokens, int count, t_plane *plane);
 bool			parse_cylinder(char **tokens, int count,
 					t_cylinder *cylinder);
-bool			parse_cone(char **tokens, int count, t_cone *cone);
-void			add_object(t_scene *scene, t_object_type type, void *data);
 
 // parse_objects_utils_bonus.c
+bool			parse_cone(char **tokens, int count, t_cone *cone);
+void			add_object(t_scene *scene, t_object_type type, void *data);
 void			rebuild_object_pointers(t_scene *scene);
 
 // parse_param_bonus.c
